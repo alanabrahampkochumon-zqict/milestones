@@ -289,7 +289,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * @apiNote If the given user has no goal weight associated with them,
      * then the api inserted the current goal weight.
      */
-    public boolean updateGoalWeight(long userId, GoalWeight goalWeight) {
+    public boolean updateGoalWeight(long userId, @NonNull GoalWeight goalWeight) {
         SQLiteDatabase db = getWritableDatabase();
 
         // Retrieve the goal weight to ensure that the data exists.
@@ -391,7 +391,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * @param dailyWeight The daily weight to update.
      * @return A boolean indicating whether the update was a success.
      */
-    public boolean updateDailyWeight(DailyWeight dailyWeight) {
+    public boolean updateDailyWeight(@NonNull DailyWeight dailyWeight) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
