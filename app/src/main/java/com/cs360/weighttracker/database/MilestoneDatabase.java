@@ -9,8 +9,14 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.cs360.weighttracker.models.DailyWeight;
+import com.cs360.weighttracker.models.GoalWeight;
 import com.cs360.weighttracker.models.User;
 import com.cs360.weighttracker.utils.LogCategory;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MilestoneDatabase extends SQLiteOpenHelper {
 
@@ -33,6 +39,8 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         private static final String TABLE = "daily_weight";
         private static final String COL_ID = "_id";
 
+        private static final String USER_FK = "user_id";
+
         private static final String COL_WEIGHT = "weight";
         private static final String COL_DATE = "date";
 
@@ -43,11 +51,18 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         private static final String TABLE = "goal_weight";
         private static final String COL_ID = "_id";
 
+        private static final String USER_FK = "user_id";
         private static final String COL_CUR_WEIGHT = "current_weight";
         private static final String COL_GOAL_WEIGHT = "goal_weight";
 
     }
 
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        // Enable foreign constraint which are disabled by default for backwards compatibility
+        db.setForeignKeyConstraintsEnabled(true);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -62,13 +77,19 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
                 DailyWeightTable.TABLE + " (" +
                 DailyWeightTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DailyWeightTable.COL_WEIGHT + " REAL, " +
-                DailyWeightTable.COL_DATE + " INTEGER)";
+                DailyWeightTable.COL_DATE + " INTEGER, " +
+                DailyWeightTable.USER_FK + " INTEGER, " +
+                "FOREIGN KEY (" + DailyWeightTable.USER_FK +
+                ") REFERENCES " + UserTable.TABLE + "(" + UserTable.COL_ID + "));";
 
         String goalWeightTableQuery = "CREATE TABLE " +
                 GoalWeightTable.TABLE + " (" +
                 GoalWeightTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 GoalWeightTable.COL_GOAL_WEIGHT + " REAL, " +
-                GoalWeightTable.COL_CUR_WEIGHT + " REAL)";
+                GoalWeightTable.COL_CUR_WEIGHT + " REAL," +
+                DailyWeightTable.USER_FK + " INTEGER, " +
+                "FOREIGN KEY (" + DailyWeightTable.USER_FK +
+                ") REFERENCES " + UserTable.TABLE + "(" + UserTable.COL_ID + "));";
 
         sqLiteDatabase.execSQL(userTableQuery);
         sqLiteDatabase.execSQL(dailyWeightTableQuery);
@@ -87,7 +108,6 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    // TODO: CRUD user
     // TODO: CRUD Daily Weight
     // TODO: CRUD Goal Weight
     // TODO: Add foreign key for connecting user with goal and daily weights
@@ -131,10 +151,9 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + UserTable.TABLE + " WHERE " + UserTable.COL_USERNAME + " = ? LIMIT 1";
         try (Cursor cursor = db.rawQuery(query, new String[]{username})) {
             if (cursor.moveToFirst()) {
-//                long id = cursor.getLong(0);
-                // Try to return the instance if it exists
+                long id = cursor.getLong(0);
                 String password = cursor.getString(2);
-                return new User(username, password);
+                return new User(username, password, id);
             }
         } catch (Exception e) {
             Log.e(LogCategory.DATABASE, "There was an error getting the user.\n" + e.getMessage());
@@ -165,14 +184,237 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         return false;
     }
 
-    public void updateUser(@NonNull User user) {
+    /**
+     * Update a user information.
+     *
+     * @param user The user to update with.
+     * @return A boolean indicating whether the update was a success.
+     * @apiNote The user is updated based on the userId field of the user.
+     */
+    public boolean updateUser(@NonNull User user) {
         SQLiteDatabase db = getReadableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(UserTable.COL_USERNAME, user.getUserName());
         values.put(UserTable.COL_PASSWORD_HASH, user.getHashedPassword());
 
-        // TODO: Work from here
-//        int rowsUpdated = db.update(UserTable.TABLE, values, "")
+        int rowsUpdated = db.update(UserTable.TABLE, values, UserTable.COL_ID + " = ?", new String[]{String.valueOf(user.getUserId())});
+
+        return rowsUpdated > 0;
     }
+
+    /**
+     * Delete the user with the provided user id.
+     *
+     * @param userId The user id associated with the user to delete.
+     * @return A boolean indicating whether the delete operation was a success.
+     */
+    public boolean deleteUser(long userId) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        int rowsDeleted = db.delete(UserTable.TABLE, UserTable.COL_ID + " = ?",
+                new String[]{Long.toString(userId)});
+        return rowsDeleted > 0;
+    }
+
+
+    //////////////////////////////
+    ///                         //
+    ///    USER Goal Weight     //
+    ///                         //
+    //////////////////////////////
+
+    /**
+     * Inserts a user's goal weight into the database.
+     *
+     * @param userId     The id of the user associated with the goal weight.
+     * @param goalWeight The goal weight of the user.
+     * @return The id of the inserted goal weight.
+     * @apiNote The API constrains one goal weight per user, upserting the data if a duplicate
+     * goal weight is inserted.
+     */
+    public long insertGoalWeight(long userId, @NonNull GoalWeight goalWeight) {
+        SQLiteDatabase db = getReadableDatabase();
+        // Retrieve the goal weight to ensure that the data exists.
+        GoalWeight queriedGoalWeight = getGoalWeight(userId);
+        // Upsertion: Update the goal weight if the user already has a goal weight set.
+        if (queriedGoalWeight != null) {
+            // If the update was successful return the goal weight's id
+            if (updateGoalWeight(userId, goalWeight)) return goalWeight.getId();
+        }
+        // Create the values for insertion
+        ContentValues values = new ContentValues();
+        values.put(GoalWeightTable.COL_CUR_WEIGHT, goalWeight.getCurrentWeight());
+        values.put(GoalWeightTable.COL_GOAL_WEIGHT, goalWeight.getGoalWeight());
+        values.put(GoalWeightTable.USER_FK, userId);
+
+        return db.insert(GoalWeightTable.TABLE, null, values);
+    }
+
+
+    /**
+     * Get the goal weight of a user.
+     *
+     * @param userId The id of the user associated with the goal weight.
+     * @return A goal weight object, or null if it does not exist.
+     */
+    public GoalWeight getGoalWeight(long userId) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Execute the query
+        String query = "SELECT * FROM " + GoalWeightTable.TABLE + " WHERE " + GoalWeightTable.USER_FK + " = ? LIMIT 1";
+        try (Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)})) {
+            if (cursor.moveToFirst()) {
+                long id = cursor.getLong(0);
+                float currentWeight = cursor.getFloat(1);
+                float goalWeight = cursor.getFloat(2);
+                return new GoalWeight(currentWeight, goalWeight, id);
+            }
+        } catch (Exception e) {
+            Log.e(LogCategory.DATABASE, "There was an error getting the user's goal weight!\n" + e.getMessage());
+        }
+        return null;
+    }
+
+
+    /**
+     * Update the goal weight associated with a user.
+     *
+     * @param userId     The id of the user associated with the goal weight.
+     * @param goalWeight The goal weight to update with.
+     * @return A boolean indicating whether the update was a success.
+     * @apiNote If the given user has no goal weight associated with them,
+     * then the api inserted the current goal weight.
+     */
+    public boolean updateGoalWeight(long userId, GoalWeight goalWeight) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Retrieve the goal weight to ensure that the data exists.
+        GoalWeight queriedGoalWeight = getGoalWeight(userId);
+        // Upsertion: Inserts the goal weight if it doesn't exist.
+        if (queriedGoalWeight == null) {
+            return insertGoalWeight(userId, goalWeight) > 0;
+        }
+
+        // If the user goal weight exists, update it
+        ContentValues values = new ContentValues();
+        values.put(GoalWeightTable.COL_CUR_WEIGHT, goalWeight.getCurrentWeight());
+        values.put(GoalWeightTable.COL_GOAL_WEIGHT, goalWeight.getGoalWeight());
+
+        int rowsUpdated = db.update(GoalWeightTable.TABLE, values, GoalWeightTable.COL_ID + " = ?", new String[]{String.valueOf(goalWeight.getId())});
+
+        return rowsUpdated > 0;
+    }
+
+
+    /**
+     * Delete the goal weight associated with the user.
+     *
+     * @param userId The user id associated with the goal weight to delete.
+     * @return A boolean indicating whether the delete operation was a success.
+     */
+    public boolean deleteGoalWeight(long userId) {
+        SQLiteDatabase db = getWritableDatabase();
+        // Retrieve the id
+        GoalWeight goalWeight = getGoalWeight(userId);
+
+        int rowsDeleted = db.delete(GoalWeightTable.TABLE, GoalWeightTable.COL_ID + " = ?",
+                new String[]{Long.toString(goalWeight.getId())});
+        return rowsDeleted > 0;
+    }
+
+
+    //////////////////////////////
+    ///                         //
+    ///    USER Daily Weight    //
+    ///                         //
+    //////////////////////////////
+
+    /**
+     * Inserts a user's daily weight into the database.
+     *
+     * @param userId      The id of the user associated with the goal weight.
+     * @param dailyWeight The tracked weight of the user.
+     * @return The id of the inserted daily weight.
+     * @apiNote The API constrains one goal weight per user, upserting the data if a duplicate
+     * goal weight is inserted.
+     */
+    public long insertDailyWeight(long userId, @NonNull DailyWeight dailyWeight) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Create the values for insertion
+        ContentValues values = new ContentValues();
+        values.put(DailyWeightTable.COL_WEIGHT, dailyWeight.getUserWeight());
+        values.put(DailyWeightTable.COL_DATE, dailyWeight.getDateTimeMillis());
+        values.put(DailyWeightTable.USER_FK, userId);
+
+        return db.insert(DailyWeightTable.TABLE, null, values);
+    }
+
+
+    /**
+     * Get all daily weight of the user with the given @p userId.
+     *
+     * @param userId The id of the user associated with the goal weight.
+     * @return A list of daily weights associated with the user, or any empty list if none exists.
+     */
+    public List<DailyWeight> getDailyWeights(long userId) {
+        SQLiteDatabase db = getReadableDatabase();
+        List<DailyWeight> dailyWeights = new ArrayList<>();
+
+        // Create the query
+        String query = "SELECT * FROM " + DailyWeightTable.TABLE + " WHERE " +
+                DailyWeightTable.USER_FK + " = ? ORDER BY " + DailyWeightTable.COL_DATE + " DESC";
+
+        try (Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)})) {
+            while (cursor.moveToFirst()) {
+                // Retrieve each daily weight
+                long id = cursor.getLong(0);
+                float dailyWeight = cursor.getFloat(1);
+                long dateMillis = cursor.getLong(2);
+                dailyWeights.add(new DailyWeight(dailyWeight, dateMillis, id));
+
+                // Move the cursor
+                cursor.moveToNext();
+            }
+        } catch (Exception e) {
+            Log.e(LogCategory.DATABASE, "There was an error getting the user's daily weights!\n" + e.getMessage());
+        }
+        return dailyWeights;
+    }
+
+
+    /**
+     * Update the daily weight.
+     *
+     * @param dailyWeight The daily weight to update.
+     * @return A boolean indicating whether the update was a success.
+     */
+    public boolean updateGoalWeight(DailyWeight dailyWeight) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DailyWeightTable.COL_WEIGHT, dailyWeight.getUserWeight());
+        values.put(DailyWeightTable.COL_DATE, dailyWeight.getDateTimeMillis());
+
+        int rowsUpdated = db.update(DailyWeightTable.TABLE, values, DailyWeightTable.COL_ID + " = ?", new String[]{String.valueOf(dailyWeight.getId())});
+
+        return rowsUpdated > 0;
+    }
+
+
+    /**
+     * Delete a daily weight.
+     *
+     * @param id The id of the goal weight to delete.
+     * @return A boolean indicating whether the delete operation was a success.
+     */
+    public boolean deleteDailyWeight(long id) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        int rowsDeleted = db.delete(DailyWeightTable.TABLE, DailyWeightTable.COL_ID + " = ?",
+                new String[]{Long.toString(id)});
+        return rowsDeleted > 0;
+    }
+
 }

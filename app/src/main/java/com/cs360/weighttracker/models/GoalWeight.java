@@ -7,10 +7,12 @@ package com.cs360.weighttracker.models;
 public class GoalWeight {
 
     private float currentWeight, goalWeight;
+    private long id;
 
-    GoalWeight(float currentWeight, float goalWeight) {
+    public GoalWeight(float currentWeight, float goalWeight, long id) {
         this.currentWeight = currentWeight;
         this.goalWeight = goalWeight;
+        this.id = id;
     }
 
 
@@ -24,6 +26,10 @@ public class GoalWeight {
 
     public float getGoalWeight() {
         return goalWeight;
+    }
+
+    public long getId() {
+        return id;
     }
 
     /// ////////////////////////

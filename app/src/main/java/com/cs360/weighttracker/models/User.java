@@ -11,21 +11,23 @@ import androidx.annotation.Nullable;
  */
 public class User {
 
+    private long userId;
     private String username;
     private String hashedPassword;
 
 
     /**
-     * Constructs a username and password
+     * Constructs user with a username, password, and a user id.
      *
      * @param username The user's username.
      * @param password The user's password in hashed form.
      * @apiNote Passwords must not be stored in plain text.
      * Use helper provided in `PasswordHasher` to hash the password for storage.
      */
-    public User(String username, String password) {
+    public User(String username, String password, long userId) {
         this.username = username;
         this.hashedPassword = password;
+        this.userId = userId;
     }
 
 
@@ -68,6 +70,10 @@ public class User {
 
     public String getHashedPassword() {
         return hashedPassword;
+    }
+
+    public long getUserId() {
+        return userId;
     }
 
     /// ////////////////////////

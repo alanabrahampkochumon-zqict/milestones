@@ -3,11 +3,12 @@ package com.cs360.weighttracker.models;
 public class DailyWeight {
 
     private float userWeight;
-    private long dateTime;
+    private long dateTime, id;
 
-    public DailyWeight(float userWeight, long dateTime) {
+    public DailyWeight(float userWeight, long dateTime, long id) {
         this.userWeight = userWeight;
         this.dateTime = dateTime;
+        this.id = id;
     }
 
 
@@ -29,10 +30,13 @@ public class DailyWeight {
         return dateTime;
     }
 
+    public long getId() {
+        return id;
+    }
 
-    ///////////////////////////
+    /// ////////////////////////
     ///       SETTERS      ///
-    //////////////////////////
+    /// ///////////////////////
 
     public void setUserWeight(float userWeight) {
         this.userWeight = userWeight;
