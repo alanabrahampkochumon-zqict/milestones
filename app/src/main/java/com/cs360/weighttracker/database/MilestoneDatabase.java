@@ -411,7 +411,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
                     long id = cursor.getLong(0);
                     float dailyWeight = cursor.getFloat(1);
                     long dateMillis = cursor.getLong(2);
-                    dailyWeights.add(new DailyWeight(dailyWeight, dateMillis, id));
+                    dailyWeights.add(new DailyWeight(id, dailyWeight, dateMillis));
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {

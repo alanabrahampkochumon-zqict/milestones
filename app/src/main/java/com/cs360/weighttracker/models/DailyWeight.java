@@ -5,10 +5,30 @@ public class DailyWeight {
     private float userWeight;
     private long dateTime, id;
 
-    public DailyWeight(float userWeight, long dateTime, long id) {
+    /**
+     * Constructs a Daily weight object with an id, user weight and datetime(in millis).
+     *
+     * @param id         The unique identifier of the daily weight object.
+     * @param userWeight The user's weight.
+     * @param dateTime   The datetime during which the weight was recorded.
+     */
+    public DailyWeight(long id, float userWeight, long dateTime) {
         this.userWeight = userWeight;
         this.dateTime = dateTime;
         this.id = id;
+    }
+
+
+    /**
+     * Constructs a Daily weight object with a user weight and datetime(in millis).
+     *
+     * @param userWeight The user's weight.
+     * @param dateTime   The datetime during which the weight was recorded.
+     */
+    public DailyWeight(float userWeight, long dateTime) {
+        this.userWeight = userWeight;
+        this.dateTime = dateTime;
+        this.id = -1;
     }
 
 

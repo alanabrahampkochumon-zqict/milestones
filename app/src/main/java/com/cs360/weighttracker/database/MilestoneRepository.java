@@ -11,6 +11,7 @@ import com.cs360.weighttracker.models.User;
 import com.cs360.weighttracker.utils.LogCategory;
 import com.cs360.weighttracker.utils.PasswordHasher;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class MilestoneRepository {
@@ -139,21 +140,50 @@ public class MilestoneRepository {
         return null;
     }
 
-
-    // Log Daily weight
-    // Delete daily weight
     // Upsert goal weight
 
     /// ////////////////////////
     ///     USER WEIGHT    ///
     /// ///////////////////////
-//    boolean logDailyWeight(float weight) {
-//        try {
-//            DailyWeight dailyWeight = new DailyWeight(weight, Date.);
-//        } catch (Exception e) {
-//            Log.e(LogCategory.REPOSITORY, "There was error logging the user weight!\n" + e.getMessage());
-//        }
-//        return false;
-//    }
+
+
+    /**
+     * Logs the user's daily weight.
+     *
+     * @param weight Today's weight to log.
+     * @return A boolean whether the weight logging was successful.
+     */
+    boolean logDailyWeight(float weight) {
+        try {
+            // Get the user logged-in user's id
+            long currentUserId = sharedPref.getCurrentUserId();
+            if (currentUserId == -1) // There is no current user
+                return false;
+
+            // Create a daily weight object
+            DailyWeight dailyWeight = new DailyWeight(weight, System.currentTimeMillis());
+            return database.insertDailyWeight(currentUserId, dailyWeight) > 0;
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was error logging the user weight!\n" + e.getMessage());
+        }
+        return false;
+    }
+
+
+    /**
+     * Deletes the daily weight with the given id.
+     *
+     * @param id The id of the daily weight to delete.
+     * @return A boolean indicating whether the weight was deleted.
+     */
+    boolean deleteDailyWeight(long id) {
+        try {
+            return database.deleteDailyWeight(id);
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was error logging the user weight!\n" + e.getMessage());
+        }
+        return false;
+    }
+
 
 }
