@@ -1,16 +1,14 @@
 package com.cs360.weighttracker.viewmodels;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.cs360.weighttracker.database.MilestoneRepository;
-import com.cs360.weighttracker.database.status.LoginStatus;
 
-public class AuthViewModel extends ViewModel {
+public class ProfileViewModel extends ViewModel {
 
     private final MilestoneRepository repository;
 
-    public AuthViewModel(MilestoneRepository repository) {
+    public ProfileViewModel(MilestoneRepository repository) {
         this.repository = repository;
     }
 
@@ -18,15 +16,11 @@ public class AuthViewModel extends ViewModel {
 //        return
 //    }
 
-    public void login() {
+    public void updateGoal() { // Use a usecase here?
         // TODO: Implementation
     }
 
-    public void register() {
-        // TODO: Implementation
-    }
-
-    public void updateProfile(String fullName, float currentWeight, float goalWeight) {
+    public void logout() {
         // TODO: Implementation
     }
 }
