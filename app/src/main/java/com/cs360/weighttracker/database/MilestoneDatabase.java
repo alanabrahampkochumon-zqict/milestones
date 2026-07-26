@@ -169,6 +169,30 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
     }
 
     /**
+     * Get a user from the database with the given user ID.
+     *
+     * @param userId The user's user id.
+     * @return A user object, if the user exist and null otherwise.
+     */
+    public User getUser(long userId) {
+        SQLiteDatabase db = getReadableDatabase();
+        // Execute the query
+        String query = "SELECT * FROM " + UserTable.TABLE + " WHERE " + UserTable.COL_ID + " = ? LIMIT 1";
+        try (Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)})) {
+            if (cursor.moveToFirst()) {
+                long id = cursor.getLong(0);
+                String username = cursor.getString(1);
+                String password = cursor.getString(2);
+                String fullName = cursor.getString(3);
+                return new User(id, username, password, fullName);
+            }
+        } catch (Exception e) {
+            Log.e(LogCategory.DATABASE, "There was an error getting the user.\n" + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * Validates whether the given user credentials are valid.
      *
      * @param user The user to validate.

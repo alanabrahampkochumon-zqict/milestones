@@ -2,6 +2,8 @@ package com.cs360.weighttracker.database;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.cs360.weighttracker.database.status.LoginStatus;
 import com.cs360.weighttracker.database.status.RegisterStatus;
 import com.cs360.weighttracker.models.DailyWeight;
@@ -33,7 +35,7 @@ public class MilestoneRepository {
      * @param password The password of the user.
      * @return LoginStatus indicating whether the login was successful or not.
      */
-    LoginStatus loginUser(String username, String password) {
+    LoginStatus loginUser(@NonNull String username, @NonNull String password) {
         String hashedPassword = PasswordHasher.hash(password);
         User user = new User(username, password);
         try {
@@ -58,7 +60,7 @@ public class MilestoneRepository {
         return LoginStatus.UNKNOWN_FAILURE;
     }
 
-    RegisterStatus registerUser(String username, String password) {
+    RegisterStatus registerUser(@NonNull String username, @NonNull String password) {
         String hashedPassword = PasswordHasher.hash(password);
         try {
             // Check whether the user exists in the database.
@@ -91,12 +93,56 @@ public class MilestoneRepository {
         sharedPref.deleteCurrentUserId();
     }
 
+    /**
+     * Update the user's full name with the give name.
+     *
+     * @param fullName The name to update to.
+     * @return Boolean indicating whether the update was successful or not.
+     */
+    boolean updateCurrentUserFullName(@NonNull String fullName) {
+        try {
+            // Get the user logged-in user's id
+            long currentUserId = sharedPref.getCurrentUserId();
+            if (currentUserId == -1) // There is no current user
+                throw new IllegalStateException("User not logged in!");
+
+            User user = database.getUser(currentUserId);
+
+            // Retrieve the user object from database
+            if (user == null)
+                throw new IllegalStateException("User not found!");
+
+            // Update the user if user is logged in.
+            user.setFullName(fullName);
+            return database.updateUser(user);
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was an updating the user!\n" + e.getMessage());
+        }
+        return false;
+    }
+
+    /***
+     * Retrieves the current logged-in user
+     * @return The logged-in user if one exists else null.
+     */
+    User getCurrentUser() {
+        try {
+            // Get the user logged-in user's id
+            long currentUserId = sharedPref.getCurrentUserId();
+            if (currentUserId == -1) // There is no current user
+                return null;
+
+            return database.getUser(currentUserId);
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was an getting the user!\n" + e.getMessage());
+        }
+        return null;
+    }
+
 
     // Log Daily weight
     // Delete daily weight
     // Upsert goal weight
-    // Set user full name
-    // Get user full name
 
     /// ////////////////////////
     ///     USER WEIGHT    ///
