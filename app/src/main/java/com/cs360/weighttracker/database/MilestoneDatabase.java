@@ -168,23 +168,29 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * Validates whether the given user credentials are valid.
      *
      * @param user The user to validate.
-     * @return True if the provided credentials are valid, and false otherwise.
+     * @return The user object if a record exists else null.
      * @apiNote The method doesn't return whether the user exists, only if the credentials are valid.
      * To know if a user exists, user `getUser` with username.
      */
-    public boolean validateUser(@NonNull User user) {
+    public User validateUser(@NonNull User user) {
         SQLiteDatabase db = getReadableDatabase();
 
         // Execute the query
         String query = "SELECT * FROM " + UserTable.TABLE + " WHERE " + UserTable.COL_USERNAME + " = ? AND " + UserTable.COL_PASSWORD_HASH + " = ?";
         try (Cursor cursor = db.rawQuery(query, new String[]{user.getUserName(), user.getHashedPassword()})) {
+            // Get the user if they exist in the database
             if (cursor.moveToFirst()) {
-                return true;
+                long id = cursor.getLong(0);
+                String username = cursor.getString(1);
+                String password = cursor.getString(2);
+                return new User(username, password, id);
             }
         } catch (Exception e) {
             Log.e(LogCategory.DATABASE, "There was an validating the user.\n" + e.getMessage());
         }
-        return false;
+
+        // Else return null
+        return null;
     }
 
     /**

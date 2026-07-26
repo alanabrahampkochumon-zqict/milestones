@@ -60,4 +60,10 @@ public class MilestonePrefs {
     public long getCurrentUserId() {
         return sharedPreferences.getLong(CURRENT_SESSION_USER_ID, -1);
     }
+
+    public void deleteCurrentUserId() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(CURRENT_SESSION_USER_ID);
+        editor.apply();
+    }
 }

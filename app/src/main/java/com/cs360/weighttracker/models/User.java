@@ -21,6 +21,7 @@ public class User {
      *
      * @param username The user's username.
      * @param password The user's password in hashed form.
+     * @param userId   The user unique identifier.
      * @apiNote Passwords must not be stored in plain text.
      * Use helper provided in `PasswordHasher` to hash the password for storage.
      */
@@ -28,6 +29,18 @@ public class User {
         this.username = username;
         this.hashedPassword = password;
         this.userId = userId;
+    }
+
+    /**
+     * Constructs a user with a username and password.
+     *
+     * @param username The user's username.
+     * @param password The user's password in hashed form.
+     */
+    public User(String username, String password) {
+        this.username = username;
+        this.hashedPassword = password;
+        this.userId = -1;
     }
 
 
@@ -82,5 +95,9 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setUserId(long id) {
+        this.userId = id;
     }
 }
