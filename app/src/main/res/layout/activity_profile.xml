@@ -9,20 +9,20 @@
         android:id="@+id/tvAccountHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="@dimen/space_sm"
+        android:layout_marginTop="@dimen/space_xl"
         android:text="@string/your_account"
         android:textColor="@color/slate_900"
-        android:textSize="22sp"
+        android:textSize="@dimen/fs_3xl"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgViewProfilePicture"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="@dimen/profile_icon_size"
+        android:layout_height="@dimen/profile_icon_size"
+        android:layout_marginTop="@dimen/space_md"
         android:contentDescription="@string/profile_picture"
         android:src="@drawable/account_icon"
         app:layout_constraintStart_toStartOf="@id/tvAccountHeading"
@@ -30,30 +30,15 @@
         app:tint="@color/slate_500" />
 
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tvUsernameLabel"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="16dp"-->
-    <!--        android:text="@string/username"-->
-    <!--        android:textColor="@color/slate_800"-->
-    <!--        android:textSize="12sp"-->
-    <!--        android:layout_marginBottom="20dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@id/imgViewProfilePicture"-->
-    <!--        app:layout_constraintStart_toEndOf="@id/imgViewProfilePicture"-->
-    <!--        app:layout_constraintTop_toTopOf="@id/imgViewProfilePicture"-->
-    <!--        tools:layout_editor_absoluteX="126dp"-->
-    <!--        tools:layout_editor_absoluteY="84dp" />-->
-
     <TextView
         android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="@dimen/space_xs"
+        android:layout_marginTop="@dimen/space_3xs"
         android:text="@string/hint_username"
         android:textColor="@color/slate_900"
-        android:textSize="18sp"
+        android:textSize="@dimen/fs_xl"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/imgViewProfilePicture"
         app:layout_constraintTop_toTopOf="@id/imgViewProfilePicture" />
@@ -63,7 +48,7 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="@dimen/space_sm"
         android:text="@string/update_goal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvUsername" />
@@ -71,8 +56,8 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/space_2xs"
+        android:layout_marginEnd="@dimen/space_sm"
         android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintStart_toStartOf="@+id/tvUsername"
@@ -90,7 +75,7 @@
             android:id="@+id/tvWeightChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="@dimen/space_4xs"
             android:text="@string/weight_lost_pattern"
             app:layout_constraintStart_toStartOf="@+id/progressWeightChange"
             app:layout_constraintTop_toBottomOf="@+id/progressWeightChange" />
@@ -101,10 +86,10 @@
         android:id="@+id/tvSettingSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/space_xl"
         android:text="@string/settings"
         android:textColor="@color/slate_800"
-        android:textSize="20sp"
+        android:textSize="@dimen/fs_2xl"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/imgViewProfilePicture"
         app:layout_constraintTop_toBottomOf="@+id/imgViewProfilePicture" />
@@ -113,8 +98,8 @@
         android:id="@+id/notificationSettingLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="@dimen/space_sm"
+        android:layout_marginTop="@dimen/space_xs"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +108,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="@dimen/space_xs"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -131,28 +116,30 @@
                 android:id="@+id/tvNotificationSettingLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/space_2xs"
                 android:text="@string/notification_setting_label"
-                android:textColor="@color/slate_900"
-                android:textSize="15sp"
+                android:textColor="@color/slate_950"
+                android:textSize="@dimen/fs_md"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/notificationSettingHint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="@dimen/space_3xs"
                 android:text="@string/notification_setting_hint"
                 android:textColor="@color/slate_800"
-                android:textSize="12sp"
+                android:textSize="@dimen/fs_sm"
                 app:layout_constraintStart_toStartOf="@id/notificationSettingLayout"
                 app:layout_constraintTop_toBottomOf="@id/notificationSettingLayout" />
         </LinearLayout>
 
         <Switch
             android:id="@+id/toggleNotificationSetting"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/min_interactive_size"
+            android:minHeight="@dimen/min_interactive_size"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
     </LinearLayout>
 
@@ -160,14 +147,14 @@
         android:id="@+id/btnLogout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/space_xl"
         android:backgroundTint="@color/red_50"
-        app:layout_constraintWidth_max="320dp"
         android:text="@string/logout"
         android:textColor="@color/red_600"
         app:layout_constraintEnd_toEndOf="@+id/notificationSettingLayout"
         app:layout_constraintStart_toStartOf="@+id/notificationSettingLayout"
-        app:layout_constraintTop_toBottomOf="@+id/notificationSettingLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/notificationSettingLayout"
+        app:layout_constraintWidth_max="@dimen/max_btn_width" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

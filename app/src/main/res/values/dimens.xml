@@ -1,3 +1,33 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- FONT SIZES -->
+    <dimen name="fs_sm">12sp</dimen>
+    <dimen name="fs_md">14sp</dimen>
+    <dimen name="fs_lg">16sp</dimen>
+    <dimen name="fs_xl">18sp</dimen>
+    <dimen name="fs_2xl">20sp</dimen>
+    <dimen name="fs_3xl">22sp</dimen>
+    <dimen name="fs_4xl">26sp</dimen>
+
+    <!--  SPACING  -->
+    <dimen name="space_4xs">2dp</dimen>
+    <dimen name="space_3xs">4dp</dimen>
+    <dimen name="space_2xs">8dp</dimen>
+    <dimen name="space_xs">12dp</dimen>
+    <dimen name="space_sm">16dp</dimen>
+    <dimen name="space_md">20dp</dimen>
+    <dimen name="space_lg">24dp</dimen>
+    <dimen name="space_xl">32dp</dimen>
+    <dimen name="space_2xl">40dp</dimen>
+    <dimen name="space_3xl">48dp</dimen>
+
+    <!--  HEIGHT AND WIDTHS  -->
+    <dimen name="min_interactive_size">48dp</dimen>
+    <dimen name="max_btn_width">320dp</dimen>
+    <dimen name="max_layout_width">480dp</dimen>
+    <dimen name="illustration_height">280dp</dimen>
+
+    <!--  COMPONENT  -->
+    <dimen name="profile_icon_size">96dp</dimen>
 </resources>

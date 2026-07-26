@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="@dimen/space_lg">
 
     <TextView
         android:id="@+id/tvSMSPermissionDialogTitle"
@@ -11,31 +11,30 @@
         android:layout_height="wrap_content"
         android:text="@string/sms_permission_required"
         android:textColor="@color/slate_900"
-        android:textSize="20sp"
+        android:textSize="@dimen/fs_2xl"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvSMSPermissionDialogBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/space_3xs"
         android:text="@string/goal_alerts"
         android:textColor="@color/slate_900"
-        android:textSize="14sp" />
+        android:textSize="@dimen/fs_md" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/space_xs"
         android:gravity="end"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnSMSPermissionCancel"
-
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
             android:backgroundTint="@color/slate_50"
             android:text="@string/cancel"
             android:textColor="@color/slate_700" />
@@ -45,7 +44,7 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/space_2xs"
             android:text="@string/enable_now" />
     </LinearLayout>
 </LinearLayout>

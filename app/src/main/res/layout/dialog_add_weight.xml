@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxWidth="480dp"
-    android:padding="24dp">
+    android:maxWidth="@dimen/max_layout_width"
+    android:padding="@dimen/space_lg">
 
     <TextView
         android:id="@+id/tvAddWeightTitle"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/add_your_weight"
         android:textColor="@color/slate_900"
-        android:textSize="20sp"
+        android:textSize="@dimen/fs_2xl"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/layoutWeightInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/space_sm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAddWeightTitle">
@@ -31,8 +31,8 @@
         <EditText
             android:id="@+id/etCurrentWeight"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="12dp"
+            android:layout_height="@dimen/min_interactive_size"
+            android:layout_marginEnd="@dimen/space_xs"
             android:autofillHints="none"
             android:hint="@string/weight_hint"
             android:inputType="numberDecimal"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="@string/kg"
             android:textColor="@color/slate_900"
-            android:textSize="18sp"
+            android:textSize="@dimen/fs_xl"
             app:layout_constraintBottom_toBottomOf="@id/etCurrentWeight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/etCurrentWeight" />
@@ -57,11 +57,11 @@
             android:id="@+id/tvWeightError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="@dimen/space_2xs"
             android:text="@string/weight_error"
             android:textAlignment="textEnd"
             android:textColor="@color/red_600"
-            android:textSize="12sp"
+            android:textSize="@dimen/fs_sm"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +72,7 @@
         style="?android:attr/buttonBarStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/space_sm"
         android:gravity="end"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +92,7 @@
             android:id="@+id/btnAddWeightSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/space_2xs"
             android:text="@string/log_weight"
             tools:ignore="ButtonStyle" />
     </LinearLayout>

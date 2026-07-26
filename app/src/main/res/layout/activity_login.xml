@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/imgIllustrationHero"
         android:layout_width="wrap_content"
-        android:layout_height="280dp"
+        android:layout_height="@dimen/illustration_height"
         android:contentDescription="@string/alt_hero_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,10 +18,10 @@
         android:id="@+id/tvLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/space_lg"
+        android:layout_marginEnd="@dimen/space_lg"
         android:text="@string/app_name"
-        android:textSize="26sp"
+        android:textSize="@dimen/fs_4xl"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,11 +31,11 @@
         android:id="@+id/tvMotto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:paddingTop="2dp"
+        android:layout_marginStart="@dimen/space_lg"
+        android:layout_marginEnd="@dimen/space_lg"
+        android:paddingTop="@dimen/space_4xs"
         android:text="@string/text_motto"
-        android:textSize="12sp"
+        android:textSize="@dimen/fs_sm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLogo" />
@@ -44,14 +44,14 @@
         android:id="@+id/usernameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/space_lg"
+        android:layout_marginTop="@dimen/space_lg"
+        android:layout_marginEnd="@dimen/space_lg"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvMotto"
-        app:layout_constraintWidth_max="480dp">
+        app:layout_constraintWidth_max="@dimen/max_layout_width">
 
         <TextView
             android:id="@+id/labelUsername"
@@ -67,7 +67,7 @@
             android:autofillHints="username"
             android:ems="10"
             android:inputType="text"
-            android:minHeight="48dp" />
+            android:minHeight="@dimen/min_interactive_size" />
 
         <TextView
             android:id="@+id/tvAccountError"
@@ -76,7 +76,7 @@
             android:text="@string/invalid_username"
             android:textAlignment="textEnd"
             android:textColor="@color/red_600"
-            android:textSize="12sp"
+            android:textSize="@dimen/fs_sm"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -84,14 +84,14 @@
         android:id="@+id/passwordLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/space_lg"
+        android:layout_marginTop="@dimen/space_sm"
+        android:layout_marginEnd="@dimen/space_lg"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameLayout"
-        app:layout_constraintWidth_max="480dp">
+        app:layout_constraintWidth_max="@dimen/max_layout_width">
 
         <TextView
             android:id="@+id/labelPassword"
@@ -107,7 +107,7 @@
             android:autofillHints="password"
             android:ems="10"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="@dimen/min_interactive_size" />
 
         <TextView
             android:id="@+id/tvPasswordError"
@@ -116,7 +116,7 @@
             android:text="@string/incorrect_password"
             android:textAlignment="textEnd"
             android:textColor="@color/red_600"
-            android:textSize="12sp"
+            android:textSize="@dimen/fs_sm"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -124,20 +124,20 @@
         android:id="@+id/actionLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/space_lg"
+        android:layout_marginTop="@dimen/space_xl"
+        android:layout_marginEnd="@dimen/space_lg"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
-        app:layout_constraintWidth_max="320dp">
+        app:layout_constraintWidth_max="@dimen/max_btn_width">
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="@dimen/space_2xs"
             android:text="@string/login" />
 
         <Button

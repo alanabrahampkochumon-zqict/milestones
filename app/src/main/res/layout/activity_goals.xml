@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="32dp">
+    android:paddingHorizontal="@dimen/space_sm"
+    android:paddingVertical="@dimen/space_xl">
 
     <TextView
         android:id="@+id/tvGoalHeading"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/heading_user_details"
         android:textColor="@color/slate_900"
-        android:textSize="22sp"
+        android:textSize="@dimen/fs_3xl"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/layoutName"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,12 +21,12 @@
         android:id="@+id/layoutName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/space_xl"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvGoalHeading"
-        app:layout_constraintWidth_max="480dp">
+        app:layout_constraintWidth_max="@dimen/max_layout_width">
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,13 +34,13 @@
             android:labelFor="@id/etFullName"
             android:text="@string/label_fullname"
             android:textColor="@color/slate_800"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_md" />
 
         <EditText
             android:id="@+id/etFullName"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="@dimen/min_interactive_size"
+            android:layout_marginTop="@dimen/space_2xs"
             android:autofillHints="none"
             android:inputType="textPersonName" />
 
@@ -51,7 +51,7 @@
             android:text="@string/name_error"
             android:textAlignment="textEnd"
             android:textColor="@color/red_600"
-            android:textSize="12sp"
+            android:textSize="@dimen/fs_sm"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -59,11 +59,11 @@
         android:id="@+id/layoutCurrentWeight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/space_lg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutName"
-        app:layout_constraintWidth_max="480dp">
+        app:layout_constraintWidth_max="@dimen/max_layout_width">
 
         <TextView
             android:id="@+id/tvLabelCurrentWeight"
@@ -72,16 +72,16 @@
             android:labelFor="@id/etCurrentWeight"
             android:text="@string/label_current_weight"
             android:textColor="@color/slate_800"
-            android:textSize="14sp"
+            android:textSize="@dimen/fs_md"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/etCurrentWeight"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="12dp"
+            android:layout_height="@dimen/min_interactive_size"
+            android:layout_marginTop="@dimen/space_2xs"
+            android:layout_marginEnd="@dimen/space_xs"
             android:autofillHints="none"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toStartOf="@id/tvCurrentWeightUnit"
@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/kg"
-            android:textSize="18sp"
+            android:textSize="@dimen/fs_xl"
             app:layout_constraintBottom_toBottomOf="@id/etCurrentWeight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/etCurrentWeight" />
@@ -102,11 +102,11 @@
             android:id="@+id/tvCurrentWeightError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="@dimen/space_2xs"
             android:text="@string/weight_error"
             android:textAlignment="textEnd"
             android:textColor="@color/red_600"
-            android:textSize="12sp"
+            android:textSize="@dimen/fs_sm"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -117,11 +117,11 @@
         android:id="@+id/layoutGoalWeight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/space_lg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutCurrentWeight"
-        app:layout_constraintWidth_max="480dp">
+        app:layout_constraintWidth_max="@dimen/max_layout_width">
 
         <TextView
             android:id="@+id/tvLabelGoalWeight"
@@ -130,16 +130,16 @@
             android:labelFor="@id/etGoalWeight"
             android:text="@string/label_goal_weight"
             android:textColor="@color/slate_800"
-            android:textSize="14sp"
+            android:textSize="@dimen/fs_md"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/etGoalWeight"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="12dp"
+            android:layout_height="@dimen/min_interactive_size"
+            android:layout_marginTop="@dimen/space_2xs"
+            android:layout_marginEnd="@dimen/space_xs"
             android:autofillHints="none"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toStartOf="@id/tvGoalWeightUnit"
@@ -151,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/kg"
-            android:textSize="18sp"
+            android:textSize="@dimen/fs_xl"
             app:layout_constraintBottom_toBottomOf="@id/etGoalWeight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/etGoalWeight" />
@@ -160,11 +160,11 @@
             android:id="@+id/tvGoalWeightError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="@dimen/space_2xs"
             android:text="@string/weight_error"
             android:textAlignment="textEnd"
             android:textColor="@color/red_600"
-            android:textSize="12sp"
+            android:textSize="@dimen/fs_sm"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -175,11 +175,11 @@
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/space_2xl"
         android:text="@string/get_started"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutGoalWeight"
-        app:layout_constraintWidth_max="320dp" />
+        app:layout_constraintWidth_max="@dimen/max_btn_width" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
