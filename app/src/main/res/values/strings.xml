@@ -41,4 +41,5 @@
     <string name="goal_alerts">To receive notification when you reach your goals, enable the SMS permission!</string>
     <string name="enable_now">Enable now</string>
     <string name="text_motto">Your journey, one milestone at a time</string>
+    <string name="login_title">Login to your account</string>
 </resources>

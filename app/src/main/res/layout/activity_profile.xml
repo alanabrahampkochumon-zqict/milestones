@@ -1,160 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:paddingBottom="@dimen/space_xl">
 
-    <TextView
-        android:id="@+id/tvAccountHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_sm"
-        android:layout_marginTop="@dimen/space_xl"
-        android:text="@string/your_account"
-        android:textColor="@color/slate_900"
-        android:textSize="@dimen/fs_3xl"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgViewProfilePicture"
-        android:layout_width="@dimen/profile_icon_size"
-        android:layout_height="@dimen/profile_icon_size"
-        android:layout_marginTop="@dimen/space_md"
-        android:contentDescription="@string/profile_picture"
-        android:src="@drawable/account_icon"
-        app:layout_constraintStart_toStartOf="@id/tvAccountHeading"
-        app:layout_constraintTop_toBottomOf="@id/tvAccountHeading"
-        app:tint="@color/slate_500" />
-
-
-    <TextView
-        android:id="@+id/tvUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_xs"
-        android:layout_marginTop="@dimen/space_3xs"
-        android:text="@string/hint_username"
-        android:textColor="@color/slate_900"
-        android:textSize="@dimen/fs_xl"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/imgViewProfilePicture"
-        app:layout_constraintTop_toTopOf="@id/imgViewProfilePicture" />
-
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/space_sm"
-        android:text="@string/update_goal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvUsername" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_2xs"
-        android:layout_marginEnd="@dimen/space_sm"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/tvUsername"
-        app:layout_constraintTop_toBottomOf="@id/tvUsername">
-
-        <ProgressBar
-            android:id="@+id/progressWeightChange"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:progress="50"
-            android:progressTint="@color/mint_500" />
-
-        <TextView
-            android:id="@+id/tvWeightChange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_4xs"
-            android:text="@string/weight_lost_pattern"
-            app:layout_constraintStart_toStartOf="@+id/progressWeightChange"
-            app:layout_constraintTop_toBottomOf="@+id/progressWeightChange" />
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/tvSettingSection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_xl"
-        android:text="@string/settings"
-        android:textColor="@color/slate_800"
-        android:textSize="@dimen/fs_2xl"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imgViewProfilePicture"
-        app:layout_constraintTop_toBottomOf="@+id/imgViewProfilePicture" />
-
-    <LinearLayout
-        android:id="@+id/notificationSettingLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/space_sm"
-        android:layout_marginTop="@dimen/space_xs"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSettingSection">
+        android:paddingHorizontal="@dimen/space_sm">
+
+        <TextView
+            android:id="@+id/tvAccountHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_sm"
+            android:layout_marginTop="@dimen/space_xl"
+            android:text="@string/your_account"
+            android:textColor="@color/slate_900"
+            android:textSize="@dimen/fs_3xl"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgViewProfilePicture"
+            android:layout_width="@dimen/profile_icon_size"
+            android:layout_height="@dimen/profile_icon_size"
+            android:layout_marginTop="@dimen/space_md"
+            android:contentDescription="@string/profile_picture"
+            android:src="@drawable/account_icon"
+            app:layout_constraintStart_toStartOf="@id/tvAccountHeading"
+            app:layout_constraintTop_toBottomOf="@id/tvAccountHeading"
+            app:tint="@color/slate_500" />
+
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_xs"
+            android:layout_marginTop="@dimen/space_3xs"
+            android:text="@string/hint_username"
+            android:textColor="@color/slate_900"
+            android:textSize="@dimen/fs_xl"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/imgViewProfilePicture"
+            app:layout_constraintTop_toTopOf="@id/imgViewProfilePicture" />
+
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_sm"
+            android:text="@string/update_goal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvUsername" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/space_xs"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/space_2xs"
+            android:layout_marginEnd="@dimen/space_sm"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintStart_toStartOf="@+id/tvUsername"
+            app:layout_constraintTop_toBottomOf="@id/tvUsername">
+
+            <ProgressBar
+                android:id="@+id/progressWeightChange"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progress="50"
+                android:progressTint="@color/mint_500" />
 
             <TextView
-                android:id="@+id/tvNotificationSettingLabel"
+                android:id="@+id/tvWeightChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_2xs"
-                android:text="@string/notification_setting_label"
-                android:textColor="@color/slate_950"
-                android:textSize="@dimen/fs_md"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/notificationSettingHint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_3xs"
-                android:text="@string/notification_setting_hint"
-                android:textColor="@color/slate_800"
-                android:textSize="@dimen/fs_sm"
-                app:layout_constraintStart_toStartOf="@id/notificationSettingLayout"
-                app:layout_constraintTop_toBottomOf="@id/notificationSettingLayout" />
+                android:layout_marginTop="@dimen/space_4xs"
+                android:text="@string/weight_lost_pattern"
+                app:layout_constraintStart_toStartOf="@+id/progressWeightChange"
+                app:layout_constraintTop_toBottomOf="@+id/progressWeightChange" />
         </LinearLayout>
 
-        <Switch
-            android:id="@+id/toggleNotificationSetting"
+
+        <TextView
+            android:id="@+id/tvSettingSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="@dimen/min_interactive_size"
-            android:minHeight="@dimen/min_interactive_size"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
-    </LinearLayout>
+            android:layout_marginTop="@dimen/space_xl"
+            android:text="@string/settings"
+            android:textColor="@color/slate_800"
+            android:textSize="@dimen/fs_2xl"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/imgViewProfilePicture"
+            app:layout_constraintTop_toBottomOf="@+id/imgViewProfilePicture" />
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_xl"
-        android:backgroundTint="@color/red_50"
-        android:text="@string/logout"
-        android:textColor="@color/red_600"
-        app:layout_constraintEnd_toEndOf="@+id/notificationSettingLayout"
-        app:layout_constraintStart_toStartOf="@+id/notificationSettingLayout"
-        app:layout_constraintTop_toBottomOf="@+id/notificationSettingLayout"
-        app:layout_constraintWidth_max="@dimen/max_btn_width" />
+        <LinearLayout
+            android:id="@+id/layoutNotificationSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_sm"
+            android:layout_marginTop="@dimen/space_xs"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSettingSection">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_xs"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvNotificationSettingLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_2xs"
+                    android:text="@string/notification_setting_label"
+                    android:textColor="@color/slate_950"
+                    android:textSize="@dimen/fs_md"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/notificationSettingHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_3xs"
+                    android:text="@string/notification_setting_hint"
+                    android:textColor="@color/slate_800"
+                    android:textSize="@dimen/fs_sm"
+                    app:layout_constraintStart_toStartOf="@id/layoutNotificationSettings"
+                    app:layout_constraintTop_toBottomOf="@id/layoutNotificationSettings" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/toggleNotificationSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="@dimen/min_interactive_size"
+                android:minHeight="@dimen/min_interactive_size"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:backgroundTint="@color/red_50"
+            android:text="@string/logout"
+            android:textColor="@color/red_600"
+            app:layout_constraintEnd_toEndOf="@+id/layoutNotificationSettings"
+            app:layout_constraintStart_toStartOf="@+id/layoutNotificationSettings"
+            app:layout_constraintTop_toBottomOf="@+id/layoutNotificationSettings"
+            app:layout_constraintWidth_max="@dimen/max_btn_width" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
