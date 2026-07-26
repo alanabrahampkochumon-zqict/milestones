@@ -14,7 +14,6 @@ import com.cs360.weighttracker.utils.LogCategory;
 
 public class MilestoneDatabase extends SQLiteOpenHelper {
 
-
     public MilestoneDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }

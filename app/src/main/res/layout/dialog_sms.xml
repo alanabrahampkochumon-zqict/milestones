@@ -35,12 +35,14 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/slate_100"
+            style="?android:attr/buttonBarButtonStyle"
+            android:backgroundTint="@color/slate_50"
             android:text="@string/cancel"
             android:textColor="@color/slate_700" />
 
         <Button
             android:id="@+id/btnSMSPermissionGrant"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
