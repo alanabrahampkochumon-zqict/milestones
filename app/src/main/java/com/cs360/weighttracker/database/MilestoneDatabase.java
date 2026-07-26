@@ -108,9 +108,6 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    // TODO: CRUD Daily Weight
-    // TODO: CRUD Goal Weight
-    // TODO: Add foreign key for connecting user with goal and daily weights
 
     //////////////////////////////
     ///                         //
@@ -123,10 +120,16 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      *
      * @param user The user to be inserted.
      * @return The id of the inserted user.
+     * @apiNote The user's userid must be unique, so if try to insert a user with an existing id will return the user.
+     * It WILL NOT update due to security reasons (anyone could change the password if we were to update the user).
      */
-    // TODO: Name conflicts
     public long insertUser(@NonNull User user) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Get the user if there exists a user with same id
+        User retrievedUser = getUser(user.getUserName());
+        if (retrievedUser != null)
+            return user.getUserId();
 
         // Create values for insertion
         ContentValues values = new ContentValues();
@@ -192,7 +195,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * @apiNote The user is updated based on the userId field of the user.
      */
     public boolean updateUser(@NonNull User user) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(UserTable.COL_USERNAME, user.getUserName());
@@ -234,7 +237,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * goal weight is inserted.
      */
     public long insertGoalWeight(long userId, @NonNull GoalWeight goalWeight) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
         // Retrieve the goal weight to ensure that the data exists.
         GoalWeight queriedGoalWeight = getGoalWeight(userId);
         // Upsertion: Update the goal weight if the user already has a goal weight set.
@@ -287,7 +290,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * then the api inserted the current goal weight.
      */
     public boolean updateGoalWeight(long userId, GoalWeight goalWeight) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         // Retrieve the goal weight to ensure that the data exists.
         GoalWeight queriedGoalWeight = getGoalWeight(userId);
@@ -340,7 +343,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * goal weight is inserted.
      */
     public long insertDailyWeight(long userId, @NonNull DailyWeight dailyWeight) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         // Create the values for insertion
         ContentValues values = new ContentValues();
@@ -362,23 +365,21 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         List<DailyWeight> dailyWeights = new ArrayList<>();
 
-        // Create the query
         String query = "SELECT * FROM " + DailyWeightTable.TABLE + " WHERE " +
                 DailyWeightTable.USER_FK + " = ? ORDER BY " + DailyWeightTable.COL_DATE + " DESC";
 
         try (Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)})) {
-            while (cursor.moveToFirst()) {
-                // Retrieve each daily weight
-                long id = cursor.getLong(0);
-                float dailyWeight = cursor.getFloat(1);
-                long dateMillis = cursor.getLong(2);
-                dailyWeights.add(new DailyWeight(dailyWeight, dateMillis, id));
-
-                // Move the cursor
-                cursor.moveToNext();
+            if (cursor.moveToFirst()) {
+                // Traverse through the database and add each weight to the list.
+                do {
+                    long id = cursor.getLong(0);
+                    float dailyWeight = cursor.getFloat(1);
+                    long dateMillis = cursor.getLong(2);
+                    dailyWeights.add(new DailyWeight(dailyWeight, dateMillis, id));
+                } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.e(LogCategory.DATABASE, "There was an error getting the user's daily weights!\n" + e.getMessage());
+            Log.e(LogCategory.DATABASE, "There was an error getting user's daily weights!\n" + e.getMessage());
         }
         return dailyWeights;
     }
@@ -390,8 +391,8 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * @param dailyWeight The daily weight to update.
      * @return A boolean indicating whether the update was a success.
      */
-    public boolean updateGoalWeight(DailyWeight dailyWeight) {
-        SQLiteDatabase db = getReadableDatabase();
+    public boolean updateDailyWeight(DailyWeight dailyWeight) {
+        SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(DailyWeightTable.COL_WEIGHT, dailyWeight.getUserWeight());
