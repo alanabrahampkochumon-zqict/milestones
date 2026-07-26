@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imgIllustrationHero"
+            android:id="@+id/imgAuthIllustration"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/illustration_height"
             android:contentDescription="@string/alt_hero_image"
@@ -22,7 +22,7 @@
             app:srcCompat="@drawable/hero_image" />
 
         <TextView
-            android:id="@+id/tvLogo"
+            android:id="@+id/tvAuthLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_lg"
@@ -32,10 +32,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgIllustrationHero" />
+            app:layout_constraintTop_toBottomOf="@+id/imgAuthIllustration" />
 
         <TextView
-            android:id="@+id/tvMotto"
+            android:id="@+id/tvAuthMotto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_lg"
@@ -45,7 +45,7 @@
             android:textSize="@dimen/fs_sm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLogo" />
+            app:layout_constraintTop_toBottomOf="@+id/tvAuthLogo" />
 
 
         <TextView
@@ -56,11 +56,11 @@
             android:text="@string/login_title"
             android:textSize="@dimen/fs_lg"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/layoutUsername"
-            app:layout_constraintTop_toBottomOf="@id/tvMotto" />
+            app:layout_constraintStart_toStartOf="@id/layoutAuthUsername"
+            app:layout_constraintTop_toBottomOf="@id/tvAuthMotto" />
 
         <LinearLayout
-            android:id="@+id/layoutUsername"
+            android:id="@+id/layoutAuthUsername"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_lg"
@@ -73,23 +73,22 @@
             app:layout_constraintWidth_max="@dimen/max_layout_width">
 
             <TextView
-                android:id="@+id/labelUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:labelFor="@id/etLoginUsername"
+                android:labelFor="@id/etAuthUsername"
                 android:text="@string/username" />
 
             <EditText
-                android:id="@+id/etLoginUsername"
+                android:id="@+id/etAuthUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="username"
                 android:ems="10"
                 android:inputType="text"
                 android:minHeight="@dimen/min_interactive_size" />
-
+            <!--TODO: Add show password -->
             <TextView
-                android:id="@+id/tvAccountError"
+                android:id="@+id/tvAuthUsernameError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/invalid_username"
@@ -100,7 +99,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/passwordLayout"
+            android:id="@+id/layoutAuthPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_lg"
@@ -109,18 +108,17 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutUsername"
+            app:layout_constraintTop_toBottomOf="@+id/layoutAuthUsername"
             app:layout_constraintWidth_max="@dimen/max_layout_width">
 
             <TextView
-                android:id="@+id/labelPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:labelFor="@id/etLoginPassword"
+                android:labelFor="@id/etAuthPassword"
                 android:text="@string/password" />
 
             <EditText
-                android:id="@+id/etLoginPassword"
+                android:id="@+id/etAuthPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="password"
@@ -129,7 +127,7 @@
                 android:minHeight="@dimen/min_interactive_size" />
 
             <TextView
-                android:id="@+id/tvPasswordError"
+                android:id="@+id/tvAuthPasswordError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/incorrect_password"
@@ -140,7 +138,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/actionLayout"
+            android:id="@+id/layoutAuthAction"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_lg"
@@ -149,22 +147,22 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
+            app:layout_constraintTop_toBottomOf="@+id/layoutAuthPassword"
             app:layout_constraintWidth_max="@dimen/max_btn_width">
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnAuthPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space_2xs"
                 android:text="@string/login" />
 
             <Button
-                android:id="@+id/btnCreateAccount"
+                android:id="@+id/btnAuthSecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary_50"
-                android:text="@string/createAccount"
+                android:text="@string/create_account"
                 android:textColor="@color/primary_600" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,6 +30,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".RegisterActivity"
+            android:exported="true"
+            android:theme="@style/Theme.WeightTracker"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.WeightTracker"
