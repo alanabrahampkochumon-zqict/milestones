@@ -34,25 +34,25 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:paddingTop="2dp"
         android:text="@string/text_motto"
         android:textSize="12sp"
-        android:paddingTop="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLogo" />
 
     <LinearLayout
         android:id="@+id/usernameLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:maxWidth="320dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMotto">
+        app:layout_constraintTop_toBottomOf="@+id/tvMotto"
+        app:layout_constraintWidth_max="480dp">
 
         <TextView
             android:id="@+id/labelUsername"
@@ -78,13 +78,13 @@
             android:text="@string/invalid_username"
             android:textAlignment="textEnd"
             android:textColor="@color/red_600"
-            android:visibility="gone"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/passwordLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
@@ -92,7 +92,8 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameLayout">
+        app:layout_constraintTop_toBottomOf="@+id/usernameLayout"
+        app:layout_constraintWidth_max="480dp">
 
         <TextView
             android:id="@+id/labelPassword"
@@ -116,9 +117,9 @@
             android:layout_height="wrap_content"
             android:text="@string/incorrect_password"
             android:textAlignment="textEnd"
-            android:visibility="gone"
             android:textColor="@color/red_600"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -131,7 +132,8 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLayout">
+        app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
+        app:layout_constraintWidth_max="320dp">
 
         <Button
             android:id="@+id/btnLogin"

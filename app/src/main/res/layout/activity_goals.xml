@@ -50,9 +50,9 @@
             android:layout_height="wrap_content"
             android:text="@string/name_error"
             android:textAlignment="textEnd"
-            android:visibility="gone"
             android:textColor="@color/red_600"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -180,7 +180,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:maxWidth="320dp"
         android:text="@string/get_started"
         app:layout_constraintEnd_toEndOf="@id/layoutGoalWeight"
         app:layout_constraintStart_toStartOf="@id/layoutGoalWeight"
