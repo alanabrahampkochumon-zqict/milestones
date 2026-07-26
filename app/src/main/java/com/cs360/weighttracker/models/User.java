@@ -13,7 +13,7 @@ public class User {
 
     private long userId;
     private String username;
-    private String hashedPassword;
+    private final String hashedPassword;
     private String fullName;
 
 

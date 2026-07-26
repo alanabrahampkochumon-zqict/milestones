@@ -23,4 +23,8 @@ public class ProfileViewModel extends ViewModel {
     public void logout() {
         // TODO: Implementation
     }
+
+    public void switchSMSSetting(boolean settingStatus) {
+        // TODO: Implementation
+    }
 }

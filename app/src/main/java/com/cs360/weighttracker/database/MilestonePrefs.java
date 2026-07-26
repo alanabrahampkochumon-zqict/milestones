@@ -11,7 +11,7 @@ public class MilestonePrefs {
     private final String CURRENT_SESSION_USER_ID = "user-id";
     private final String SMS_SETTING_KEY = "sms-settings";
 
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
     public MilestonePrefs(@NonNull Context context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);

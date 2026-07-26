@@ -7,7 +7,7 @@ package com.cs360.weighttracker.models;
 public class GoalWeight {
 
     private float currentWeight, goalWeight;
-    private long id;
+    private final long id;
 
     /**
      * Constructs a goal weight object with an id, current weight, and goal weight.

@@ -3,7 +3,8 @@ package com.cs360.weighttracker.models;
 public class DailyWeight {
 
     private float userWeight;
-    private long dateTime, id;
+    private long dateTime;
+    private final long id;
 
     /**
      * Constructs a Daily weight object with an id, user weight and datetime(in millis).
