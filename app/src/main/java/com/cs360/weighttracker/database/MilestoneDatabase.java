@@ -33,6 +33,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
 
         private static final String COL_USERNAME = "username";
         private static final String COL_PASSWORD_HASH = "password_hash";
+        private static final String COL_FULL_NAME = "full_name";
     }
 
     private static final class DailyWeightTable {
@@ -71,6 +72,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
                 UserTable.TABLE + " (" +
                 UserTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 UserTable.COL_USERNAME + " TEXT, " +
+                UserTable.COL_FULL_NAME + " TEXT, " +
                 UserTable.COL_PASSWORD_HASH + " TEXT)";
 
         String dailyWeightTableQuery = "CREATE TABLE " +
@@ -135,6 +137,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(UserTable.COL_USERNAME, user.getUserName());
         values.put(UserTable.COL_PASSWORD_HASH, user.getHashedPassword());
+        values.put(UserTable.COL_FULL_NAME, user.getFullName());
 
         // Insert the value into database
         return db.insert(UserTable.TABLE, null, values);
@@ -156,7 +159,8 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 long id = cursor.getLong(0);
                 String password = cursor.getString(2);
-                return new User(username, password, id);
+                String fullName = cursor.getString(3);
+                return new User(id, username, password, fullName);
             }
         } catch (Exception e) {
             Log.e(LogCategory.DATABASE, "There was an error getting the user.\n" + e.getMessage());
@@ -183,7 +187,8 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
                 long id = cursor.getLong(0);
                 String username = cursor.getString(1);
                 String password = cursor.getString(2);
-                return new User(username, password, id);
+                String fullName = cursor.getString(3);
+                return new User(id, username, password, fullName);
             }
         } catch (Exception e) {
             Log.e(LogCategory.DATABASE, "There was an validating the user.\n" + e.getMessage());
@@ -206,6 +211,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(UserTable.COL_USERNAME, user.getUserName());
         values.put(UserTable.COL_PASSWORD_HASH, user.getHashedPassword());
+        values.put(UserTable.COL_FULL_NAME, user.getFullName());
 
         int rowsUpdated = db.update(UserTable.TABLE, values, UserTable.COL_ID + " = ?", new String[]{String.valueOf(user.getUserId())});
 

@@ -92,6 +92,12 @@ public class MilestoneRepository {
     }
 
 
+    // Log Daily weight
+    // Delete daily weight
+    // Upsert goal weight
+    // Set user full name
+    // Get user full name
+
     /// ////////////////////////
     ///     USER WEIGHT    ///
     /// ///////////////////////

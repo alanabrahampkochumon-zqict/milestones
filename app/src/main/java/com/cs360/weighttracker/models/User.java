@@ -14,21 +14,24 @@ public class User {
     private long userId;
     private String username;
     private String hashedPassword;
+    private String fullName;
 
 
     /**
-     * Constructs user with a username, password, and a user id.
+     * Constructs user with a username, password, a user id, and a fullName.
      *
      * @param username The user's username.
      * @param password The user's password in hashed form.
-     * @param userId   The user unique identifier.
+     * @param userId   The user's unique identifier.
+     * @param fullName The user's full name.
      * @apiNote Passwords must not be stored in plain text.
      * Use helper provided in `PasswordHasher` to hash the password for storage.
      */
-    public User(String username, String password, long userId) {
+    public User(long userId, String username, String password, String fullName) {
         this.username = username;
         this.hashedPassword = password;
         this.userId = userId;
+        this.fullName = fullName;
     }
 
     /**
@@ -41,6 +44,7 @@ public class User {
         this.username = username;
         this.hashedPassword = password;
         this.userId = -1;
+        this.fullName = "";
     }
 
 
@@ -88,6 +92,11 @@ public class User {
     public long getUserId() {
         return userId;
     }
+
+    public String getFullName() {
+        return fullName;
+    }
+
 
     /// ////////////////////////
     ///       SETTERS      ///
