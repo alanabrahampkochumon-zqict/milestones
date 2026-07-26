@@ -15,7 +15,6 @@ import com.cs360.weighttracker.models.User;
 import com.cs360.weighttracker.utils.LogCategory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MilestoneDatabase extends SQLiteOpenHelper {
@@ -307,7 +306,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
                 long id = cursor.getLong(0);
                 float currentWeight = cursor.getFloat(1);
                 float goalWeight = cursor.getFloat(2);
-                return new GoalWeight(currentWeight, goalWeight, id);
+                return new GoalWeight(id, currentWeight, goalWeight);
             }
         } catch (Exception e) {
             Log.e(LogCategory.DATABASE, "There was an error getting the user's goal weight!\n" + e.getMessage());

@@ -39,7 +39,6 @@ public class MilestonePrefs {
         return sharedPreferences.getBoolean(SMS_SETTING_KEY, false);
     }
 
-    // Get current user
 
     /**
      * Set the current user's id into the shared preferences.
@@ -61,6 +60,9 @@ public class MilestonePrefs {
         return sharedPreferences.getLong(CURRENT_SESSION_USER_ID, -1);
     }
 
+    /**
+     * Delete the current user id from the shared preference.
+     */
     public void deleteCurrentUserId() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(CURRENT_SESSION_USER_ID);

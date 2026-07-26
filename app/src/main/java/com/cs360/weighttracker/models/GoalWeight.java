@@ -9,12 +9,31 @@ public class GoalWeight {
     private float currentWeight, goalWeight;
     private long id;
 
-    public GoalWeight(float currentWeight, float goalWeight, long id) {
+    /**
+     * Constructs a goal weight object with an id, current weight, and goal weight.
+     *
+     * @param id            The unique identifier of the goal weight.
+     * @param currentWeight The current weight of the user.
+     * @param goalWeight    The user's goal weight.
+     */
+    public GoalWeight(long id, float currentWeight, float goalWeight) {
         this.currentWeight = currentWeight;
         this.goalWeight = goalWeight;
         this.id = id;
     }
 
+
+    /**
+     * Constructs a goal weight object with the user's current weight, and goal weight.
+     *
+     * @param currentWeight The current weight of the user.
+     * @param goalWeight    The user's goal weight.
+     */
+    public GoalWeight(float currentWeight, float goalWeight) {
+        this.currentWeight = currentWeight;
+        this.goalWeight = goalWeight;
+        this.id = -1;
+    }
 
     /// ////////////////////////
     ///       GETTERS      ///
