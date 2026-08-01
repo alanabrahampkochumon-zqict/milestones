@@ -3,6 +3,7 @@
     <string name="username">Username</string>
     <string name="hint_username">jane.doe</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="login">Login</string>
     <string name="create_account">Create Account</string>
     <string name="your_progress_so_far">Your Progress so far</string>
@@ -44,4 +45,6 @@
     <string name="login_title">Login to your account</string>
     <string name="register_title">Create an account to get started!</string>
     <string name="invalid_password">Password must contain 8 characters and must have a digit</string>
+    <string name="show_password">Show password</string>
+    <string name="show_confirm_password">Show confirm password</string>
 </resources>

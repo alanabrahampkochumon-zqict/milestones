@@ -108,7 +108,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutAuthUsername"
+            app:layout_constraintTop_toBottomOf="@id/layoutAuthUsername"
             app:layout_constraintWidth_max="@dimen/max_layout_width">
 
             <TextView
@@ -117,14 +117,30 @@
                 android:labelFor="@id/etAuthPassword"
                 android:text="@string/password" />
 
-            <EditText
-                android:id="@+id/etAuthPassword"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="password"
-                android:ems="10"
-                android:inputType="textPassword"
-                android:minHeight="@dimen/min_interactive_size" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etAuthPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autofillHints="password"
+                    android:ems="10"
+                    android:inputType="textPassword"
+                    android:minHeight="@dimen/min_interactive_size" />
+
+                <ImageButton
+                    android:id="@+id/btnAuthPasswordVisible"
+                    android:layout_width="@dimen/min_interactive_size"
+                    android:layout_height="@dimen/min_interactive_size"
+                    android:backgroundTint="@color/transparent"
+                    android:contentDescription="@string/show_confirm_password"
+                    app:srcCompat="@drawable/visibility_on"
+                    app:tint="@color/slate_800" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvAuthPasswordError"
@@ -135,6 +151,64 @@
                 android:textColor="@color/red_600"
                 android:textSize="@dimen/fs_sm"
                 android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAuthConfirmPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_lg"
+            android:layout_marginTop="@dimen/space_sm"
+            android:layout_marginEnd="@dimen/space_lg"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutAuthPassword"
+            app:layout_constraintWidth_max="@dimen/max_layout_width">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/etAuthConfirmPassword"
+                android:text="@string/confirm_password" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etAuthConfirmPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autofillHints="password"
+                    android:ems="10"
+                    android:inputType="textPassword"
+                    android:minHeight="@dimen/min_interactive_size" />
+
+                <ImageButton
+                    android:id="@+id/btnAuthConfirmPasswordVisible"
+                    android:layout_width="@dimen/min_interactive_size"
+                    android:layout_height="@dimen/min_interactive_size"
+                    android:backgroundTint="@color/transparent"
+                    android:contentDescription="@string/show_password"
+                    app:srcCompat="@drawable/visibility_on"
+                    app:tint="@color/slate_800" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvAuthConfirmPasswordError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/incorrect_password"
+                android:textAlignment="textEnd"
+                android:textColor="@color/red_600"
+                android:textSize="@dimen/fs_sm"
+                android:visibility="gone" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -147,7 +221,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutAuthPassword"
+            app:layout_constraintTop_toBottomOf="@+id/layoutAuthConfirmPassword"
             app:layout_constraintWidth_max="@dimen/max_btn_width">
 
             <Button
