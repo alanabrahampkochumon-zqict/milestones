@@ -1,22 +1,26 @@
 package com.cs360.weighttracker.viewmodels.states;
 
-class LoginScreenState {
+class RegisterScreenState {
 
-    private String username, password, usernameError, passwordError;
+    private String username, password, confirmPassword, usernameError, passwordError, confirmPasswordError;
+
 
     /**
      * Create a login state instance.
      */
-    public LoginScreenState(String username, String password, String usernameError, String passwordError) {
-        this.username = username;
-        this.password = password;
-        this.usernameError = usernameError;
-        this.passwordError = passwordError;
+    public RegisterScreenState() {
+        this.username = "";
+        this.password = "";
+        this.usernameError = "";
+        this.passwordError = "";
+        this.confirmPassword = "";
+        this.confirmPasswordError = "";
     }
 
 
     /// /////////////////////////
     /// GETTERS
+
     public String getUsername() {
         return username;
     }
@@ -33,9 +37,19 @@ class LoginScreenState {
         return passwordError;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public String getConfirmPasswordError() {
+        return confirmPasswordError;
+    }
+
 
     /// /////////////////////////
     /// SETTERS
+    ///
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -51,4 +65,13 @@ class LoginScreenState {
     public void setPasswordError(String passwordError) {
         this.passwordError = passwordError;
     }
+
+    public void setConfirmPasswordError(String confirmPasswordError) {
+        this.confirmPasswordError = confirmPasswordError;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
 }
