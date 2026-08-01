@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvHistoryItemWeight" />
 
     <ImageButton
-        android:id="@+id/btnWeightItemDelete"
+        android:id="@+id/btnHistoryItemDelete"
         android:layout_width="@dimen/min_interactive_size"
         android:layout_height="@dimen/min_interactive_size"
         android:layout_marginStart="@dimen/space_3xs"
