@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvAddWeightTitle">
 
         <EditText
-            android:id="@+id/etDetailsCurrentWeight"
+            android:id="@+id/etAddWeightDialogWeight"
             android:layout_width="0dp"
             android:layout_height="@dimen/min_interactive_size"
             android:layout_marginEnd="@dimen/space_xs"
@@ -49,12 +49,12 @@
             android:text="@string/kg"
             android:textColor="@color/slate_900"
             android:textSize="@dimen/fs_xl"
-            app:layout_constraintBottom_toBottomOf="@id/etDetailsCurrentWeight"
+            app:layout_constraintBottom_toBottomOf="@id/etAddWeightDialogWeight"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/etDetailsCurrentWeight" />
+            app:layout_constraintTop_toTopOf="@id/etAddWeightDialogWeight" />
 
         <TextView
-            android:id="@+id/tvWeightError"
+            android:id="@+id/tvAddWeightDialogWeightError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/space_2xs"
@@ -65,7 +65,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etDetailsCurrentWeight" />
+            app:layout_constraintTop_toBottomOf="@id/etAddWeightDialogWeight" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@id/layoutWeightInput">
 
         <Button
-            android:id="@+id/btnAddWeightCancel"
+            android:id="@+id/btnAddWeightDialogCancel"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
             android:textColor="@color/slate_700" />
 
         <Button
-            android:id="@+id/btnAddWeightLog"
+            android:id="@+id/btnAddWeightDialogLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_2xs"

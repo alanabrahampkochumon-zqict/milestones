@@ -47,7 +47,7 @@ public class GoalsActivity extends AppCompatActivity {
      */
     private void setupUI() {
         fullNameEditText = findViewById(R.id.etDetailsFullName);
-        currentWeightEditText = findViewById(R.id.etDetailsCurrentWeight);
+        currentWeightEditText = findViewById(R.id.etAddWeightDialogWeight);
         goalWeightEditText = findViewById(R.id.etDetailsGoalWeight);
 
         fullNameErrorTextview = findViewById(R.id.tvDetailsFullNameError);

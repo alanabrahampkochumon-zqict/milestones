@@ -12,6 +12,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cs360.weighttracker.components.AddWeightDialog;
 import com.cs360.weighttracker.database.MilestoneRepository;
 import com.cs360.weighttracker.models.User;
 import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
@@ -66,6 +67,8 @@ public class HomeActivity extends AppCompatActivity {
         // from the navigation will take place
         trackWeightButton.setOnClickListener(view -> {
             Log.d("Track Weight", "Tracking weight");
+            AddWeightDialog dialog = new AddWeightDialog();
+            dialog.show(getSupportFragmentManager(), "addWeightDialog");
         });
 
         profileImage.setOnClickListener(view -> navigateToProfile());
