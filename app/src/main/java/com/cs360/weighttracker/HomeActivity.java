@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 
@@ -71,13 +72,20 @@ public class HomeActivity extends AppCompatActivity {
             dialog.show(getSupportFragmentManager(), Constants.ADD_NEW_WEIGHT_REQUEST_KEY);
         });
 
+        // Add event listener for the dialog
+        getSupportFragmentManager().setFragmentResultListener(Constants.ADD_NEW_WEIGHT_REQUEST_KEY, this, ((requestKey, result) -> {
+            float weight = result.getFloat(Constants.NEW_WEIGHT_BUNDLE_KEY);
+            repository.logDailyWeight(weight);
+
+            // TODO: Refresh data
+            Toast.makeText(this, this.getString(R.string.weight_added_successfully), Toast.LENGTH_SHORT).show();
+        }));
+
         profileImage.setOnClickListener(view -> navigateToProfile());
     }
-
 
     private void navigateToProfile() {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
-
 }

@@ -108,21 +108,3 @@ public class AddWeightDialog extends DialogFragment {
     }
 
 }
-
-// Inside HomeActivity.java onCreate()
-//@Override
-//protected void onCreate(Bundle savedInstanceState) {
-//    super.onCreate(savedInstanceState);
-//    setContentView(R.layout.activity_home);
-//
-//    // Listen for the dialog's result
-//    getSupportFragmentManager().setFragmentResultListener("add_weight_request", this, (requestKey, bundle) -> {
-//
-//        // 1. Extract the data the dialog sent
-//        float newWeight = bundle.getFloat("new_weight");
-//
-//        // 2. Run your save -> refresh cycle!
-//        repository.logDailyWeight(newWeight);
-//        refreshRecyclerView();
-//    });
-//}
