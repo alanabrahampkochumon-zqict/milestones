@@ -13,6 +13,9 @@ import com.cs360.weighttracker.models.User;
 import com.cs360.weighttracker.utils.LogCategory;
 import com.cs360.weighttracker.utils.PasswordHasher;
 
+import java.util.Collections;
+import java.util.List;
+
 public class MilestoneRepository {
 
     private static MilestoneRepository instance;
@@ -226,6 +229,25 @@ public class MilestoneRepository {
             Log.e(LogCategory.REPOSITORY, "There was error logging the user weight!\n" + e.getMessage());
         }
         return false;
+    }
+
+
+    /**
+     * Get all the logged daily weights for the currently logged-in user.
+     *
+     * @return List of daily weights or an empty list if an error occurs of if the user has no daily weight logged.
+     */
+    public List<DailyWeight> getDailyWeights() {
+        try {
+            // Get the user logged-in user's id
+            long currentUserId = sharedPref.getCurrentUserId();
+            if (currentUserId == -1) // There is no current user
+                return Collections.emptyList();
+            return database.getDailyWeights(currentUserId);
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was an error retrieving user's daily weights.\n" + e.getMessage());
+        }
+        return Collections.emptyList();
     }
 
 

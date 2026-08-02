@@ -22,9 +22,9 @@ public class WeightItemViewHolder extends RecyclerView.ViewHolder {
 
     public WeightItemViewHolder(LayoutInflater inflater, ViewGroup parent) {
         super(inflater.inflate(R.layout.weight_item, parent, false));
-        this.weightTextView = parent.findViewById(R.id.tvHistoryItemWeight);
-        this.dateTextView = parent.findViewById(R.id.tvHistoryItemDate);
-        this.deleteWeightItemButton = parent.findViewById(R.id.btnHistoryItemDelete);
+        this.weightTextView = itemView.findViewById(R.id.tvHistoryItemWeight);
+        this.dateTextView = itemView.findViewById(R.id.tvHistoryItemDate);
+        this.deleteWeightItemButton = itemView.findViewById(R.id.btnHistoryItemDelete);
     }
 
     public void bind(DailyWeight weight) { // TODO: BIND Callback

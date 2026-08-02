@@ -3,6 +3,7 @@ package com.cs360.weighttracker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,9 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cs360.weighttracker.components.AddWeightDialog;
+import com.cs360.weighttracker.components.WeightItemAdapter;
 import com.cs360.weighttracker.database.MilestoneRepository;
+import com.cs360.weighttracker.models.DailyWeight;
 import com.cs360.weighttracker.models.User;
-import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -45,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         setupEvents();
     }
 
+
     /**
      * Query and attach each view instance from XML layout.
      */
@@ -57,8 +62,21 @@ public class HomeActivity extends AppCompatActivity {
         // Setup UI Text
         String fullName = currentUser.getFullName();
         fullNameTextView.setText(fullName);
+
+        setupRecyclerView();
     }
 
+
+    private void setupRecyclerView() {
+
+        View.OnClickListener onClickListener = itemView -> {
+            // TODO: OnDelete
+            Log.d("Clicked", "Item " + itemView.toString() + " was clicked!");
+        };
+
+        List<DailyWeight> weightList = repository.getDailyWeights();
+        progressHistoryRecyclerView.setAdapter(new WeightItemAdapter(weightList, onClickListener));
+    }
 
     /**
      * Sets up the event listeners necessary for all the views.
@@ -75,10 +93,11 @@ public class HomeActivity extends AppCompatActivity {
         // Add event listener for the dialog
         getSupportFragmentManager().setFragmentResultListener(Constants.ADD_NEW_WEIGHT_REQUEST_KEY, this, ((requestKey, result) -> {
             float weight = result.getFloat(Constants.NEW_WEIGHT_BUNDLE_KEY);
-            repository.logDailyWeight(weight);
 
-            // TODO: Refresh data
-            Toast.makeText(this, this.getString(R.string.weight_added_successfully), Toast.LENGTH_SHORT).show();
+            if (repository.logDailyWeight(weight)) {
+                // TODO: Refresh data
+                Toast.makeText(this, this.getString(R.string.weight_added_successfully), Toast.LENGTH_SHORT).show();
+            }
         }));
 
         profileImage.setOnClickListener(view -> navigateToProfile());
