@@ -20,7 +20,7 @@
     <string name="notification_setting_label">Notify upon goal completion</string>
     <string name="settings">Settings</string>
     <string name="weight_lost_pattern">0.0KG lost of 0.0 KG</string>
-    <string name="update_goal">Update Goal</string>
+    <string name="update_profile">Update Profile</string>
     <string name="sms_permission_required">Enable Goal Alerts</string>
     <string name="tvHomeUsername">Hannah</string>
     <string name="greeting">Good morning</string>
@@ -59,4 +59,7 @@
     <string name="goal_update_error">There was an error updating your weight goals.</string>
     <string name="weight_added_successfully">New weight tracked!</string>
     <string name="delete">Delete</string>
+    <string name="navigate_back">Navigate back</string>
+    <string name="weight_loss_progress">%02.02f KG lost of %02.02f</string>
+    <string name="weight_gain_progress">%02.02f KG gained of %02.02f</string>
 </resources>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:paddingTop="@dimen/space_lg"
     android:paddingBottom="@dimen/space_xl">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,18 +13,34 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/space_sm">
 
-        <TextView
-            android:id="@+id/tvAccountHeading"
+        <LinearLayout
+            android:id="@+id/layoutProfileTopAppbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_sm"
             android:layout_marginTop="@dimen/space_xl"
-            android:text="@string/your_account"
-            android:textColor="@color/slate_900"
-            android:textSize="@dimen/fs_3xl"
-            android:textStyle="bold"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnProfileNavigateBack"
+                android:layout_width="@dimen/min_interactive_size"
+                android:layout_height="@dimen/min_interactive_size"
+                android:backgroundTint="@color/transparent"
+                android:contentDescription="@string/navigate_back"
+                android:src="@drawable/chevron_back"
+                app:tint="@color/slate_800" />
+
+            <TextView
+                android:id="@+id/tvAccountHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/your_account"
+                android:textColor="@color/slate_900"
+                android:textSize="@dimen/fs_3xl"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imgViewProfilePicture"
@@ -32,13 +49,13 @@
             android:layout_marginTop="@dimen/space_md"
             android:contentDescription="@string/profile_picture"
             android:src="@drawable/account_icon"
-            app:layout_constraintStart_toStartOf="@id/tvAccountHeading"
-            app:layout_constraintTop_toBottomOf="@id/tvAccountHeading"
+            app:layout_constraintStart_toStartOf="@id/layoutProfileTopAppbar"
+            app:layout_constraintTop_toBottomOf="@id/layoutProfileTopAppbar"
             app:tint="@color/slate_500" />
 
 
         <TextView
-            android:id="@+id/tvHomeFullName"
+            android:id="@+id/tvProfileFullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_xs"
@@ -52,13 +69,13 @@
 
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnProfileUpdateProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/space_sm"
-            android:text="@string/update_goal"
+            android:text="@string/update_profile"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvHomeFullName" />
+            app:layout_constraintTop_toTopOf="@+id/tvProfileFullName" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -66,12 +83,12 @@
             android:layout_marginTop="@dimen/space_2xs"
             android:layout_marginEnd="@dimen/space_sm"
             android:orientation="vertical"
-            app:layout_constraintEnd_toStartOf="@+id/button"
-            app:layout_constraintStart_toStartOf="@+id/tvHomeFullName"
-            app:layout_constraintTop_toBottomOf="@id/tvHomeFullName">
+            app:layout_constraintEnd_toStartOf="@+id/btnProfileUpdateProfile"
+            app:layout_constraintStart_toStartOf="@+id/tvProfileFullName"
+            app:layout_constraintTop_toBottomOf="@id/tvProfileFullName">
 
             <ProgressBar
-                android:id="@+id/progressWeightChange"
+                android:id="@+id/pbProfileWeightChange"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,13 +96,13 @@
                 android:progressTint="@color/mint_500" />
 
             <TextView
-                android:id="@+id/tvWeightChange"
+                android:id="@+id/tvProfileWeightChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_4xs"
                 android:text="@string/weight_lost_pattern"
-                app:layout_constraintStart_toStartOf="@+id/progressWeightChange"
-                app:layout_constraintTop_toBottomOf="@+id/progressWeightChange" />
+                app:layout_constraintStart_toStartOf="@+id/pbProfileWeightChange"
+                app:layout_constraintTop_toBottomOf="@+id/pbProfileWeightChange" />
         </LinearLayout>
 
 
@@ -142,7 +159,7 @@
             </LinearLayout>
 
             <Switch
-                android:id="@+id/toggleNotificationSetting"
+                android:id="@+id/switchProfileNotificationSetting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/min_interactive_size"
@@ -151,7 +168,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnLogout"
+            android:id="@+id/btnProfileLogout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_xl"

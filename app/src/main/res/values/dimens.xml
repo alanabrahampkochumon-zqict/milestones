@@ -30,4 +30,5 @@
 
     <!--  COMPONENT  -->
     <dimen name="profile_icon_size">96dp</dimen>
+    <dimen name="space_neg_icon">-16dp</dimen>
 </resources>
