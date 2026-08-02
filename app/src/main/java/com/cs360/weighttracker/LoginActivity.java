@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cs360.weighttracker.database.MilestoneRepository;
 import com.cs360.weighttracker.database.status.LoginStatus;
+import com.cs360.weighttracker.models.User;
 import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
 import com.cs360.weighttracker.validators.PasswordValidator;
 import com.cs360.weighttracker.validators.UsernameValidator;
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_auth);
 
+        navigateOnUserAuth();
+
         // Attach to application context to ensure the repository share the application's lifetime
         // not getting recreated for every shared activity.
         repository = MilestoneRepository.getInstance(getApplicationContext());
@@ -45,6 +48,26 @@ public class LoginActivity extends AppCompatActivity {
         setupEvents();
 
     }
+
+    private void navigateOnUserAuth() {
+        User user = repository.getCurrentUser();
+        if (user == null) {
+            navigateToGoals();
+            return; // Required to prevent NPE on user.getUserId()
+        }
+
+        boolean userHasGoalSet = repository.userHasGoalSet(user.getUserId());
+        if (userHasGoalSet)
+            navigateToHome();
+    }
+
+
+    private void navigateToGoals() {
+        Intent intent = new Intent(this, GoalsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
 
     /**
      * Query and attach each view instance from XML layout.

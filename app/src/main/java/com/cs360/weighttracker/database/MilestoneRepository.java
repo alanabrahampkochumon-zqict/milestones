@@ -237,14 +237,9 @@ public class MilestoneRepository {
      */
     public boolean userHasGoalSet(long userId) {
         try {
-            // NOTE: Upsert logic is handled by the database so there is no need to check it here
-            // Get the user logged-in user's id
-            long currentUserId = sharedPref.getCurrentUserId();
-            if (currentUserId == -1) // There is no current user
-                return false;
             return database.getGoalWeight(userId) != null;
         } catch (Exception e) {
-            Log.e(LogCategory.REPOSITORY, "There was error logging the user weight!\n" + e.getMessage());
+            Log.e(LogCategory.REPOSITORY, "There was error retrieving the user's goal weight!\n" + e.getMessage());
         }
         return false;
     }
