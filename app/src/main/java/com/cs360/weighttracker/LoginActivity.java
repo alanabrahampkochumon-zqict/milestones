@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cs360.weighttracker.database.MilestoneRepository;
 import com.cs360.weighttracker.database.status.LoginStatus;
+import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
 import com.cs360.weighttracker.validators.PasswordValidator;
 import com.cs360.weighttracker.validators.UsernameValidator;
 
@@ -27,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton, registerButton;
 
     MilestoneRepository repository;
+    ImageButton passwordVisibilityToggleButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         pageTitleTextView = findViewById(R.id.tvAuthTitle);
         usernameErrorTextView = findViewById(R.id.tvAuthUsernameError);
         passwordErrorTextView = findViewById(R.id.tvAuthPasswordError);
+        passwordVisibilityToggleButton = findViewById(R.id.btnAuthPasswordVisibility);
 
         // Setup UI Text
         // Since we are using the auth layout for both login and register
@@ -73,6 +77,9 @@ public class LoginActivity extends AppCompatActivity {
         });
         registerButton.setOnClickListener(view -> {
             navigateToRegister();
+        });
+        passwordVisibilityToggleButton.setOnClickListener(view -> {
+            PasswordVisibilityToggler.togglePasswordState(passwordEditText, passwordVisibilityToggleButton);
         });
 
         // If the text changes after an edit, the error state must be reset

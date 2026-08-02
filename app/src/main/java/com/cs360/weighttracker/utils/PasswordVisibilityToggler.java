@@ -1,6 +1,9 @@
 package com.cs360.weighttracker.utils;
 
 import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -16,17 +19,24 @@ public final class PasswordVisibilityToggler {
      * @implNote Uses the passed-in edittext's internal state to toggle visibility.
      */
     public static void togglePasswordState(EditText passwordEditText, ImageButton visibilityButton) {
-        // Get the edittext's current visibility
-        // Visible if edit text is normal text field
-        boolean isVisible = passwordEditText.getInputType() == InputType.TYPE_CLASS_TEXT;
+        // Check if the password is visible
+        int variation = passwordEditText.getInputType() & InputType.TYPE_MASK_VARIATION;
+        boolean isVisible = (variation == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
-        // If currently visibly toggle to password text
+        // Cursor position is reset when we toggle edit text type, so we need to save it
+        // and restore after transformation
+        int cursorPosition = passwordEditText.getSelectionStart();
+
         if (isVisible) {
-            passwordEditText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            // It is currently visible, hide it
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             visibilityButton.setImageResource(R.drawable.visibility_on);
-        } else { // Otherwise toggle to normal text
-            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        } else {
+            // It is currently hidden, show it
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             visibilityButton.setImageResource(R.drawable.visibility_off);
         }
+        // Restore cursor position to the end
+        passwordEditText.setSelection(cursorPosition);
     }
 }

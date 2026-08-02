@@ -133,7 +133,7 @@
                     android:minHeight="@dimen/min_interactive_size" />
 
                 <ImageButton
-                    android:id="@+id/btnAuthPasswordVisible"
+                    android:id="@+id/btnAuthPasswordVisibility"
                     android:layout_width="@dimen/min_interactive_size"
                     android:layout_height="@dimen/min_interactive_size"
                     android:backgroundTint="@color/transparent"
