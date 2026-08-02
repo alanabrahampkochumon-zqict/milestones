@@ -38,11 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_auth);
 
-        navigateOnUserAuth();
 
         // Attach to application context to ensure the repository share the application's lifetime
         // not getting recreated for every shared activity.
         repository = MilestoneRepository.getInstance(getApplicationContext());
+        // Repo must be initialized before navigation
+        navigateOnUserAuth();
 
         setupUI();
         setupEvents();
@@ -51,14 +52,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void navigateOnUserAuth() {
         User user = repository.getCurrentUser();
-        if (user == null) {
-            navigateToGoals();
-            return; // Required to prevent NPE on user.getUserId()
+        if (user != null) {
+            boolean userHasGoalSet = repository.userHasGoalSet(user.getUserId());
+            if (userHasGoalSet)
+                navigateToHome();
+            else
+                navigateToGoals();
         }
-
-        boolean userHasGoalSet = repository.userHasGoalSet(user.getUserId());
-        if (userHasGoalSet)
-            navigateToHome();
     }
 
 
