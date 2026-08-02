@@ -50,24 +50,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void navigateOnUserAuth() {
-        User user = repository.getCurrentUser();
-        if (user != null) {
-            boolean userHasGoalSet = repository.userHasGoalSet(user.getUserId());
-            if (userHasGoalSet)
-                navigateToHome();
-            else
-                navigateToGoals();
-        }
-    }
-
-
-    private void navigateToGoals() {
-        Intent intent = new Intent(this, GoalsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
-
 
     /**
      * Query and attach each view instance from XML layout.
@@ -112,17 +94,6 @@ public class LoginActivity extends AppCompatActivity {
 
     // TODO: Fix layout not scrolling up when pw field is focused
 
-    /**
-     * Navigate to the register page.
-     *
-     * @implNote This will not clear the "navigation stack" i.e,
-     * the register activity will be placed on top of the login screen.
-     */
-    private void navigateToRegister() {
-        Intent i = new Intent(this, RegisterActivity.class);
-        startActivity(i);
-    }
-
 
     /**
      * Performs validation on the login credentials.
@@ -150,6 +121,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Performs validation on the login credentials and logs the user into the application.
+     */
     private void login() {
         // Store the state locally in the function rather than querying it
         // per function call to ensure that the validated username and password
@@ -187,18 +161,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     /**
-     * Navigates the user to the home activity.
-     *
-     * @implNote The "navigation backstack" is cleared.
-     */
-    private void navigateToHome() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
-
-
-    /**
      * TextWatcher for clearing error states when username or password updates.
      */
     private class ResetErrorStateTextWatcher implements TextWatcher {
@@ -224,4 +186,56 @@ public class LoginActivity extends AppCompatActivity {
         usernameErrorTextView.setVisibility(View.GONE);
         passwordErrorTextView.setVisibility(View.GONE);
     }
+
+
+    /**
+     * Handles navigation based on user session and whether user has a goal set.
+     */
+    private void navigateOnUserAuth() {
+        User user = repository.getCurrentUser();
+        if (user != null) {
+            boolean userHasGoalSet = repository.userHasGoalSet(user.getUserId());
+            if (userHasGoalSet)
+                navigateToHome();
+            else
+                navigateToGoals();
+        }
+    }
+
+
+    /**
+     * Handles navigation to goals activity.
+     *
+     * @implNote The "navigation backstack" is cleared.
+     */
+    private void navigateToGoals() {
+        Intent intent = new Intent(this, GoalsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+
+    /**
+     * Handles user to the main(home) activity.
+     *
+     * @implNote The "navigation backstack" is cleared.
+     */
+    private void navigateToHome() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+
+    /**
+     * Handles navigation to the register activity.
+     *
+     * @implNote This will not clear the "navigation stack" i.e,
+     * the register activity will be placed on top of the login screen.
+     */
+    private void navigateToRegister() {
+        Intent i = new Intent(this, RegisterActivity.class);
+        startActivity(i);
+    }
+
 }
