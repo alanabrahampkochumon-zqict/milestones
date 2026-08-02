@@ -4,16 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cs360.weighttracker.database.MilestoneRepository;
+import com.cs360.weighttracker.database.status.LoginStatus;
 import com.cs360.weighttracker.validators.PasswordValidator;
 import com.cs360.weighttracker.validators.UsernameValidator;
 
@@ -24,16 +26,26 @@ public class LoginActivity extends AppCompatActivity {
     EditText usernameEditText, passwordEditText;
     Button loginButton, registerButton;
 
+    MilestoneRepository repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_auth);
 
+        // Attach to application context to ensure the repository share the application's lifetime
+        // not getting recreated for every shared activity.
+        repository = MilestoneRepository.getInstance(getApplicationContext());
+
         setupUI();
         setupEvents();
+
     }
 
+    /**
+     * Query and attach each view instance from XML layout.
+     */
     private void setupUI() {
         usernameEditText = findViewById(R.id.etAuthUsername);
         passwordEditText = findViewById(R.id.etAuthPassword);
@@ -52,6 +64,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Sets up the event listeners necessary for all the views.
+     */
     private void setupEvents() {
         loginButton.setOnClickListener(view -> {
             login();
@@ -66,37 +81,88 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Navigate to the register page.
+     *
+     * @implNote This will not clear the "navigation stack" i.e,
+     * the register activity will be placed on top of the login screen.
+     */
     private void navigateToRegister() {
         Intent i = new Intent(this, RegisterActivity.class);
         startActivity(i);
     }
 
-    private void validateLogin() {
-        String username = usernameEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
 
+    /**
+     * Performs validation on the login credentials.
+     *
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @return A boolean indicating whether the validation was successful.
+     */
+    private boolean validateLogin(String username, String password) {
+
+        boolean isValidLogin = true;
         if (!UsernameValidator.validate(username)) {
             usernameErrorTextView.setText(getApplicationContext().getString(R.string.invalid_username));
             usernameErrorTextView.setVisibility(View.VISIBLE);
+            isValidLogin = false;
         }
 
         if (!PasswordValidator.validate(password)) {
             passwordErrorTextView.setText(getApplicationContext().getString(R.string.invalid_password));
             passwordErrorTextView.setVisibility(View.VISIBLE);
+            isValidLogin = false;
         }
 
+        return isValidLogin;
     }
 
-    /**
-     * Reset the error state of the text views.
-     */
-    private void resetErrorState() {
-        usernameErrorTextView.setVisibility(View.GONE);
-        passwordErrorTextView.setVisibility(View.GONE);
-    }
 
     private void login() {
-        validateLogin();
+        // Store the state locally in the function rather than querying it
+        // per function call to ensure that the validated username and password
+        // is what gets passed down to the login function.
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+
+        boolean isLoginValid = validateLogin(username, password);
+        if (isLoginValid) {
+            LoginStatus status = repository.loginUser(username, password);
+
+            switch (status) {
+                case USERNAME_ERROR:
+                    usernameErrorTextView.setText(getApplicationContext().getString(R.string.no_user_match));
+                    usernameErrorTextView.setVisibility(View.VISIBLE);
+                    break;
+                case PASSWORD_ERROR:
+                    passwordErrorTextView.setText(getApplicationContext().getString(R.string.incorrect_password));
+                    passwordErrorTextView.setVisibility(View.VISIBLE);
+                    break;
+                case SUCCESS:
+                    // We are not navigating to goals activity
+                    // since we assume that the user has goal set
+                    // indicated by the login rather than a register.
+                    navigateToHome();
+                    break;
+                case UNKNOWN_FAILURE:
+                    Toast.makeText(this, R.string.unknown_error_signin, Toast.LENGTH_LONG).show();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+
+    /**
+     * Navigates the user to the home activity.
+     * @implNote The "navigation backstack" is cleared.
+     */
+    private void navigateToHome() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     /// Establish flow
@@ -119,5 +185,13 @@ public class LoginActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             resetErrorState();
         }
+    }
+
+    /**
+     * Reset the error state of the text views.
+     */
+    private void resetErrorState() {
+        usernameErrorTextView.setVisibility(View.GONE);
+        passwordErrorTextView.setVisibility(View.GONE);
     }
 }
