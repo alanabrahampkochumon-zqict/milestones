@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,18 +73,36 @@ public class AddWeightDialog extends DialogFragment {
                 Bundle result = new Bundle();
                 result.putFloat(Constants.NEW_WEIGHT_BUNDLE_KEY, weight);
                 getParentFragmentManager().setFragmentResult(Constants.ADD_NEW_WEIGHT_REQUEST_KEY, result);
+
+                // Dismiss the dialog
+                dismiss();
             } catch (Exception e) {
                 weightErrorTextView.setText(requireContext().getString(R.string.weight_error));
                 weightErrorTextView.setVisibility(View.VISIBLE);
             }
-
-
         });
 
         // If cancel button is pressed, then close the dialog
         cancelButton.setOnClickListener(view -> {
             assert AddWeightDialog.this.getDialog() != null;
             AddWeightDialog.this.getDialog().cancel();
+        });
+
+
+        weightEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Remove the error text when we update the weight dialog's edit text
+                weightErrorTextView.setVisibility(View.GONE);
+            }
         });
 
     }
