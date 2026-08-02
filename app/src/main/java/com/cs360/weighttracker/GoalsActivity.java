@@ -12,13 +12,12 @@ import androidx.activity.EdgeToEdge;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
-
 public class GoalsActivity extends AppCompatActivity {
 
 
     private EditText fullNameEditText, currentWeightEditText, goalWeightEditText;
     private Button getStartedButton;
+    private TextView fullNameErrorTextview, currentWeightErrorTextView, goalWeightErrorTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +37,11 @@ public class GoalsActivity extends AppCompatActivity {
         fullNameEditText = findViewById(R.id.etDetailsFullName);
         currentWeightEditText = findViewById(R.id.etDetailsCurrentWeight);
         goalWeightEditText = findViewById(R.id.etDetailsGoalWeight);
+
+        fullNameErrorTextview = findViewById(R.id.tvDetailsFullNameError);
+        currentWeightErrorTextView = findViewById(R.id.tvDetailsCurrentWeightError);
+        goalWeightErrorTextView = findViewById(R.id.tvDetailsGoalWeightError);
+
         getStartedButton = findViewById(R.id.btnDetailsGetStarted);
     }
 
@@ -90,9 +94,9 @@ public class GoalsActivity extends AppCompatActivity {
      * Reset the error state of the text views.
      */
     private void resetErrorState() {
-        fullNameEditText.setVisibility(View.GONE);
-        currentWeightEditText.setVisibility(View.GONE);
-        goalWeightEditText.setVisibility(View.GONE);
+        fullNameErrorTextview.setVisibility(View.GONE);
+        currentWeightErrorTextView.setVisibility(View.GONE);
+        goalWeightErrorTextView.setVisibility(View.GONE);
     }
 
 }

@@ -52,7 +52,7 @@
                 android:inputType="textPersonName" />
 
             <TextView
-                android:id="@+id/tvNameError"
+                android:id="@+id/tvDetailsFullNameError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/name_error"
@@ -106,7 +106,7 @@
                 app:layout_constraintTop_toTopOf="@id/etDetailsCurrentWeight" />
 
             <TextView
-                android:id="@+id/tvCurrentWeightError"
+                android:id="@+id/tvDetailsCurrentWeightError"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/space_2xs"
@@ -164,7 +164,7 @@
                 app:layout_constraintTop_toTopOf="@id/etDetailsGoalWeight" />
 
             <TextView
-                android:id="@+id/tvGoalWeightError"
+                android:id="@+id/tvDetailsGoalWeightError"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/space_2xs"
