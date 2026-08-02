@@ -86,7 +86,6 @@
                 android:ems="10"
                 android:inputType="text"
                 android:minHeight="@dimen/min_interactive_size" />
-            <!--TODO: Add show password -->
             <TextView
                 android:id="@+id/tvAuthUsernameError"
                 android:layout_width="match_parent"

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cs360.weighttracker.R;
 import com.cs360.weighttracker.models.DailyWeight;
 import com.cs360.weighttracker.utils.DateFormatter;
+import com.cs360.weighttracker.utils.WeightFormatter;
 
 public class WeightItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -29,7 +30,8 @@ public class WeightItemViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(DailyWeight weight, WeightItemRemoveListener onDeleteListener) {
         dateTextView.setText(DateFormatter.fromMillis(weight.getDateTimeMillis()));
-        weightTextView.setText(String.valueOf(weight.getUserWeight())); // TODO: Add string formatter
+
+        weightTextView.setText(WeightFormatter.format(weight.getUserWeight()));
         // Attach the on delete method call.
         deleteWeightItemButton.setOnClickListener(view -> onDeleteListener.onRemove(weight.getId()));
     }

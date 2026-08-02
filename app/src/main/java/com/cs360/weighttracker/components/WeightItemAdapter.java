@@ -45,7 +45,8 @@ public class WeightItemAdapter extends RecyclerView.Adapter<WeightItemViewHolder
     public void updateData(List<DailyWeight> newWeights) {
         this.dailyWeights.clear();
         this.dailyWeights.addAll(newWeights);
-        notifyDataSetChanged(); // Since we are removing and reintroducing all the item we need to call this to refresh the dataset.
+        // Since we are removing and reintroducing all the item we need to call this to refresh the dataset.
+        notifyDataSetChanged();
     }
 
     @Override
