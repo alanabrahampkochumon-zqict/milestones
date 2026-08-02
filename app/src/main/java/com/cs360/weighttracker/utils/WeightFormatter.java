@@ -16,8 +16,7 @@ public class WeightFormatter {
      */
     @SuppressLint("DefaultLocale")
     public static String format(float weight) {
-        String unit = " KG";
-        DecimalFormat df = new DecimalFormat("00.00");
-        return df.format(weight) + unit; // "05.35 KG"
+        String formatString = "%02.02f KG";
+        return String.format(formatString, weight); // "05.35 KG"
     }
 }

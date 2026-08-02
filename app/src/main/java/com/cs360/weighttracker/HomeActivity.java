@@ -36,6 +36,8 @@ public class HomeActivity extends AppCompatActivity {
 
     WeightItemAdapter adapter;
 
+    // TODO: Add weight progress on top of track weight
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
