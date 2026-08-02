@@ -27,9 +27,9 @@ public class LoginActivity extends AppCompatActivity {
     TextView pageTitleTextView, usernameErrorTextView, passwordErrorTextView;
     EditText usernameEditText, passwordEditText;
     Button loginButton, registerButton;
+    ImageButton passwordVisibilityToggleButton;
 
     MilestoneRepository repository;
-    ImageButton passwordVisibilityToggleButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         usernameEditText.addTextChangedListener(new ResetErrorStateTextWatcher());
     }
 
+    // TODO: Fix layout not scrolling up when pw field is focused
 
     /**
      * Navigate to the register page.

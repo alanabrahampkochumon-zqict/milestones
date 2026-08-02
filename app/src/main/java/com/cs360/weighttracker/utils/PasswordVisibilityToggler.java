@@ -1,9 +1,6 @@
 package com.cs360.weighttracker.utils;
 
 import android.text.InputType;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
