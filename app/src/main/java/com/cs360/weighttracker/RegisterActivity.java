@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +17,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView pageTitleTextView;
     EditText usernameEditText, passwordEditText;
     Button loginButton, registerButton;
+    LinearLayout confirmPasswordLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.btnAuthPrimary);
         loginButton = findViewById(R.id.btnAuthSecondary);
         pageTitleTextView = findViewById(R.id.tvAuthTitle);
+        // Since we are reusing the layout for login and register, we need to unhide the confirm password field
+        confirmPasswordLayout = findViewById(R.id.layoutAuthConfirmPassword);
 
         // Setup UI Text
         // Since we are using the auth layout for both login and register

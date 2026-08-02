@@ -157,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Navigates the user to the home activity.
+     *
      * @implNote The "navigation backstack" is cleared.
      */
     private void navigateToHome() {
@@ -165,13 +166,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /// Establish flow
-    // Register
-    // Login
-    // Username validation
-    // Password validation
-    // setup ui
-    class ResetErrorStateTextWatcher implements TextWatcher {
+
+    /**
+     * TextWatcher for clearing error states when username or password updates.
+     */
+    private class ResetErrorStateTextWatcher implements TextWatcher {
 
         @Override
         public void afterTextChanged(Editable editable) {
@@ -186,6 +185,8 @@ public class LoginActivity extends AppCompatActivity {
             resetErrorState();
         }
     }
+
+    // TODO: Unhide password
 
     /**
      * Reset the error state of the text views.
