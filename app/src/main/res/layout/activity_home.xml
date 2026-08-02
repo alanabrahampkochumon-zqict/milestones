@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/space_lg"
+    android:layout_marginBottom="@dimen/space_md">
 
     <TextView
         android:id="@+id/tvGreeting"
@@ -17,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvUsername"
+        android:id="@+id/tvHomeFullName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/tvHomeUsername"
@@ -27,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvGreeting" />
 
     <Button
-        android:id="@+id/btnTrackWeight"
+        android:id="@+id/btnHomeTrackWeight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/space_sm"
@@ -35,7 +37,7 @@
         android:text="@string/track_weight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUsername"
+        app:layout_constraintTop_toBottomOf="@id/tvHomeFullName"
         app:layout_constraintWidth_max="@dimen/max_btn_width" />
 
     <TextView
@@ -51,10 +53,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnTrackWeight" />
+        app:layout_constraintTop_toBottomOf="@id/btnHomeTrackWeight" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHistory"
+        android:id="@+id/rvHomeHistory"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/space_2xs"
@@ -69,7 +71,7 @@
         tools:listitem="@layout/weight_item" />
 
     <ImageView
-        android:id="@+id/imgProfile"
+        android:id="@+id/imgHomeProfile"
         android:layout_width="@dimen/min_interactive_size"
         android:layout_height="@dimen/min_interactive_size"
         android:layout_marginTop="@dimen/space_xl"

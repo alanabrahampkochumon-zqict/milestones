@@ -15,8 +15,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cs360.weighttracker.database.MilestoneRepository;
-import com.cs360.weighttracker.validators.PasswordValidator;
-import com.cs360.weighttracker.validators.UsernameValidator;
 import com.cs360.weighttracker.validators.WeightValidator;
 
 public class GoalsActivity extends AppCompatActivity {
@@ -178,7 +176,7 @@ public class GoalsActivity extends AppCompatActivity {
      * Handles navigation to home activity.
      */
     private void navigateToHome() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
