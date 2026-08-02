@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvAddWeightTitle">
 
         <EditText
-            android:id="@+id/etCurrentWeight"
+            android:id="@+id/etDetailsCurrentWeight"
             android:layout_width="0dp"
             android:layout_height="@dimen/min_interactive_size"
             android:layout_marginEnd="@dimen/space_xs"
@@ -49,9 +49,9 @@
             android:text="@string/kg"
             android:textColor="@color/slate_900"
             android:textSize="@dimen/fs_xl"
-            app:layout_constraintBottom_toBottomOf="@id/etCurrentWeight"
+            app:layout_constraintBottom_toBottomOf="@id/etDetailsCurrentWeight"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/etCurrentWeight" />
+            app:layout_constraintTop_toTopOf="@id/etDetailsCurrentWeight" />
 
         <TextView
             android:id="@+id/tvWeightError"
@@ -65,7 +65,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etCurrentWeight" />
+            app:layout_constraintTop_toBottomOf="@id/etDetailsCurrentWeight" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout

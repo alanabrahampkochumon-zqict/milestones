@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:paddingTop="@dimen/space_md"
     android:paddingBottom="@dimen/space_xl">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,14 +21,14 @@
             android:textColor="@color/slate_900"
             android:textSize="@dimen/fs_3xl"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/layoutName"
+            app:layout_constraintStart_toStartOf="@id/layoutDetailsFullName"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/layoutName"
+            android:id="@+id/layoutDetailsFullName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginTop="@dimen/space_lg"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,13 +38,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:labelFor="@id/etFullName"
+                android:labelFor="@id/etDetailsFullName"
                 android:text="@string/label_fullname"
                 android:textColor="@color/slate_800"
                 android:textSize="@dimen/fs_md" />
 
             <EditText
-                android:id="@+id/etFullName"
+                android:id="@+id/etDetailsFullName"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/min_interactive_size"
                 android:layout_marginTop="@dimen/space_2xs"
@@ -68,14 +69,14 @@
             android:layout_marginTop="@dimen/space_lg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutName"
+            app:layout_constraintTop_toBottomOf="@id/layoutDetailsFullName"
             app:layout_constraintWidth_max="@dimen/max_layout_width">
 
             <TextView
                 android:id="@+id/tvLabelCurrentWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:labelFor="@id/etCurrentWeight"
+                android:labelFor="@id/etDetailsCurrentWeight"
                 android:text="@string/label_current_weight"
                 android:textColor="@color/slate_800"
                 android:textSize="@dimen/fs_md"
@@ -83,7 +84,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/etCurrentWeight"
+                android:id="@+id/etDetailsCurrentWeight"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/min_interactive_size"
                 android:layout_marginTop="@dimen/space_2xs"
@@ -100,9 +101,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/kg"
                 android:textSize="@dimen/fs_xl"
-                app:layout_constraintBottom_toBottomOf="@id/etCurrentWeight"
+                app:layout_constraintBottom_toBottomOf="@id/etDetailsCurrentWeight"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/etCurrentWeight" />
+                app:layout_constraintTop_toTopOf="@id/etDetailsCurrentWeight" />
 
             <TextView
                 android:id="@+id/tvCurrentWeightError"
@@ -116,7 +117,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etCurrentWeight" />
+                app:layout_constraintTop_toBottomOf="@id/etDetailsCurrentWeight" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -133,7 +134,7 @@
                 android:id="@+id/tvLabelGoalWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:labelFor="@id/etGoalWeight"
+                android:labelFor="@id/etDetailsGoalWeight"
                 android:text="@string/label_goal_weight"
                 android:textColor="@color/slate_800"
                 android:textSize="@dimen/fs_md"
@@ -141,7 +142,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/etGoalWeight"
+                android:id="@+id/etDetailsGoalWeight"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/min_interactive_size"
                 android:layout_marginTop="@dimen/space_2xs"
@@ -158,9 +159,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/kg"
                 android:textSize="@dimen/fs_xl"
-                app:layout_constraintBottom_toBottomOf="@id/etGoalWeight"
+                app:layout_constraintBottom_toBottomOf="@id/etDetailsGoalWeight"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/etGoalWeight" />
+                app:layout_constraintTop_toTopOf="@id/etDetailsGoalWeight" />
 
             <TextView
                 android:id="@+id/tvGoalWeightError"
@@ -174,11 +175,12 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etGoalWeight" />
+                app:layout_constraintTop_toBottomOf="@id/etDetailsGoalWeight" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
+            android:id="@+id/btnDetailsGetStarted"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_2xl"

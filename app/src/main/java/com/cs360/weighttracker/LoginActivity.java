@@ -18,17 +18,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cs360.weighttracker.database.MilestoneRepository;
 import com.cs360.weighttracker.database.status.LoginStatus;
 import com.cs360.weighttracker.models.User;
+import com.cs360.weighttracker.utils.ErrorResetCallback;
 import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
+import com.cs360.weighttracker.utils.SimpleTextWatcher;
 import com.cs360.weighttracker.validators.PasswordValidator;
 import com.cs360.weighttracker.validators.UsernameValidator;
 
 public class LoginActivity extends AppCompatActivity {
 
 
-    TextView pageTitleTextView, usernameErrorTextView, passwordErrorTextView;
-    EditText usernameEditText, passwordEditText;
-    Button loginButton, registerButton;
-    ImageButton passwordVisibilityToggleButton;
+    private TextView usernameErrorTextView;
+    private TextView passwordErrorTextView;
+    private EditText usernameEditText, passwordEditText;
+    private Button loginButton, registerButton;
+    private ImageButton passwordVisibilityToggleButton;
 
     MilestoneRepository repository;
 
@@ -38,11 +41,10 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_auth);
 
-
         // Attach to application context to ensure the repository share the application's lifetime
         // not getting recreated for every shared activity.
         repository = MilestoneRepository.getInstance(getApplicationContext());
-        // Repo must be initialized before navigation
+        // Repo must be initialized before navigation (else NPE can occur)
         navigateOnUserAuth();
 
         setupUI();
@@ -59,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.etAuthPassword);
         loginButton = findViewById(R.id.btnAuthPrimary);
         registerButton = findViewById(R.id.btnAuthSecondary);
-        pageTitleTextView = findViewById(R.id.tvAuthTitle);
         usernameErrorTextView = findViewById(R.id.tvAuthUsernameError);
         passwordErrorTextView = findViewById(R.id.tvAuthPasswordError);
         passwordVisibilityToggleButton = findViewById(R.id.btnAuthPasswordVisibility);
@@ -67,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         // Setup UI Text
         // Since we are using the auth layout for both login and register
         // we need to adjust the text accordingly
+        TextView pageTitleTextView = findViewById(R.id.tvAuthTitle);
         pageTitleTextView.setText(getApplicationContext().getString(R.string.login_title));
         loginButton.setText(getApplicationContext().getString(R.string.login));
         registerButton.setText(getApplicationContext().getString(R.string.create_account));
