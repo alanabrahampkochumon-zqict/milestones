@@ -194,8 +194,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: Unhide password
-
     /**
      * Reset the error state of the text views.
      */

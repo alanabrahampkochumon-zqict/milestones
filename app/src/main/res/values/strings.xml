@@ -46,7 +46,9 @@
     <string name="login_title">Login to your account</string>
     <string name="register_title">Create an account to get started!</string>
     <string name="invalid_password">Password must contain 8 characters and must have a digit</string>
+    <string name="mismatched_passwords">Passwords do not match</string>
     <string name="show_password">Show password</string>
     <string name="show_confirm_password">Show confirm password</string>
     <string name="unknown_error_signin">There was an error signing in. Please try again after sometime.</string>
+    <string name="unknown_error_signup">There was an error signing up. Please try again after sometime.</string>
 </resources>
