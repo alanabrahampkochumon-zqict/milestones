@@ -68,7 +68,7 @@ public class HomeActivity extends AppCompatActivity {
         trackWeightButton.setOnClickListener(view -> {
             Log.d("Track Weight", "Tracking weight");
             AddWeightDialog dialog = new AddWeightDialog();
-            dialog.show(getSupportFragmentManager(), "addWeightDialog");
+            dialog.show(getSupportFragmentManager(), Constants.ADD_NEW_WEIGHT_REQUEST_KEY);
         });
 
         profileImage.setOnClickListener(view -> navigateToProfile());

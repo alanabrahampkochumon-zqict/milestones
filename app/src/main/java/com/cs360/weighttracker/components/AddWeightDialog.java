@@ -31,29 +31,24 @@ public class AddWeightDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater.
         LayoutInflater inflater = requireActivity().getLayoutInflater();
+
         // Inflate and set the layout for the dialog.
-        builder.setView(inflater.inflate(R.layout.dialog_add_weight, null));
+        // Since we need the view to get the elements from dialog
+        // we need a reference to the inflated view
+        View dialogView = inflater.inflate(R.layout.dialog_add_weight, null);
+        builder.setView(dialogView);
 
-
-        setupUI();
+        setupUI(dialogView);
         setupEvents();
-//        builder.setView(inflater.inflate(R.layout.dialog_add_weight, null))
-//                .setPositiveButton(R.string.log_weight, (dialog, id) -> {
-//                    // Sign in the user.
-//                })
-//                .setNegativeButton(R.string.cancel, (dialog, id) -> {
-//                    assert AddWeightDialog.this.getDialog() != null;
-//                    AddWeightDialog.this.getDialog().cancel();
-//                });
 
         return builder.create();
     }
 
-    private void setupUI() {
-        weightEditText = requireActivity().findViewById(R.id.etAddWeightDialogWeight);
-        cancelButton = requireActivity().findViewById(R.id.btnAddWeightDialogCancel);
-        logWeightButton = requireActivity().findViewById(R.id.btnAddWeightDialogLog);
-        weightErrorTextView = requireActivity().findViewById(R.id.tvAddWeightDialogWeightError);
+    private void setupUI(View view) {
+        weightEditText = view.findViewById(R.id.etAddWeightDialogWeight);
+        cancelButton = view.findViewById(R.id.btnAddWeightDialogCancel);
+        logWeightButton = view.findViewById(R.id.btnAddWeightDialogLog);
+        weightErrorTextView = view.findViewById(R.id.tvAddWeightDialogWeightError);
     }
 
 
