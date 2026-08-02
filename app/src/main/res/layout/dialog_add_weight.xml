@@ -89,7 +89,7 @@
             android:textColor="@color/slate_700" />
 
         <Button
-            android:id="@+id/btnAddWeightSubmit"
+            android:id="@+id/btnAddWeightLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_2xs"

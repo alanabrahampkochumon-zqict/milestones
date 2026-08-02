@@ -98,7 +98,6 @@ public class RegisterActivity extends AppCompatActivity {
         usernameEditText.addTextChangedListener(new ResetErrorStateTextWatcher());
         passwordEditText.addTextChangedListener(new ResetErrorStateTextWatcher());
         confirmPasswordEditText.addTextChangedListener(new ResetErrorStateTextWatcher());
-
     }
 
 
