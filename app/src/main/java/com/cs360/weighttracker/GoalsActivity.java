@@ -1,5 +1,6 @@
 package com.cs360.weighttracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -7,10 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.cs360.weighttracker.database.MilestoneRepository;
+import com.cs360.weighttracker.validators.PasswordValidator;
+import com.cs360.weighttracker.validators.UsernameValidator;
+import com.cs360.weighttracker.validators.WeightValidator;
 
 public class GoalsActivity extends AppCompatActivity {
 
@@ -19,11 +26,18 @@ public class GoalsActivity extends AppCompatActivity {
     private Button getStartedButton;
     private TextView fullNameErrorTextview, currentWeightErrorTextView, goalWeightErrorTextView;
 
+    MilestoneRepository repository;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_goals);
+
+        // Attach to application context to ensure the repository share the application's lifetime
+        // not getting recreated for every shared activity.
+        repository = MilestoneRepository.getInstance(getApplicationContext());
 
         setupUI();
         setupEvents();
@@ -65,9 +79,68 @@ public class GoalsActivity extends AppCompatActivity {
      * Handles event propagation from Get Started Button.
      */
     private void getStarted() {
-        //TODO: Validation
-        //TODO: Navigation
+        String fullName = fullNameEditText.getText().toString();
+        String currentWeightStr = currentWeightEditText.getText().toString();
+        String goalWeightStr = goalWeightEditText.getText().toString();
+        try {
+            float currentWeight = Float.parseFloat(currentWeightStr);
+            float goalWeight = Float.parseFloat(goalWeightStr);
 
+            boolean isInputValid = validateInputs(fullName, currentWeight, goalWeight);
+            if (isInputValid) {
+                if (saveUserData(fullName, currentWeight, goalWeight))
+                    navigateToHome();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, R.string.invalid_weights, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Saves the user data to the repository.
+     *
+     * @param fullName      The user's full name.
+     * @param currentWeight The user's current weight.
+     * @param goalWeight    The user's goal weight.
+     * @return A boolean indicating whether the user data was updated.
+     */
+    private boolean saveUserData(String fullName, float currentWeight, float goalWeight) {
+        // Update the name first and check for process success
+        boolean nameUpdated = repository.updateCurrentUserFullName(fullName);
+        if (!nameUpdated) {
+            Toast.makeText(this, R.string.name_update_error, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        // Update then update the goals and check for process success
+        boolean goalUpdated = repository.upsertGoalWeight(currentWeight, goalWeight);
+        if (!goalUpdated) {
+            Toast.makeText(this, R.string.goal_update_error, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+
+    private boolean validateInputs(String fullName, float curWeight, float goalWeight) {
+        boolean isInputValid = true;
+        if (fullName.isEmpty()) {
+            fullNameErrorTextview.setText(getApplicationContext().getString(R.string.full_name_empty_error));
+            fullNameErrorTextview.setVisibility(View.VISIBLE);
+            isInputValid = false;
+        }
+
+        if (!WeightValidator.validate(curWeight)) {
+            currentWeightErrorTextView.setText(getApplicationContext().getString(R.string.current_weight_error));
+            currentWeightErrorTextView.setVisibility(View.VISIBLE);
+            isInputValid = false;
+        }
+
+        if (!WeightValidator.validate(goalWeight)) {
+            goalWeightErrorTextView.setText(getApplicationContext().getString(R.string.goal_weight_error));
+            goalWeightErrorTextView.setVisibility(View.VISIBLE);
+            isInputValid = false;
+        }
+        return isInputValid;
     }
 
 
@@ -90,6 +163,7 @@ public class GoalsActivity extends AppCompatActivity {
         }
     }
 
+
     /**
      * Reset the error state of the text views.
      */
@@ -97,6 +171,16 @@ public class GoalsActivity extends AppCompatActivity {
         fullNameErrorTextview.setVisibility(View.GONE);
         currentWeightErrorTextView.setVisibility(View.GONE);
         goalWeightErrorTextView.setVisibility(View.GONE);
+    }
+
+
+    /**
+     * Handles navigation to home activity.
+     */
+    private void navigateToHome() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 }

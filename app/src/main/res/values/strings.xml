@@ -38,7 +38,9 @@
     <string name="label_current_weight">How much do you weigh right now?</string>
     <string name="logout">Logout</string>
     <string name="name_error">Name cannot be empty!</string>
-    <string name="weight_error">Weight must be between 1 and 650</string>
+    <string name="weight_error">Weight must be between 1 and 700</string>
+    <string name="current_weight_error">Your current weight must be between 1 and 700</string>
+    <string name="goal_weight_error">Your goal weight must be between 1 and 700</string>
     <string name="go_to_profile_page">Go to Profile page</string>
     <string name="goal_alerts">To receive notification when you reach your goals, enable the SMS permission!</string>
     <string name="enable_now">Enable now</string>
@@ -51,4 +53,8 @@
     <string name="show_confirm_password">Show confirm password</string>
     <string name="unknown_error_signin">There was an error signing in. Please try again after sometime.</string>
     <string name="unknown_error_signup">There was an error signing up. Please try again after sometime.</string>
+    <string name="invalid_weights">Invalid weight. Try number between 1 and 600.</string>
+    <string name="full_name_empty_error">Full name is required.</string>
+    <string name="name_update_error">There was an error updating your name.</string>
+    <string name="goal_update_error">There was an error updating your weight goals.</string>
 </resources>
