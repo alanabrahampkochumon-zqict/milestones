@@ -58,4 +58,5 @@
     <string name="name_update_error">There was an error updating your name.</string>
     <string name="goal_update_error">There was an error updating your weight goals.</string>
     <string name="weight_added_successfully">New weight tracked!</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.cs360.weighttracker.components;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
@@ -13,11 +14,11 @@ import java.util.List;
 
 public class WeightItemAdapter extends RecyclerView.Adapter<WeightItemViewHolder> {
     private final List<DailyWeight> dailyWeights;
-    private final View.OnClickListener onClickListener;
+    private final WeightItemRemoveListener onDeleteWeightListener;
 
-    public WeightItemAdapter(List<DailyWeight> dailyWeights, View.OnClickListener onClickListener) {
+    public WeightItemAdapter(List<DailyWeight> dailyWeights, WeightItemRemoveListener onDeleteWeightListener) {
         this.dailyWeights = dailyWeights;
-        this.onClickListener = onClickListener;
+        this.onDeleteWeightListener = onDeleteWeightListener;
     }
 
     @NonNull
@@ -29,10 +30,22 @@ public class WeightItemAdapter extends RecyclerView.Adapter<WeightItemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull WeightItemViewHolder holder, int position) {
+        // Get the at the position index and bind it to the view holder
         DailyWeight weight = dailyWeights.get(position);
-        holder.bind(weight);
+        holder.bind(weight, this.onDeleteWeightListener);
         holder.itemView.setTag(weight.getId());
-//        holder.itemView.setOnClickListener();
+    }
+
+    /**
+     * Update the recyclerview's data with new data and refresh the view.
+     *
+     * @param newWeights The weights to update with.
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateData(List<DailyWeight> newWeights) {
+        this.dailyWeights.clear();
+        this.dailyWeights.addAll(newWeights);
+        notifyDataSetChanged(); // Since we are removing and reintroducing all the item we need to call this to refresh the dataset.
     }
 
     @Override

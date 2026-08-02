@@ -1,9 +1,8 @@
 package com.cs360.weighttracker;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cs360.weighttracker.components.AddWeightDialog;
+import com.cs360.weighttracker.components.DeleteWeightItemDialog;
 import com.cs360.weighttracker.components.WeightItemAdapter;
 import com.cs360.weighttracker.database.MilestoneRepository;
 import com.cs360.weighttracker.models.DailyWeight;
@@ -33,6 +33,8 @@ public class HomeActivity extends AppCompatActivity {
 
     MilestoneRepository repository;
     User currentUser;
+
+    WeightItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +70,31 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void setupRecyclerView() {
-
-        View.OnClickListener onClickListener = itemView -> {
-            // TODO: OnDelete
-            Log.d("Clicked", "Item " + itemView.toString() + " was clicked!");
-        };
-
         List<DailyWeight> weightList = repository.getDailyWeights();
-        progressHistoryRecyclerView.setAdapter(new WeightItemAdapter(weightList, onClickListener));
+        adapter = new WeightItemAdapter(weightList, itemId -> {
+            // For deleting the weight, to provide the user with a chance to rethink their
+            // show a dialog with a confirmation. On confirmation, delete the weight.
+            DeleteWeightItemDialog dialog = new DeleteWeightItemDialog(() -> {
+                boolean weightDeleted = repository.deleteDailyWeight(itemId);
+                if (weightDeleted) {
+                    refreshHistory();
+                    Toast.makeText(this, "Weight deleted successfully.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialog.show(getSupportFragmentManager(), Constants.DELETE_WEIGHT_ITEM_DIALOG);
+        });
+        progressHistoryRecyclerView.setAdapter(adapter);
     }
+
+
+    /**
+     * Refresh the weight progress data with new data from the repository.
+     */
+    private void refreshHistory() {
+        List<DailyWeight> newData = repository.getDailyWeights();
+        adapter.updateData(newData);
+    }
+
 
     /**
      * Sets up the event listeners necessary for all the views.
@@ -85,17 +103,16 @@ public class HomeActivity extends AppCompatActivity {
         // Finish will pop off this activity from the backstack leaving only with the Login activity
         // from the navigation will take place
         trackWeightButton.setOnClickListener(view -> {
-            Log.d("Track Weight", "Tracking weight");
             AddWeightDialog dialog = new AddWeightDialog();
-            dialog.show(getSupportFragmentManager(), Constants.ADD_NEW_WEIGHT_REQUEST_KEY);
+            dialog.show(getSupportFragmentManager(), Constants.ADD_NEW_WEIGHT_DIALOG);
         });
 
         // Add event listener for the dialog
-        getSupportFragmentManager().setFragmentResultListener(Constants.ADD_NEW_WEIGHT_REQUEST_KEY, this, ((requestKey, result) -> {
+        getSupportFragmentManager().setFragmentResultListener(Constants.ADD_NEW_WEIGHT_DIALOG, this, ((requestKey, result) -> {
             float weight = result.getFloat(Constants.NEW_WEIGHT_BUNDLE_KEY);
 
             if (repository.logDailyWeight(weight)) {
-                // TODO: Refresh data
+                refreshHistory();
                 Toast.makeText(this, this.getString(R.string.weight_added_successfully), Toast.LENGTH_SHORT).show();
             }
         }));

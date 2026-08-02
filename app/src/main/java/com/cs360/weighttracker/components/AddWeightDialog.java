@@ -2,11 +2,9 @@ package com.cs360.weighttracker.components;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -72,7 +70,7 @@ public class AddWeightDialog extends DialogFragment {
                 // Save the result in a bundle so we can share it to the parent view (Home Activity)
                 Bundle result = new Bundle();
                 result.putFloat(Constants.NEW_WEIGHT_BUNDLE_KEY, weight);
-                getParentFragmentManager().setFragmentResult(Constants.ADD_NEW_WEIGHT_REQUEST_KEY, result);
+                getParentFragmentManager().setFragmentResult(Constants.ADD_NEW_WEIGHT_DIALOG, result);
 
                 // Dismiss the dialog
                 dismiss();

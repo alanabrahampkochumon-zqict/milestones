@@ -27,8 +27,10 @@ public class WeightItemViewHolder extends RecyclerView.ViewHolder {
         this.deleteWeightItemButton = itemView.findViewById(R.id.btnHistoryItemDelete);
     }
 
-    public void bind(DailyWeight weight) { // TODO: BIND Callback
+    public void bind(DailyWeight weight, WeightItemRemoveListener onDeleteListener) {
         dateTextView.setText(DateFormatter.fromMillis(weight.getDateTimeMillis()));
         weightTextView.setText(String.valueOf(weight.getUserWeight())); // TODO: Add string formatter
+        // Attach the on delete method call.
+        deleteWeightItemButton.setOnClickListener(view -> onDeleteListener.onRemove(weight.getId()));
     }
 }
