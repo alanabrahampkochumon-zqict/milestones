@@ -267,4 +267,23 @@ public class MilestoneRepository {
     }
 
 
+    /**
+     * Get the current user's goal weight.
+     *
+     * @return The current user's goal weight or null if the user has none.
+     */
+    public GoalWeight getUserGoalWeight() {
+        try {
+            // Get the user logged-in user's id
+            long currentUserId = sharedPref.getCurrentUserId();
+            if (currentUserId == -1) // There is no current user
+                return null;
+            return database.getGoalWeight(currentUserId);
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was an error retrieving user's daily weights.\n" + e.getMessage());
+        }
+        return null;
+    }
+
+
 }

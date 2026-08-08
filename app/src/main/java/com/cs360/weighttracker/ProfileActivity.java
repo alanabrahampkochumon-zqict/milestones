@@ -14,6 +14,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cs360.weighttracker.database.MilestoneRepository;
+import com.cs360.weighttracker.models.DailyWeight;
+import com.cs360.weighttracker.models.GoalType;
+import com.cs360.weighttracker.models.GoalWeight;
 import com.cs360.weighttracker.models.User;
 import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
 
@@ -61,6 +64,32 @@ public class ProfileActivity extends AppCompatActivity {
         String fullName = currentUser.getFullName();
         fullName = !fullName.isEmpty() ? fullName : currentUser.getUserName();
         fullNameTextView.setText(fullName);
+
+        // Update progress
+        updateProgress();
+    }
+
+
+    private void updateProgress() {
+        GoalWeight currentGoal = repository.getUserGoalWeight();
+        if (currentGoal.getGoalType() == GoalType.WEIGHT_LOSS) {
+            float currentWeight = 100.0f; // TODO: Update
+            // Get current weight returns the user's initial weight
+            // and we compare it the user's logged weight to get the progress
+            float weightLost = currentGoal.getCurrentWeight() - currentWeight;
+            float goalTotal = currentGoal.getCurrentWeight() - currentGoal.getGoalWeight();
+            weightProgressTextView.setText(this.getString(R.string.weight_loss_progress, weightLost, goalTotal));
+            weightChangeProgressBar.setProgress(Math.min(0, (int) (weightLost / goalTotal * 100)));
+        } else {
+
+            float currentWeight = 50.0f; // TODO: Update
+            // For weight gain the current weight will be greater than the initial weight
+            // else the progress will show negative values.
+            float weightGained = currentWeight - currentGoal.getCurrentWeight();
+            float goalTotal = currentGoal.getGoalWeight() - currentGoal.getCurrentWeight();
+            weightProgressTextView.setText(this.getString(R.string.weight_gain_progress, weightGained, goalTotal));
+            weightChangeProgressBar.setProgress(Math.min(0, (int) (weightGained / goalTotal * 100)));
+        }
     }
 
 

@@ -60,6 +60,6 @@
     <string name="weight_added_successfully">New weight tracked!</string>
     <string name="delete">Delete</string>
     <string name="navigate_back">Navigate back</string>
-    <string name="weight_loss_progress">%02.02f KG lost of %02.02f</string>
-    <string name="weight_gain_progress">%02.02f KG gained of %02.02f</string>
+    <string name="weight_loss_progress">%02.02f KG lost of %02.02f KG</string>
+    <string name="weight_gain_progress">%02.02f KG gained of %02.02f KG</string>
 </resources>
