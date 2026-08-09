@@ -26,13 +26,15 @@ import com.cs360.weighttracker.models.DailyWeight;
 import com.cs360.weighttracker.models.GoalType;
 import com.cs360.weighttracker.models.GoalWeight;
 import com.cs360.weighttracker.models.User;
+import com.cs360.weighttracker.utils.TimeUtils;
 
+import java.sql.Time;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
 
-    TextView fullNameTextView;
+    TextView fullNameTextView, greetingTextView;
     Button trackWeightButton;
     ImageView profileImage;
     RecyclerView progressHistoryRecyclerView;
@@ -67,12 +69,15 @@ public class HomeActivity extends AppCompatActivity {
     private void setupUI() {
         trackWeightButton = findViewById(R.id.btnHomeTrackWeight);
         fullNameTextView = findViewById(R.id.tvHomeFullName);
+        greetingTextView = findViewById(R.id.tvHomeGreeting);
         progressHistoryRecyclerView = findViewById(R.id.rvHomeHistory);
         profileImage = findViewById(R.id.imgHomeProfile);
 
         // Setup UI Text
         String fullName = currentUser.getFullName();
         fullNameTextView.setText(fullName);
+        // Set the greeting based on time of day
+        greetingTextView.setText(TimeUtils.getGreetingResId());
 
         setupRecyclerView();
     }

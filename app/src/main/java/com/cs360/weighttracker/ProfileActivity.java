@@ -97,6 +97,13 @@ public class ProfileActivity extends AppCompatActivity {
         updateNumberButton = findViewById(R.id.btnProfileUpdateNumber);
 
         // Setup UI Text
+        prefillUI();
+
+        // Update progress
+        updateProgress();
+    }
+
+    private void prefillUI() {
         TextView fullNameTextView = findViewById(R.id.tvProfileFullName);
         // If the user has no full name, then use their username(This is highly unlikely).
         String fullName = currentUser.getFullName();
@@ -108,9 +115,6 @@ public class ProfileActivity extends AppCompatActivity {
             numberTextView.setText(getString(R.string.sms_number_text, currentUser.getPhoneNumber()));
         // Update the notification setting
         notificationSwitch.setChecked(repository.getUserNotificationSetting());
-
-        // Update progress
-        updateProgress();
     }
 
 
@@ -127,7 +131,8 @@ public class ProfileActivity extends AppCompatActivity {
             float weightLost = currentGoal.getCurrentWeight() - currentWeight;
             float goalTotal = currentGoal.getCurrentWeight() - currentGoal.getGoalWeight();
             weightProgressTextView.setText(this.getString(R.string.weight_loss_progress, weightLost, goalTotal));
-            int progress = Math.clamp((int) (weightLost / goalTotal * 100), 0, 100);
+            int progressPercentage = (int) (weightLost / goalTotal * 100);
+            int progress = Math.max(0, Math.min(100, progressPercentage));
             weightChangeProgressBar.setProgress(progress);
         } else {
             // For weight gain the current weight will be greater than the initial weight
@@ -136,7 +141,8 @@ public class ProfileActivity extends AppCompatActivity {
             float goalTotal = currentGoal.getGoalWeight() - currentGoal.getCurrentWeight();
             weightProgressTextView.setText(this.getString(R.string.weight_gain_progress, weightGained, goalTotal));
 
-            int progress = Math.clamp((int) (weightGained / goalTotal * 100), 0, 100);
+            int progressPercentage = (int) (weightGained / goalTotal * 100);
+            int progress = Math.max(0, Math.min(100, progressPercentage));
             weightChangeProgressBar.setProgress(progress);
         }
     }
@@ -264,9 +270,9 @@ public class ProfileActivity extends AppCompatActivity {
                         // If validation passes, set the user's phone number
                         if (repository.setPhoneNumber(phoneNumber)) {
                             // Update the current user's phone number
-                            currentUser.setPhoneNumber(phoneNumber);
+                            currentUser = repository.getCurrentUser();
                             // Update the UI manually since our state is not reactive
-                            numberTextView.setText(getString(R.string.sms_number_text, currentUser.getPhoneNumber()));
+                            prefillUI();
                             Toast.makeText(this, R.string.phone_number_added_successfully, Toast.LENGTH_LONG).show();
 
                         }
