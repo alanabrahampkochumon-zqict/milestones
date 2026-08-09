@@ -84,4 +84,6 @@
     <string name="failed_to_send_sms">There was an error sending the congratulatory message!</string>
     <string name="sms_sent_successfully">SMS sent successfully!</string>
     <string name="weight_format">%02.02f KG</string>
+    <string name="update_details">Update Details</string>
+    <string name="edit_your_profile">Edit your Profile</string>
 </resources>

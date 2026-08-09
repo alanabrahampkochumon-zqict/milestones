@@ -359,6 +359,7 @@ public class ProfileActivity extends AppCompatActivity {
      */
     private void navigateToGoals() {
         Intent intent = new Intent(this, GoalsActivity.class);
+        intent.putExtra(Constants.GOAL_ACTIVITY_EDIT_FLAG, true);
         startActivity(intent);
     }
 

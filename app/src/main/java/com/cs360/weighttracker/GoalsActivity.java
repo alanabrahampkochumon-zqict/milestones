@@ -24,7 +24,7 @@ public class GoalsActivity extends AppCompatActivity {
 
     private EditText fullNameEditText, currentWeightEditText, goalWeightEditText;
     private Button getStartedButton;
-    private TextView fullNameErrorTextview, currentWeightErrorTextView, goalWeightErrorTextView;
+    private TextView fullNameErrorTextview, currentWeightErrorTextView, goalWeightErrorTextView, headingTextView;
 
     MilestoneRepository repository;
 
@@ -48,17 +48,29 @@ public class GoalsActivity extends AppCompatActivity {
      * Query and attach each view instance from XML layout.
      */
     private void setupUI() {
-        fullNameEditText = findViewById(R.id.etDetailsFullName);
-        currentWeightEditText = findViewById(R.id.etAddWeightDialogWeight);
-        goalWeightEditText = findViewById(R.id.etDetailsGoalWeight);
+        fullNameEditText = findViewById(R.id.etGoalsFullName);
+        currentWeightEditText = findViewById(R.id.etGoalsAddWeight);
+        goalWeightEditText = findViewById(R.id.etGoalsGoalWeight);
 
-        fullNameErrorTextview = findViewById(R.id.tvDetailsFullNameError);
-        currentWeightErrorTextView = findViewById(R.id.tvDetailsCurrentWeightError);
-        goalWeightErrorTextView = findViewById(R.id.tvDetailsGoalWeightError);
+        fullNameErrorTextview = findViewById(R.id.tvGoalsFullNameError);
+        currentWeightErrorTextView = findViewById(R.id.tvGoalsCurrentWeightError);
+        goalWeightErrorTextView = findViewById(R.id.tvGoalsGoalWeightError);
+        headingTextView = findViewById(R.id.tvGoalsHeading);
 
-        getStartedButton = findViewById(R.id.btnDetailsGetStarted);
+        getStartedButton = findViewById(R.id.btnGoalsGetStarted);
 
         prefillData();
+
+        // Update action name according to starting activity
+        // as recognizable from intent's passed-in boolean flag.
+        Intent intent = getIntent();
+        if (intent != null) {
+            boolean isEdit = intent.getBooleanExtra(Constants.GOAL_ACTIVITY_EDIT_FLAG, false);
+            if (isEdit) {
+                getStartedButton.setText(getString(R.string.update_profile));
+                headingTextView.setText(getString(R.string.edit_your_profile));
+            }
+        }
     }
 
 
