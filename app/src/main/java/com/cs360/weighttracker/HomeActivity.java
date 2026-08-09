@@ -49,7 +49,6 @@ public class HomeActivity extends AppCompatActivity {
 
     WeightItemAdapter adapter;
 
-    // TODO: Add weight progress on top of track weight
     // TODO: Add empty screen
 
     @Override

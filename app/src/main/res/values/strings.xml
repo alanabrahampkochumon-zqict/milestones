@@ -86,4 +86,7 @@
     <string name="weight_format">%02.02f KG</string>
     <string name="update_details">Update Details</string>
     <string name="edit_your_profile">Edit your Profile</string>
+    <string name="no_history">no history</string>
+    <string name="no_tracking_history">No Weight History!</string>
+    <string name="no_weight_history_text">Your weights will show up here as you start tracking.</string>
 </resources>

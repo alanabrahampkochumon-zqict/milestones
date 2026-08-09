@@ -108,6 +108,19 @@
         app:layout_constraintTop_toBottomOf="@id/layoutHomeProgressView"
         app:layout_constraintWidth_max="@dimen/max_btn_width" />
 
+    <ImageView
+        android:id="@+id/imgHomeProfile"
+        android:layout_width="@dimen/min_interactive_size"
+        android:layout_height="@dimen/min_interactive_size"
+        android:layout_marginTop="@dimen/space_xl"
+        android:layout_marginEnd="@dimen/space_sm"
+        android:backgroundTint="@color/transparent"
+        android:contentDescription="@string/go_to_profile_page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/account_icon"
+        app:tint="@color/slate_600" />
+
     <TextView
         android:id="@+id/historyHeader"
         android:layout_width="0dp"
@@ -138,17 +151,44 @@
         tools:itemCount="12"
         tools:listitem="@layout/weight_item" />
 
-    <ImageView
-        android:id="@+id/imgHomeProfile"
-        android:layout_width="@dimen/min_interactive_size"
-        android:layout_height="@dimen/min_interactive_size"
-        android:layout_marginTop="@dimen/space_xl"
-        android:layout_marginEnd="@dimen/space_sm"
-        android:backgroundTint="@color/transparent"
-        android:contentDescription="@string/go_to_profile_page"
+    <LinearLayout
+        android:id="@+id/layoutHomeNoHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_2xs"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/space_xs"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/account_icon"
-        app:tint="@color/slate_600" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/historyHeader">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="240dp"
+            android:contentDescription="@string/no_history"
+            android:src="@drawable/illustration_empty" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xs"
+            android:text="@string/no_tracking_history"
+            android:textColor="@color/slate_900"
+            android:textSize="@dimen/fs_2xl"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_3xs"
+            android:text="@string/no_weight_history_text"
+            android:textColor="@color/slate_900"
+            android:textSize="@dimen/fs_md" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
