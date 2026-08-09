@@ -1,6 +1,7 @@
 package com.cs360.weighttracker;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -175,7 +176,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    // Call this when shouldShowRequestPermissionRationale() is TRUE
+    /**
+     * Shows a dialog to enable permission to the user
+     * if the system allow the permission rationale(permission popup) to be shown.
+     */
     private void showRationaleDialog() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.sms_permission_dialog_title)
@@ -194,7 +198,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     /**
-     * Create a dialog to be displayed when the user permanently denies the permission
+     * Create a dialog to be displayed when the user permanently denies the permission.
      */
     private void showSettingsRedirectDialog() {
         new AlertDialog.Builder(this)

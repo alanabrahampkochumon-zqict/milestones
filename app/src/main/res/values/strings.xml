@@ -68,4 +68,6 @@
     <string name="sms_permission_body">This app needs SMS permission to send your alerts. Please allow it on the next screen.</string>
     <string name="sms_permission_dialog_title">SMS Permission Required</string>
     <string name="permission_denied_permanently_title">Permission Permanently Denied</string>
+    <string name="no_number_provided">No number provided</string>
+    <string name="update_number">Update Number</string>
 </resources>
