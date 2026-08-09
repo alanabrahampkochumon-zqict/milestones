@@ -227,7 +227,7 @@ public class MilestoneRepository {
             if (currentUserId == -1) // There is no current user
                 return false;
             GoalWeight gWeight = new GoalWeight(currentWeight, goalWeight);
-            return database.insertGoalWeight(currentUserId, gWeight) > 0;
+            return database.upsertGoalWeight(currentUserId, gWeight);
         } catch (Exception e) {
             Log.e(LogCategory.REPOSITORY, "There was error logging the user weight!\n" + e.getMessage());
         }

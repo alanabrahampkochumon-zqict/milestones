@@ -275,22 +275,14 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      *
      * @param userId     The id of the user associated with the goal weight.
      * @param goalWeight The goal weight of the user.
-     * @return The id of the inserted goal weight.
-     * @apiNote The API constrains one goal weight per user, upserting the data if a duplicate
-     * goal weight is inserted.
+     * @return The id of the inserted goal weight, -1 if the goal weight already exists.
      */
     public long insertGoalWeight(long userId, @NonNull GoalWeight goalWeight) {
         SQLiteDatabase db = getWritableDatabase();
-        // Retrieve the goal weight to ensure that the data exists.
-        GoalWeight queriedGoalWeight = getGoalWeight(userId);
-        // Upsertion: Update the goal weight if the user already has a goal weight set.
-        if (queriedGoalWeight != null) {
-            // If the update was successful return the goal weight's id
-            // Since the passed-in goal weight may not have the id, we need to populate it
-            GoalWeight populated = new GoalWeight(queriedGoalWeight.getId(), goalWeight.getCurrentWeight(), goalWeight.getGoalWeight());
-            boolean result = updateGoalWeight(userId, populated);
-            if (result) return populated.getId();
-        }
+
+        if (goalWeight.getId() > -1)
+            return -1; // If the goal weight already exists then don't update.
+
         // Create the values for insertion
         ContentValues values = new ContentValues();
         values.put(GoalWeightTable.COL_CUR_WEIGHT, goalWeight.getCurrentWeight());
@@ -332,18 +324,14 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * @param userId     The id of the user associated with the goal weight.
      * @param goalWeight The goal weight to update with.
      * @return A boolean indicating whether the update was a success.
-     * @apiNote If the given user has no goal weight associated with them,
-     * then the api inserted the current goal weight.
+     * @apiNote The goal weight must have an id associated with it, else it will not get
+     * updated.
      */
     public boolean updateGoalWeight(long userId, @NonNull GoalWeight goalWeight) {
         SQLiteDatabase db = getWritableDatabase();
 
-        // Retrieve the goal weight to ensure that the data exists.
-        GoalWeight queriedGoalWeight = getGoalWeight(userId);
-        // Upsertion: Inserts the goal weight if it doesn't exist.
-        if (queriedGoalWeight == null) {
-            return insertGoalWeight(userId, goalWeight) > 0;
-        }
+        if (goalWeight.getId() < 0)
+            return false; // If the goal weight has no id, then return, since its an invalid weight.
 
         // If the user goal weight exists, update it
         ContentValues values = new ContentValues();
@@ -360,27 +348,33 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * Updates/Inserts the goal weight associated with a user as appropriate.
      *
      * @param userId     The id of the user associated with the goal weight.
-     * @param goalWeight The goal weight to update with.
-     * @return A boolean indicating whether the update was a success.
+     * @param goalWeight The goal weight to upsert.
+     * @return A boolean indicating whether the upsert was a success.
      * @apiNote If the given user has no goal weight associated with them,
      * then the api inserted the current goal weight.
      */
     public boolean upsertGoalWeight(long userId, @NonNull GoalWeight goalWeight) {
         SQLiteDatabase db = getWritableDatabase();
-
+        // The goal weight association is made based on user's goal weight
         // Retrieve the goal weight to ensure that the data exists.
         GoalWeight queriedGoalWeight = getGoalWeight(userId);
         // Upsertion: Inserts the goal weight if it doesn't exist.
         if (queriedGoalWeight == null) {
             return insertGoalWeight(userId, goalWeight) > 0;
         }
+        // Since the user may pass in a goal weight without an id(from UI for e.g)
+        // we must always update with the matching id
+        long id = goalWeight.getId();
+        if (id < 0)
+            id = queriedGoalWeight.getId();
 
         // If the user goal weight exists, update it
         ContentValues values = new ContentValues();
         values.put(GoalWeightTable.COL_CUR_WEIGHT, goalWeight.getCurrentWeight());
         values.put(GoalWeightTable.COL_GOAL_WEIGHT, goalWeight.getGoalWeight());
+        values.put(GoalWeightTable.COL_ID, id);
 
-        int rowsUpdated = db.update(GoalWeightTable.TABLE, values, GoalWeightTable.COL_ID + " = ?", new String[]{String.valueOf(goalWeight.getId())});
+        int rowsUpdated = db.update(GoalWeightTable.TABLE, values, GoalWeightTable.COL_ID + " = ?", new String[]{String.valueOf(id)});
 
         return rowsUpdated > 0;
     }
