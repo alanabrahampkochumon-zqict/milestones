@@ -37,6 +37,7 @@ import com.cs360.weighttracker.models.GoalType;
 import com.cs360.weighttracker.models.GoalWeight;
 import com.cs360.weighttracker.models.User;
 import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
+import com.cs360.weighttracker.validators.PhoneNumberValidator;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -64,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted) {
-                        toggleSMSSetting();
+                        handleUserNumberAndToggleSMSOn();
                     } else {
                         // Revert the switch visually because they denied it
                         notificationSwitch.setChecked(false);
@@ -101,6 +102,12 @@ public class ProfileActivity extends AppCompatActivity {
         String fullName = currentUser.getFullName();
         fullName = !fullName.isEmpty() ? fullName : currentUser.getUserName();
         fullNameTextView.setText(fullName);
+
+        // If the user has a phone number set, the update the number the textview with their number
+        if (!currentUser.getPhoneNumber().isEmpty())
+            numberTextView.setText(getString(R.string.sms_number_text, currentUser.getPhoneNumber()));
+        // Update the notification setting
+        notificationSwitch.setChecked(repository.getUserNotificationSetting());
 
         // Update progress
         updateProgress();
@@ -158,12 +165,12 @@ public class ProfileActivity extends AppCompatActivity {
             } else {
                 // User turned it OFF. Just update the setting to false.
                 // repository.setSmsEnabled(false);
-                toggleSMSSetting();
+                toggleSMSSetting(false);
             }
         });
 
         updateNumberButton.setOnClickListener(view -> {
-            showAddPhoneDialog(); // TODO: Add the same to notification
+            showAddPhoneDialog();
         });
 
     }
@@ -176,13 +183,29 @@ public class ProfileActivity extends AppCompatActivity {
         String permission = Manifest.permission.SEND_SMS;
 
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
-            toggleSMSSetting(); // We have permission, turn it on!
+            handleUserNumberAndToggleSMSOn();
         } else if (shouldShowRequestPermissionRationale(permission)) {
             // The permission is denied once
             showRationaleDialog();
         } else {
             // Asking user for permission for the first time.
             requestPermissionLauncher.launch(permission);
+        }
+    }
+
+
+    /**
+     * Handles the user's SMS preference and toggles sms setting accordingly
+     */
+    private void handleUserNumberAndToggleSMSOn() {
+        // Check if user has a phone number
+        // if they don't have, request for a phone number
+        if (currentUser.getPhoneNumber().isEmpty()) {
+            if (showAddPhoneDialog()) { // Show the dialog and if the user adds a phone then toggle the setting
+                toggleSMSSetting(true);
+            }
+        } else {// If we have permission and user has phone number, turn it on!
+            toggleSMSSetting(true);
         }
     }
 
@@ -208,7 +231,14 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    private void showAddPhoneDialog() {
+    /**
+     * Shows a phone number add/update dialog.
+     * Due to the coupled nature of the dialog, this layout is kept as a standalone function
+     * rather than refactoring out.
+     *
+     * @return A boolean indicating whether the phone number was updated!
+     */
+    private boolean showAddPhoneDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_phone_number, null);
         EditText phoneNumberEditText = dialogView.findViewById(R.id.etAddPhoneNumberDialogNumber);
         TextView phoneNumberErrorTextView = dialogView.findViewById(R.id.tvAddPhoneNumberDialogNumberError);
@@ -221,20 +251,33 @@ public class ProfileActivity extends AppCompatActivity {
                 .setTitle(R.string.add_phone_number)
                 .setView(dialogView)
                 .setPositiveButton(positiveActionTextRes, (dialog, which) -> {
-                    String text = phoneNumberEditText.getText().toString();
+                    String phoneNumber = phoneNumberEditText.getText().toString();
                     // Inline phone validation
-                    if (text.isEmpty() || text.length() > 20) {
+                    if (PhoneNumberValidator.validate(phoneNumber)) {
                         phoneNumberErrorTextView.setVisibility(View.VISIBLE);
                         phoneNumberErrorTextView.setText(R.string.phone_number_error);
-                    }
-                    if (repository.setPhoneNumber(text)) {
-                        Toast.makeText(this, "Phone number added successfully!", Toast.LENGTH_LONG).show();
+                        // We must toggle the notification switch to off.
+                        notificationSwitch.setChecked(false);
+                        Toast.makeText(this, R.string.phone_number_error, Toast.LENGTH_LONG).show();
+
+                    } else {
+                        // If validation passes, set the user's phone number
+                        if (repository.setPhoneNumber(phoneNumber)) {
+                            // Update the current user's phone number
+                            currentUser.setPhoneNumber(phoneNumber);
+                            // Update the UI manually since our state is not reactive
+                            numberTextView.setText(getString(R.string.sms_number_text, currentUser.getPhoneNumber()));
+                            Toast.makeText(this, R.string.phone_number_added_successfully, Toast.LENGTH_LONG).show();
+
+                        }
                     }
                 })
                 .setNegativeButton(R.string.cancel, (dialog, which) -> {
                     // Toggle back the button if there is no phone number
-                    if (currentUser.getPhoneNumber().isEmpty())
+                    if (currentUser.getPhoneNumber().isEmpty()) {
                         notificationSwitch.setChecked(false);
+                        toggleSMSSetting(false);
+                    }
                 })
                 .show();
 
@@ -254,6 +297,9 @@ public class ProfileActivity extends AppCompatActivity {
                 phoneNumberErrorTextView.setVisibility(View.GONE);
             }
         });
+
+        // Returns success by the status if the current user's phone number is not empty
+        return !currentUser.getPhoneNumber().isEmpty();
     }
 
 
@@ -287,8 +333,8 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void toggleSMSSetting() {
-        // TODO:
+    private void toggleSMSSetting(boolean setting) {
+        repository.setUserNotificationSetting(setting);
     }
 
 

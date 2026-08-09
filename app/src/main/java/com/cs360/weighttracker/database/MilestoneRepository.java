@@ -116,7 +116,10 @@ public class MilestoneRepository {
      * Logs out the current user.
      */
     public void logoutUser() {
+        // Delete the user's session
         sharedPref.deleteCurrentUserId();
+        // And clear user's preference as well
+        sharedPref.deleteSMSSetting();
     }
 
     /**
@@ -325,6 +328,37 @@ public class MilestoneRepository {
         } catch (Exception e) {
             Log.e(LogCategory.REPOSITORY, "There was an error retrieving user's daily weight.\n" + e.getMessage());
         }
+        return false;
+    }
+
+
+    /**
+     * Return the user's current sms setting.
+     */
+    public boolean getUserNotificationSetting() {
+        try {
+            return sharedPref.getSMSSetting();
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was an error getting notification preference.\n" + e.getMessage());
+        }
+        // Always return false if the setting has not been applied.
+        return false;
+    }
+
+
+    /**
+     * Set the user's current notification setting
+     *
+     * @param setting The notification setting flag to set.
+     */
+    public boolean setUserNotificationSetting(boolean setting) {
+        try {
+            sharedPref.setSMSSetting(setting);
+            return setting; // Return the setting if it has been applied.
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was an error setting notification preference.\n" + e.getMessage());
+        }
+        // Always return false if the setting has not been applied.
         return false;
     }
 

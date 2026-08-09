@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_sm"
         android:layout_marginTop="@dimen/space_xl"
-        android:text="@string/greeting"
+        android:text="@string/greeting_morning"
         android:textSize="@dimen/fs_3xl"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

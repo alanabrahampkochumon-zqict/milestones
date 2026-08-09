@@ -23,7 +23,9 @@
     <string name="update_profile">Update Profile</string>
     <string name="sms_permission_required">Enable Goal Alerts</string>
     <string name="tvHomeUsername">Hannah</string>
-    <string name="greeting">Good morning</string>
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_afternoon">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
     <string name="track_weight">Track Weight</string>
     <string name="log_weight">Log Weight</string>
     <string name="cancel">Cancel</string>
@@ -76,4 +78,9 @@
     <string name="add_number">Add Number</string>
     <string name="number_error">Invalid phone number</string>
     <string name="phone_number_error">Invalid phone number</string>
+    <string name="phone_number_added_successfully">Phone number added successfully!</string>
+    <string name="congratulations">Congratulations! You have pulled it off!</string>
+    <string name="congratulations_sms">Congratulations %s! You\'ve defied all odds and crossed the weights from %02.02f KG to %02.02f KG.</string>
+    <string name="failed_to_send_sms">There was an error sending the congratulatory message!</string>
+    <string name="sms_sent_successfully">SMS sent successfully!</string>
 </resources>

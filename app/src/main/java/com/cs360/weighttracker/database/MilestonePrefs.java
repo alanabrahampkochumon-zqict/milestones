@@ -68,4 +68,13 @@ public class MilestonePrefs {
         editor.remove(CURRENT_SESSION_USER_ID);
         editor.apply();
     }
+
+    /**
+     * Delete the current user's SMS setting.
+     */
+    public void deleteSMSSetting() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(SMS_SETTING_KEY);
+        editor.apply();
+    }
 }

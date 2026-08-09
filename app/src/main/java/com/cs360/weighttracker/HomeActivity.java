@@ -1,8 +1,12 @@
 package com.cs360.weighttracker;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +15,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cs360.weighttracker.components.AddWeightDialog;
@@ -18,6 +23,8 @@ import com.cs360.weighttracker.components.DeleteWeightItemDialog;
 import com.cs360.weighttracker.components.WeightItemAdapter;
 import com.cs360.weighttracker.database.MilestoneRepository;
 import com.cs360.weighttracker.models.DailyWeight;
+import com.cs360.weighttracker.models.GoalType;
+import com.cs360.weighttracker.models.GoalWeight;
 import com.cs360.weighttracker.models.User;
 
 import java.util.List;
@@ -115,11 +122,57 @@ public class HomeActivity extends AppCompatActivity {
 
             if (repository.logDailyWeight(weight)) {
                 refreshHistory();
-                Toast.makeText(this, this.getString(R.string.weight_added_successfully), Toast.LENGTH_SHORT).show();
+                // Send a sms if the user surpassed or reached the goal weight and have the permission and phone number set
+                if (hasReachGoalWeight(weight)) {
+                    boolean shouldSendNotification = repository.getUserNotificationSetting();
+                    if (shouldSendNotification) {
+                        // Check if the user has granted permission
+                        // Note: We are not handling the permission here since if hte user has their preference as off
+                        // or has manually turned off the permission, we can assume that they don't need the feature
+                        // but we can show them an error message
+                        boolean hasPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED;
+                        String phoneNumber = currentUser.getPhoneNumber();
+                        if (hasPermission && !phoneNumber.trim().isEmpty()) {
+                            try {
+                                GoalWeight userGoal = repository.getUserGoalWeight();
+                                SmsManager smsManager;
+                                smsManager = this.getSystemService(SmsManager.class);
+                                // We are using hte latest weight as it can surpass the user's current weight!
+                                String message = getString(R.string.congratulations_sms, currentUser.getFullName(), userGoal.getCurrentWeight(), weight);
+                                if (smsManager != null) {
+                                    smsManager.sendTextMessage(phoneNumber, null, message, null, null); //
+                                    Toast.makeText(this, R.string.sms_sent_successfully, Toast.LENGTH_SHORT).show(); //
+                                }
+                            } catch (Exception e) {
+                                Toast.makeText(this, R.string.failed_to_send_sms, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    Toast.makeText(this, this.getString(R.string.congratulations), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, this.getString(R.string.weight_added_successfully), Toast.LENGTH_SHORT).show();
+                }
             }
         }));
 
         profileImage.setOnClickListener(view -> navigateToProfile());
+    }
+
+    /**
+     * Returns a boolean indicating whether the user has reached a goal weight depending on the type of goal(loss/gain)
+     *
+     * @param newWeight The latest logged weight.
+     */
+    private boolean hasReachGoalWeight(float newWeight) {
+        GoalWeight weightGoal = repository.getUserGoalWeight();
+        // In case of weight gain we need to check if current logged weight is greater or equal to
+        // the goal weight and weight loss if the logged weight is less than or equal
+        if (weightGoal.getGoalType() == GoalType.WEIGHT_GAIN) {
+            return newWeight >= weightGoal.getGoalWeight();
+        } else {
+            return newWeight <= weightGoal.getGoalWeight();
+        }
     }
 
     private void navigateToProfile() {
