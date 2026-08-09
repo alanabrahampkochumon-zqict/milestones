@@ -62,4 +62,10 @@
     <string name="navigate_back">Navigate back</string>
     <string name="weight_loss_progress">%02.02f KG lost of %02.02f KG</string>
     <string name="weight_gain_progress">%02.02f KG gained of %02.02f KG</string>
+    <string name="go_to_settings">Go to Settings</string>
+    <string name="enable_permission_manually">You have disabled SMS permissions. Please enable them manually in the app settings to use this feature.</string>
+    <string name="ok">OK</string>
+    <string name="sms_permission_body">This app needs SMS permission to send your alerts. Please allow it on the next screen.</string>
+    <string name="sms_permission_dialog_title">SMS Permission Required</string>
+    <string name="permission_denied_permanently_title">Permission Permanently Denied</string>
 </resources>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Switch;
@@ -18,6 +19,7 @@ import androidx.activity.EdgeToEdge;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -39,15 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Button updateProfileButton, logoutButton;
     private ImageButton navigateBackButton;
 
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    toggleSMSSetting();
-                } else {
-                    // Explain to the user that the feature is unavailable.
-                    showRationaleDialog();
-                }
-            });
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
     MilestoneRepository repository;
     User currentUser;
@@ -61,6 +55,21 @@ public class ProfileActivity extends AppCompatActivity {
         // Repository is set to the application lifetime.
         repository = MilestoneRepository.getInstance(this.getApplicationContext());
         currentUser = repository.getCurrentUser();
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+                        toggleSMSSetting();
+                    } else {
+                        // Revert the switch visually because they denied it
+                        notificationSwitch.setChecked(false);
+
+                        // If the user denied the permission and show rationale is false, it means they permanently blocked it.
+                        // in which case we display the dialog for opening setting and manually switching the permission
+                        if (!shouldShowRequestPermissionRationale(Manifest.permission.SEND_SMS)) {
+                            showSettingsRedirectDialog();
+                        }
+                    }
+                });
 
         setupUI();
         setupEvents();
@@ -133,30 +142,35 @@ public class ProfileActivity extends AppCompatActivity {
         updateProfileButton.setOnClickListener(view -> {
             navigateToGoals();
         });
+
+        notificationSwitch.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            // Only ask permission for toggling it off
+            if (isChecked) {
+                handleSmsPermission(); // Only ask if they are turning it ON
+            } else {
+                // User turned it OFF. Just update the setting to false.
+                // repository.setSmsEnabled(false);
+                toggleSMSSetting();
+            }
+        });
+
     }
 
 
+    /**
+     * Handles the SMS permission.
+     */
     private void handleSmsPermission() {
         String permission = Manifest.permission.SEND_SMS;
 
-        // Check if permission is already granted
-        // If so send sms
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
-            toggleSMSSetting();
-            return;
-        }
-
-        // Check if we should show an educational explanation (Rationale)
-        ActivityResultLauncher<String> requestPermissionLauncher;
-        if (shouldShowRequestPermissionRationale(permission)) {
-            // Show an AlertDialog here explaining WHY you need SMS.
-            // Inside that dialog's "OK" button, launch the standard popup:
-//            requestPermissionLauncher.launch(permission);
-            showSettingsRedirectDialog();
-        } else {
-            // This runs if it's the very first time, OR if they selected "Don't ask again"
-            // Try launching the popup first.
+            toggleSMSSetting(); // We have permission, turn it on!
+        } else if (shouldShowRequestPermissionRationale(permission)) {
+            // The permission is denied once
             showRationaleDialog();
+        } else {
+            // Asking user for permission for the first time.
+            requestPermissionLauncher.launch(permission);
         }
     }
 
@@ -164,26 +178,37 @@ public class ProfileActivity extends AppCompatActivity {
     // Call this when shouldShowRequestPermissionRationale() is TRUE
     private void showRationaleDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("SMS Permission Required")
-                .setMessage("This app needs SMS permission to send your alerts. Please allow it on the next screen.")
-                .setPositiveButton("OK", (dialog, which) -> {
+                .setTitle(R.string.sms_permission_dialog_title)
+                .setMessage(R.string.sms_permission_body)
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
                     // Request the system popup again
                     requestPermissionLauncher.launch(Manifest.permission.SEND_SMS);
                 })
-                .setNegativeButton("Cancel", null) // Just closes the dialog
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                    // Toggle the switch to off since the user denied permission
+                    notificationSwitch.setChecked(false);
+                    // Implicitly done
+                })
                 .show();
     }
 
-    // Call this inside the "else" block of your launcher if it keeps returning false
+
+    /**
+     * Create a dialog to be displayed when the user permanently denies the permission
+     */
     private void showSettingsRedirectDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Permission Permanently Denied")
-                .setMessage("You have disabled SMS permissions. Please enable them manually in the app settings to use this feature.")
-                .setPositiveButton("Go to Settings", (dialog, which) -> {
+                .setTitle(R.string.permission_denied_permanently_title)
+                .setMessage(R.string.enable_permission_manually)
+                .setPositiveButton(R.string.go_to_settings, (dialog, which) -> {
                     // Take them to the settings screen
                     openAppSettings();
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                    // Toggle the switch to off since the user denied permission
+                    notificationSwitch.setChecked(false);
+                    // Dialog is implicitly closed
+                })
                 .show();
     }
 
