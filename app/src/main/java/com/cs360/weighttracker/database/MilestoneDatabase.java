@@ -393,7 +393,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
     /**
      * Get all daily weight of the user with the given @p userId.
      *
-     * @param userId The id of the user associated with the goal weight.
+     * @param userId The id of the user associated with the daily weights.
      * @return A list of daily weights associated with the user, or any empty list if none exists.
      */
     public List<DailyWeight> getDailyWeights(long userId) {
@@ -417,6 +417,31 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
             Log.e(LogCategory.DATABASE, "There was an error getting user's daily weights!\n" + e.getMessage());
         }
         return dailyWeights;
+    }
+
+    /**
+     * Get the latest weight of the user with @p userId.
+     *
+     * @param userId The id of the user associated with the goal weight.
+     * @return A daily weight object if there is a logged weight, null otherwise.
+     */
+    public DailyWeight getLatestDailyWeight(long userId) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String query = "SELECT * FROM " + DailyWeightTable.TABLE + " WHERE " +
+                DailyWeightTable.USER_FK + " = ? ORDER BY " + DailyWeightTable.COL_DATE + " DESC LIMIT 1";
+
+        try (Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)})) {
+            if (cursor.moveToFirst()) {
+                long id = cursor.getLong(0);
+                float dailyWeight = cursor.getFloat(1);
+                long dateMillis = cursor.getLong(2);
+                return new DailyWeight(id, dailyWeight, dateMillis);
+            }
+        } catch (Exception e) {
+            Log.e(LogCategory.DATABASE, "There was an error getting user's daily weights!\n" + e.getMessage());
+        }
+        return null;
     }
 
 

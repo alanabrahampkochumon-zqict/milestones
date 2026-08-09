@@ -280,7 +280,26 @@ public class MilestoneRepository {
                 return null;
             return database.getGoalWeight(currentUserId);
         } catch (Exception e) {
-            Log.e(LogCategory.REPOSITORY, "There was an error retrieving user's daily weights.\n" + e.getMessage());
+            Log.e(LogCategory.REPOSITORY, "There was an error retrieving user's goal weight.\n" + e.getMessage());
+        }
+        return null;
+    }
+
+
+    /**
+     * Get the current user's latest logged weight.
+     *
+     * @return The current user's latest logged weight or null if the user has none.
+     */
+    public DailyWeight getUserLatestLoggedWeight() {
+        try {
+            // Get the user logged-in user's id
+            long currentUserId = sharedPref.getCurrentUserId();
+            if (currentUserId == -1) // There is no current user
+                return null;
+            return database.getLatestDailyWeight(currentUserId);
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was an error retrieving user's daily weight.\n" + e.getMessage());
         }
         return null;
     }

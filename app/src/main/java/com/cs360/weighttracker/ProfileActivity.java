@@ -72,23 +72,25 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void updateProgress() {
         GoalWeight currentGoal = repository.getUserGoalWeight();
+        DailyWeight latestWeight = repository.getUserLatestLoggedWeight();
+
+        // If the user has not logged weight use the initial weight as the current weight
+        float currentWeight = latestWeight == null ? currentGoal.getCurrentWeight() : latestWeight.getUserWeight();
+
         if (currentGoal.getGoalType() == GoalType.WEIGHT_LOSS) {
-            float currentWeight = 100.0f; // TODO: Update
             // Get current weight returns the user's initial weight
             // and we compare it the user's logged weight to get the progress
             float weightLost = currentGoal.getCurrentWeight() - currentWeight;
             float goalTotal = currentGoal.getCurrentWeight() - currentGoal.getGoalWeight();
             weightProgressTextView.setText(this.getString(R.string.weight_loss_progress, weightLost, goalTotal));
-            weightChangeProgressBar.setProgress(Math.min(0, (int) (weightLost / goalTotal * 100)));
+            weightChangeProgressBar.setProgress(Math.clamp((int) (weightLost / goalTotal * 100), 0, 100));
         } else {
-
-            float currentWeight = 50.0f; // TODO: Update
             // For weight gain the current weight will be greater than the initial weight
             // else the progress will show negative values.
             float weightGained = currentWeight - currentGoal.getCurrentWeight();
             float goalTotal = currentGoal.getGoalWeight() - currentGoal.getCurrentWeight();
             weightProgressTextView.setText(this.getString(R.string.weight_gain_progress, weightGained, goalTotal));
-            weightChangeProgressBar.setProgress(Math.min(0, (int) (weightGained / goalTotal * 100)));
+            weightChangeProgressBar.setProgress(Math.clamp((int) (weightGained / goalTotal * 100), 0, 100));
         }
     }
 
