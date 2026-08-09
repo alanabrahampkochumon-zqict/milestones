@@ -15,6 +15,7 @@ public class User {
     private String username;
     private final String hashedPassword;
     private String fullName;
+    private String phoneNumber;
 
 
     /**
@@ -32,6 +33,27 @@ public class User {
         this.hashedPassword = password;
         this.userId = userId;
         this.fullName = fullName;
+        this.phoneNumber = "";
+    }
+
+
+    /**
+     * Constructs user with a username, password, a user id, fullName and a phoneNumber.
+     *
+     * @param username    The user's username.
+     * @param password    The user's password in hashed form.
+     * @param userId      The user's unique identifier.
+     * @param fullName    The user's full name.
+     * @param phoneNumber The user's phone number.
+     * @apiNote Passwords must not be stored in plain text.
+     * Use helper provided in `PasswordHasher` to hash the password for storage.
+     */
+    public User(long userId, String username, String password, String fullName, String phoneNumber) {
+        this.username = username;
+        this.hashedPassword = password;
+        this.userId = userId;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
     }
 
     /**
@@ -45,6 +67,7 @@ public class User {
         this.hashedPassword = password;
         this.userId = -1;
         this.fullName = "";
+        this.phoneNumber = "";
     }
 
 
@@ -97,6 +120,9 @@ public class User {
         return fullName;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
     /// ////////////////////////
     ///       SETTERS      ///
@@ -112,5 +138,9 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

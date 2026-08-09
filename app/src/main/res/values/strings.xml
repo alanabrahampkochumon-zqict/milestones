@@ -16,7 +16,7 @@
     <string name="delete_weight_recording">Delete Weight Recording</string>
     <string name="your_account">Your Account</string>
     <string name="profile_picture">Profile Picture</string>
-    <string name="notification_setting_hint">We\'ll send you an SMS once you reach your goal weight</string>
+    <string name="notification_setting_hint">We\'ll send you an SMS once you reach your goal weight to the below number</string>
     <string name="notification_setting_label">Notify upon goal completion</string>
     <string name="settings">Settings</string>
     <string name="weight_lost_pattern">0.0KG lost of 0.0 KG</string>
@@ -70,4 +70,5 @@
     <string name="permission_denied_permanently_title">Permission Permanently Denied</string>
     <string name="no_number_provided">No number provided</string>
     <string name="update_number">Update Number</string>
+    <string name="sms_number_text">Text Number: %s</string>
 </resources>

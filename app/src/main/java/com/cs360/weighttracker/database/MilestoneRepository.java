@@ -305,4 +305,28 @@ public class MilestoneRepository {
     }
 
 
+    /**
+     * Update the user's phone number.
+     *
+     * @return A boolean indicating whether the operation was successful.
+     */
+    public boolean setPhoneNumber(String phoneNumber) {
+        try {
+            // Unsetting a phone number is not possible
+            if (phoneNumber.isEmpty())
+                return false;
+            // Get the user logged-in user's id
+            long currentUserId = sharedPref.getCurrentUserId();
+            if (currentUserId == -1) // There is no current user
+                return false;
+            User currentUser = database.getUser(currentUserId);
+            currentUser.setPhoneNumber(phoneNumber);
+            return database.updateUser(currentUser);
+        } catch (Exception e) {
+            Log.e(LogCategory.REPOSITORY, "There was an error retrieving user's daily weight.\n" + e.getMessage());
+        }
+        return false;
+    }
+
+
 }
