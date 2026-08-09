@@ -71,4 +71,9 @@
     <string name="no_number_provided">No number provided</string>
     <string name="update_number">Update Number</string>
     <string name="sms_number_text">Text Number: %s</string>
+    <string name="add_phone_number">Add phone number</string>
+    <string name="phone_hint">+15551234123</string>
+    <string name="add_number">Add Number</string>
+    <string name="number_error">Invalid phone number</string>
+    <string name="phone_number_error">Invalid phone number</string>
 </resources>

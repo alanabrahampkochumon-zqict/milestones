@@ -186,8 +186,8 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
                 long id = cursor.getLong(0);
                 String username = cursor.getString(1);
                 String fullName = cursor.getString(2);
-                String password = cursor.getString(3);
-                String phoneNumber = cursor.getString(4);
+                String phoneNumber = cursor.getString(3);
+                String password = cursor.getString(4);
                 return new User(id, username, password, fullName, phoneNumber);
             }
         } catch (Exception e) {
@@ -215,8 +215,8 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
                 long id = cursor.getLong(0);
                 String username = cursor.getString(1);
                 String fullName = cursor.getString(2);
-                String password = cursor.getString(3);
-                String phoneNumber = cursor.getString(4);
+                String phoneNumber = cursor.getString(3);
+                String password = cursor.getString(4);
                 return new User(id, username, password, fullName, phoneNumber);
             }
         } catch (Exception e) {
@@ -241,7 +241,7 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         values.put(UserTable.COL_USERNAME, user.getUserName());
         values.put(UserTable.COL_FULL_NAME, user.getFullName());
         values.put(UserTable.COL_PASSWORD_HASH, user.getHashedPassword());
-        values.put(UserTable.COL_PASSWORD_HASH, user.getPhoneNumber());
+        values.put(UserTable.COL_PHONE_NUMBER, user.getPhoneNumber());
 
         int rowsUpdated = db.update(UserTable.TABLE, values, UserTable.COL_ID + " = ?", new String[]{String.valueOf(user.getUserId())});
 

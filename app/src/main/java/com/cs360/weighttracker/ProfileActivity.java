@@ -8,13 +8,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 
@@ -35,11 +40,11 @@ import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView weightProgressTextView;
+    private TextView weightProgressTextView, numberTextView;
     private ProgressBar weightChangeProgressBar;
 
     private Switch notificationSwitch;
-    private Button updateProfileButton, logoutButton;
+    private Button updateProfileButton, logoutButton, updateNumberButton;
     private ImageButton navigateBackButton;
 
     private ActivityResultLauncher<String> requestPermissionLauncher;
@@ -87,6 +92,8 @@ public class ProfileActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.btnProfileLogout);
         updateProfileButton = findViewById(R.id.btnProfileUpdateProfile);
         notificationSwitch = findViewById(R.id.switchProfileNotificationSetting);
+        numberTextView = findViewById(R.id.tvProfileNotificationNumber);
+        updateNumberButton = findViewById(R.id.btnProfileUpdateNumber);
 
         // Setup UI Text
         TextView fullNameTextView = findViewById(R.id.tvProfileFullName);
@@ -155,6 +162,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        updateNumberButton.setOnClickListener(view -> {
+            showAddPhoneDialog(); // TODO: Add the same to notification
+        });
+
     }
 
 
@@ -194,6 +205,55 @@ public class ProfileActivity extends AppCompatActivity {
                     // Implicitly done
                 })
                 .show();
+    }
+
+
+    private void showAddPhoneDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_phone_number, null);
+        EditText phoneNumberEditText = dialogView.findViewById(R.id.etAddPhoneNumberDialogNumber);
+        TextView phoneNumberErrorTextView = dialogView.findViewById(R.id.tvAddPhoneNumberDialogNumberError);
+
+        // If the user already has a phone number update the edit text with it
+        phoneNumberEditText.setText(currentUser.getPhoneNumber());
+        int positiveActionTextRes = currentUser.getPhoneNumber().isEmpty() ? R.string.add_number : R.string.update_number;
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.add_phone_number)
+                .setView(dialogView)
+                .setPositiveButton(positiveActionTextRes, (dialog, which) -> {
+                    String text = phoneNumberEditText.getText().toString();
+                    // Inline phone validation
+                    if (text.isEmpty() || text.length() > 20) {
+                        phoneNumberErrorTextView.setVisibility(View.VISIBLE);
+                        phoneNumberErrorTextView.setText(R.string.phone_number_error);
+                    }
+                    if (repository.setPhoneNumber(text)) {
+                        Toast.makeText(this, "Phone number added successfully!", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                    // Toggle back the button if there is no phone number
+                    if (currentUser.getPhoneNumber().isEmpty())
+                        notificationSwitch.setChecked(false);
+                })
+                .show();
+
+        // Update the phone number text if the user updates the phone number
+        phoneNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Remove the error text when we update the weight dialog's edit text
+                phoneNumberErrorTextView.setVisibility(View.GONE);
+            }
+        });
     }
 
 
