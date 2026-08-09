@@ -143,6 +143,14 @@ public class GoalsActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Validates the user input.
+     *
+     * @param fullName   The user's full name.
+     * @param curWeight  The user's current weight.
+     * @param goalWeight The user's goal weight.
+     * @return Boolean whether all the fields are valid.
+     */
     private boolean validateInputs(String fullName, float curWeight, float goalWeight) {
         boolean isInputValid = true;
         if (fullName.isEmpty()) {

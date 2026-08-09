@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.cs360.weighttracker.database.MilestoneRepository;
 import com.cs360.weighttracker.database.status.LoginStatus;
@@ -70,6 +75,46 @@ public class LoginActivity extends AppCompatActivity {
         pageTitleTextView.setText(getApplicationContext().getString(R.string.login_title));
         loginButton.setText(getApplicationContext().getString(R.string.login));
         registerButton.setText(getApplicationContext().getString(R.string.create_account));
+
+
+        // Since we have turned on edge to edge we need to add the system inset padding
+        // and IME(keyboard) padding to ensure the keyboard popup scroll the ui up
+        ScrollView authScrollView = findViewById(R.id.authScrollView);
+        ViewCompat.setOnApplyWindowInsetsListener(authScrollView, (view, windowInsets) -> {
+            Insets systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets imeInsets = windowInsets.getInsets(WindowInsetsCompat.Type.ime());
+
+            // If keyboard is open, push the scroll view bounds up by the keyboard height
+            int bottomPadding = (imeInsets.bottom > 0) ? imeInsets.bottom : systemBars.bottom;
+
+            // Apply to the scrollview container
+            view.setPadding(
+                    systemBars.left,
+                    systemBars.top,  // Protects your status bar / top toolbar
+                    systemBars.right,
+                    bottomPadding    // Dynamically adjusts when keyboard shows up
+            );
+
+            // The padding is getting applied, but we need to find the focus element
+            // and manually scroll to ensure that the edit text is not behind the soft keyboard.
+            view.postDelayed(() -> {
+                View focusedView = view.findFocus();
+                if (focusedView != null) {
+                    // Get the exact bounds of the focused EditText
+                    android.graphics.Rect rect = new android.graphics.Rect();
+                    focusedView.getDrawingRect(rect);
+
+                    // 2. Map those nested coordinates up to the ScrollView's coordinate space
+                    authScrollView.offsetDescendantRectToMyCoords(focusedView, rect);
+
+                    // 3. Smoothly scroll to that exact translated Y position
+                    // We subtract a little bit (e.g., 50 pixels) so the field isn't flush against the top
+                    authScrollView.smoothScrollTo(0, rect.top - 50);
+                }
+            }, 100);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
     }
 
 
@@ -91,8 +136,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText.addTextChangedListener(new ResetErrorStateTextWatcher());
         usernameEditText.addTextChangedListener(new ResetErrorStateTextWatcher());
     }
-
-    // TODO: Fix layout not scrolling up when pw field is focused
 
 
     /**
