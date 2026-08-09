@@ -27,6 +27,7 @@ public class GoalsActivity extends AppCompatActivity {
     private TextView fullNameErrorTextview, currentWeightErrorTextView, goalWeightErrorTextView, headingTextView;
 
     MilestoneRepository repository;
+    boolean isEditMode = false;
 
 
     @Override
@@ -69,6 +70,7 @@ public class GoalsActivity extends AppCompatActivity {
             if (isEdit) {
                 getStartedButton.setText(getString(R.string.update_profile));
                 headingTextView.setText(getString(R.string.edit_your_profile));
+                isEditMode = true; // Flag indicating whether we are in edit mode.
             }
         }
     }
@@ -123,7 +125,11 @@ public class GoalsActivity extends AppCompatActivity {
             boolean isInputValid = validateInputs(fullName, currentWeight, goalWeight);
             if (isInputValid) {
                 if (saveUserData(fullName, currentWeight, goalWeight))
-                    navigateToHome();
+                    if (isEditMode) {
+                        finish(); // If we are in edit mode, just pop the back stack to the previous view.
+                    } else {
+                        navigateToHome();
+                    }
             }
         } catch (Exception e) {
             Toast.makeText(this, R.string.invalid_weights, Toast.LENGTH_LONG).show();

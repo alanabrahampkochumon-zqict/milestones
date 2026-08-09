@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,14 +35,17 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
 
-    TextView fullNameTextView, greetingTextView;
+    TextView fullNameTextView, greetingTextView, startWeightTextView, currentWeightTextView, goalWeightTextView;
     Button trackWeightButton;
     ImageView profileImage;
     RecyclerView progressHistoryRecyclerView;
+    ProgressBar weightProgressBar;
 
 
     MilestoneRepository repository;
     User currentUser;
+    GoalWeight userGoal;
+    DailyWeight latestWeight;
 
     WeightItemAdapter adapter;
 
@@ -63,6 +67,18 @@ public class HomeActivity extends AppCompatActivity {
         setupEvents();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // We must update the current user to ensure that the navigation from say EditProfile updates the ui
+        // since the UI is not reactive right now.
+        // Note: This will be better off performed on a background thread with a reactive model like livedata.
+        currentUser = repository.getCurrentUser();
+        userGoal = repository.getUserGoalWeight();
+        latestWeight = repository.getUserLatestLoggedWeight();
+        prefillUI();
+    }
+
 
     /**
      * Query and attach each view instance from XML layout.
@@ -71,16 +87,68 @@ public class HomeActivity extends AppCompatActivity {
         trackWeightButton = findViewById(R.id.btnHomeTrackWeight);
         fullNameTextView = findViewById(R.id.tvHomeFullName);
         greetingTextView = findViewById(R.id.tvHomeGreeting);
+        currentWeightTextView = findViewById(R.id.tvHomeCurrentWeight);
+        goalWeightTextView = findViewById(R.id.tvHomeGoalWeight);
+        startWeightTextView = findViewById(R.id.tvHomeStartingWeight);
         progressHistoryRecyclerView = findViewById(R.id.rvHomeHistory);
         profileImage = findViewById(R.id.imgHomeProfile);
+        weightProgressBar = findViewById(R.id.pbHomeWeightChange);
 
+//        prefillUI();
+
+        setupRecyclerView();
+    }
+
+
+    /**
+     * Fills the UI with appropriate data.
+     */
+    private void prefillUI() {
         // Setup UI Text
         String fullName = currentUser.getFullName();
         fullNameTextView.setText(fullName);
         // Set the greeting based on time of day
         greetingTextView.setText(TimeUtils.getGreetingResId());
 
-        setupRecyclerView();
+        // If the user goal is not set then we are calling the activity before query the repo
+        // so don't populate with anything
+        if (userGoal == null) return;
+        startWeightTextView.setText(getString(R.string.weight_format, userGoal.getCurrentWeight()));
+        goalWeightTextView.setText(getString(R.string.weight_format, userGoal.getGoalWeight()));
+
+        // If the user has no goal weight set, then set the UserGoal's start weight as the current weight
+        float currentWeight = latestWeight == null ? userGoal.getCurrentWeight() : latestWeight.getUserWeight();
+        currentWeightTextView.setText(getString(R.string.weight_format, currentWeight));
+        int progress = getProgress(currentWeight);
+        weightProgressBar.setProgress(progress);
+    }
+
+
+    /**
+     * Gets the current weight progress given the user's goals and latest logged weight.
+     *
+     * @param currentWeight The latest logged weight.
+     * @return A number from 0 to 100 indicating the weight progress.
+     */
+    private int getProgress(float currentWeight) {
+        int progress = 0;
+        if (userGoal.getGoalType() == GoalType.WEIGHT_LOSS) {
+            // Get current weight returns the user's initial weight
+            // and we compare it the user's logged weight to get the progress
+            float weightLost = userGoal.getCurrentWeight() - currentWeight;
+            float goalTotal = userGoal.getCurrentWeight() - userGoal.getGoalWeight();
+            int progressPercentage = (int) (weightLost / goalTotal * 100);
+            progress = Math.max(0, Math.min(100, progressPercentage));
+        } else {
+            // For weight gain the current weight will be greater than the initial weight
+            // else the progress will show negative values.
+            float weightGained = currentWeight - userGoal.getCurrentWeight();
+            float goalTotal = userGoal.getGoalWeight() - userGoal.getCurrentWeight();
+
+            int progressPercentage = (int) (weightGained / goalTotal * 100);
+            progress = Math.max(0, Math.min(100, progressPercentage));
+        }
+        return progress;
     }
 
 
@@ -93,6 +161,8 @@ public class HomeActivity extends AppCompatActivity {
                 boolean weightDeleted = repository.deleteDailyWeight(itemId);
                 if (weightDeleted) {
                     refreshHistory();
+                    latestWeight = repository.getUserLatestLoggedWeight();
+                    prefillUI();
                     Toast.makeText(this, "Weight deleted successfully.", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -128,6 +198,8 @@ public class HomeActivity extends AppCompatActivity {
 
             if (repository.logDailyWeight(weight)) {
                 refreshHistory();
+                latestWeight = repository.getUserLatestLoggedWeight();
+                prefillUI();
                 // Send a sms if the user surpassed or reached the goal weight and have the permission and phone number set
                 if (hasReachGoalWeight(weight)) {
                     boolean shouldSendNotification = repository.getUserNotificationSetting();
