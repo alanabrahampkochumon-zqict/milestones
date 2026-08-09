@@ -32,4 +32,6 @@
     <dimen name="profile_icon_size">96dp</dimen>
     <dimen name="space_neg_icon">-16dp</dimen>
     <dimen name="space_0">0dp</dimen>
+    <dimen name="progress_min_width">160dp</dimen>
+    <dimen name="progress_max_width">400dp</dimen>
 </resources>
