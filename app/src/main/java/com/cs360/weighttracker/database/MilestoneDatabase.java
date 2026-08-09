@@ -278,7 +278,10 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         // Upsertion: Update the goal weight if the user already has a goal weight set.
         if (queriedGoalWeight != null) {
             // If the update was successful return the goal weight's id
-            if (updateGoalWeight(userId, goalWeight)) return goalWeight.getId();
+            // Since the passed-in goal weight may not have the id, we need to populate it
+            GoalWeight populated = new GoalWeight(queriedGoalWeight.getId(), goalWeight.getCurrentWeight(), goalWeight.getGoalWeight());
+            boolean result = updateGoalWeight(userId, populated);
+            if (result) return populated.getId();
         }
         // Create the values for insertion
         ContentValues values = new ContentValues();

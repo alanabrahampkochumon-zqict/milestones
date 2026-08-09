@@ -15,6 +15,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cs360.weighttracker.database.MilestoneRepository;
+import com.cs360.weighttracker.models.GoalWeight;
+import com.cs360.weighttracker.models.User;
 import com.cs360.weighttracker.validators.WeightValidator;
 
 public class GoalsActivity extends AppCompatActivity {
@@ -55,6 +57,28 @@ public class GoalsActivity extends AppCompatActivity {
         goalWeightErrorTextView = findViewById(R.id.tvDetailsGoalWeightError);
 
         getStartedButton = findViewById(R.id.btnDetailsGetStarted);
+
+        prefillData();
+    }
+
+
+    /**
+     * If the user has already data with respect to their name and goal
+     * then that data will be populated in the UI.
+     */
+    private void prefillData() {
+        User currentUser = repository.getCurrentUser();
+        if (currentUser == null)
+            return; // This will not hit with our current flow but left here for safety from NPE
+        GoalWeight weight = repository.getUserGoalWeight();
+
+        if (!currentUser.getFullName().isEmpty())
+            fullNameEditText.setText(currentUser.getFullName());
+
+        if (weight != null) {
+            currentWeightEditText.setText(String.valueOf(weight.getCurrentWeight()));
+            goalWeightEditText.setText(String.valueOf(weight.getGoalWeight()));
+        }
     }
 
 

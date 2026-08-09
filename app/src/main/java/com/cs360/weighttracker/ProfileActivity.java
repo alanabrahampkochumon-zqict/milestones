@@ -83,14 +83,17 @@ public class ProfileActivity extends AppCompatActivity {
             float weightLost = currentGoal.getCurrentWeight() - currentWeight;
             float goalTotal = currentGoal.getCurrentWeight() - currentGoal.getGoalWeight();
             weightProgressTextView.setText(this.getString(R.string.weight_loss_progress, weightLost, goalTotal));
-            weightChangeProgressBar.setProgress(Math.clamp((int) (weightLost / goalTotal * 100), 0, 100));
+            int progress = Math.clamp((int) (weightLost / goalTotal * 100), 0, 100);
+            weightChangeProgressBar.setProgress(progress);
         } else {
             // For weight gain the current weight will be greater than the initial weight
             // else the progress will show negative values.
             float weightGained = currentWeight - currentGoal.getCurrentWeight();
             float goalTotal = currentGoal.getGoalWeight() - currentGoal.getCurrentWeight();
             weightProgressTextView.setText(this.getString(R.string.weight_gain_progress, weightGained, goalTotal));
-            weightChangeProgressBar.setProgress(Math.clamp((int) (weightGained / goalTotal * 100), 0, 100));
+
+            int progress = Math.clamp((int) (weightGained / goalTotal * 100), 0, 100);
+            weightChangeProgressBar.setProgress(progress);
         }
     }
 
@@ -107,10 +110,9 @@ public class ProfileActivity extends AppCompatActivity {
         navigateBackButton.setOnClickListener(view -> {
             finish();
         });
-        // TODO: Update progress bar
-        // TODO: Update progress text
-        // TODO: Add notification permission
-        // TODO: Navigation to edit goal screen
+        updateProfileButton.setOnClickListener(view -> {
+            navigateToGoals();
+        });
     }
 
 
@@ -120,6 +122,15 @@ public class ProfileActivity extends AppCompatActivity {
     private void navigateToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+
+    /**
+     * Handles navigation to goal activity.
+     */
+    private void navigateToGoals() {
+        Intent intent = new Intent(this, GoalsActivity.class);
         startActivity(intent);
     }
 
