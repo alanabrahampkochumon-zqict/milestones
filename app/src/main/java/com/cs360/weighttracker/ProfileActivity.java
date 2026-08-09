@@ -83,6 +83,16 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Prefill the ui here to refresh the data when the ui changes like when the
+        // user updates their info and comes back
+        currentUser = repository.getCurrentUser();
+        prefillUI();
+        updateProgress();
+    }
+
     /**
      * Query and attach each view instance from XML layout.
      */
@@ -97,7 +107,8 @@ public class ProfileActivity extends AppCompatActivity {
         updateNumberButton = findViewById(R.id.btnProfileUpdateNumber);
 
         // Setup UI Text
-        prefillUI();
+        // Redundant as already done in onStart
+//        prefillUI();
 
         // Update progress
         updateProgress();

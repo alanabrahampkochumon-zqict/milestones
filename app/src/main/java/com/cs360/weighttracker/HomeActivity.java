@@ -68,8 +68,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         // We must update the current user to ensure that the navigation from say EditProfile updates the ui
         // since the UI is not reactive right now.
         // Note: This will be better off performed on a background thread with a reactive model like livedata.
