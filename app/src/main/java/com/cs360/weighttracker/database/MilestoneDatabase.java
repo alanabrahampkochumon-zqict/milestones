@@ -315,8 +315,8 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
         try (Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)})) {
             if (cursor.moveToFirst()) {
                 long id = cursor.getLong(0);
-                float currentWeight = cursor.getFloat(1);
-                float goalWeight = cursor.getFloat(2);
+                float goalWeight = cursor.getFloat(1);
+                float currentWeight = cursor.getFloat(2);
                 return new GoalWeight(id, currentWeight, goalWeight);
             }
         } catch (Exception e) {
@@ -336,6 +336,36 @@ public class MilestoneDatabase extends SQLiteOpenHelper {
      * then the api inserted the current goal weight.
      */
     public boolean updateGoalWeight(long userId, @NonNull GoalWeight goalWeight) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Retrieve the goal weight to ensure that the data exists.
+        GoalWeight queriedGoalWeight = getGoalWeight(userId);
+        // Upsertion: Inserts the goal weight if it doesn't exist.
+        if (queriedGoalWeight == null) {
+            return insertGoalWeight(userId, goalWeight) > 0;
+        }
+
+        // If the user goal weight exists, update it
+        ContentValues values = new ContentValues();
+        values.put(GoalWeightTable.COL_CUR_WEIGHT, goalWeight.getCurrentWeight());
+        values.put(GoalWeightTable.COL_GOAL_WEIGHT, goalWeight.getGoalWeight());
+
+        int rowsUpdated = db.update(GoalWeightTable.TABLE, values, GoalWeightTable.COL_ID + " = ?", new String[]{String.valueOf(goalWeight.getId())});
+
+        return rowsUpdated > 0;
+    }
+
+
+    /**
+     * Updates/Inserts the goal weight associated with a user as appropriate.
+     *
+     * @param userId     The id of the user associated with the goal weight.
+     * @param goalWeight The goal weight to update with.
+     * @return A boolean indicating whether the update was a success.
+     * @apiNote If the given user has no goal weight associated with them,
+     * then the api inserted the current goal weight.
+     */
+    public boolean upsertGoalWeight(long userId, @NonNull GoalWeight goalWeight) {
         SQLiteDatabase db = getWritableDatabase();
 
         // Retrieve the goal weight to ensure that the data exists.
