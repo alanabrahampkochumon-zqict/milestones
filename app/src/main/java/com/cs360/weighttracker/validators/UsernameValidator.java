@@ -1,7 +1,5 @@
 package com.cs360.weighttracker.validators;
 
-import java.util.regex.Pattern;
-
 public class UsernameValidator {
 
     /**

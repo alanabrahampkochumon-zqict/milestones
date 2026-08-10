@@ -1,8 +1,8 @@
 package com.cs360.weighttracker.utils;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Date;
+import java.util.Locale;
 
 public class DateFormatter {
 
@@ -14,7 +14,7 @@ public class DateFormatter {
      */
     public static String fromMillis(Long millis) {
         Date date = new Date(millis);
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
         return formatter.format(date);
     }
 }

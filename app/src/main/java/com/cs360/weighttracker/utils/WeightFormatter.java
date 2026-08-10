@@ -2,10 +2,6 @@ package com.cs360.weighttracker.utils;
 
 import android.annotation.SuppressLint;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class WeightFormatter {
 
     /**

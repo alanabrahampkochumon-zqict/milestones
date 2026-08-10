@@ -1,19 +1,15 @@
 package com.cs360.weighttracker;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -22,13 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.cs360.weighttracker.database.MilestoneRepository;
@@ -36,7 +29,6 @@ import com.cs360.weighttracker.models.DailyWeight;
 import com.cs360.weighttracker.models.GoalType;
 import com.cs360.weighttracker.models.GoalWeight;
 import com.cs360.weighttracker.models.User;
-import com.cs360.weighttracker.utils.PasswordVisibilityToggler;
 import com.cs360.weighttracker.validators.PhoneNumberValidator;
 
 public class ProfileActivity extends AppCompatActivity {
