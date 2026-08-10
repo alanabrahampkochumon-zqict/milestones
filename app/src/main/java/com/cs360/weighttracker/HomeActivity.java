@@ -7,8 +7,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,8 @@ public class HomeActivity extends AppCompatActivity {
     DailyWeight latestWeight;
 
     WeightItemAdapter adapter;
+
+    LinearLayout noWeightsLayout;
 
     // TODO: Add empty screen
 
@@ -92,8 +96,7 @@ public class HomeActivity extends AppCompatActivity {
         progressHistoryRecyclerView = findViewById(R.id.rvHomeHistory);
         profileImage = findViewById(R.id.imgHomeProfile);
         weightProgressBar = findViewById(R.id.pbHomeWeightChange);
-
-//        prefillUI();
+        noWeightsLayout = findViewById(R.id.layoutHomeNoHistory);
 
         setupRecyclerView();
     }
@@ -176,7 +179,16 @@ public class HomeActivity extends AppCompatActivity {
      */
     private void refreshHistory() {
         List<DailyWeight> newData = repository.getDailyWeights();
-        adapter.updateData(newData);
+        // Show the history view if there is data
+        // else show the placeholder rather than a blank screen
+        if (newData.isEmpty()) {
+            progressHistoryRecyclerView.setVisibility(View.GONE);
+            noWeightsLayout.setVisibility(View.VISIBLE);
+        } else {
+            noWeightsLayout.setVisibility(View.GONE);
+            progressHistoryRecyclerView.setVisibility(View.VISIBLE);
+            adapter.updateData(newData);
+        }
     }
 
 
