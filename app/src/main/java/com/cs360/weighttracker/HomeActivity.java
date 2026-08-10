@@ -156,6 +156,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         List<DailyWeight> weightList = repository.getDailyWeights();
+        refreshHistory(); // Must refresh on initial load
         adapter = new WeightItemAdapter(weightList, itemId -> {
             // For deleting the weight, to provide the user with a chance to rethink their
             // show a dialog with a confirmation. On confirmation, delete the weight.
