@@ -4,6 +4,7 @@ package com.cs360.weighttracker;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
@@ -152,7 +153,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         List<DailyWeight> weightList = repository.getDailyWeights();
-        refreshHistory(); // Must refresh on initial load
         adapter = new WeightItemAdapter(weightList, itemId -> {
             // For deleting the weight, to provide the user with a chance to rethink their
             // show a dialog with a confirmation. On confirmation, delete the weight.
@@ -168,6 +168,7 @@ public class HomeActivity extends AppCompatActivity {
             dialog.show(getSupportFragmentManager(), Constants.DELETE_WEIGHT_ITEM_DIALOG);
         });
         progressHistoryRecyclerView.setAdapter(adapter);
+        refreshHistory(); // Must refresh on initial load
     }
 
 
@@ -222,7 +223,12 @@ public class HomeActivity extends AppCompatActivity {
                             try {
                                 GoalWeight userGoal = repository.getUserGoalWeight();
                                 SmsManager smsManager;
-                                smsManager = this.getSystemService(SmsManager.class);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                    smsManager = this.getSystemService(SmsManager.class);
+                                } else {
+                                    // Fallback for older Android versions like Android 7
+                                    smsManager = SmsManager.getDefault();
+                                }
                                 // We are using hte latest weight as it can surpass the user's current weight!
                                 String message = getString(R.string.congratulations_sms, currentUser.getFullName(), userGoal.getCurrentWeight(), weight);
                                 if (smsManager != null) {

@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingVertical="@dimen/space_sm"
+    android:paddingStart="@dimen/space_xl"
     android:paddingEnd="@dimen/space_sm"
     tools:ignore="RtlSymmetry">
 
@@ -19,10 +20,9 @@
         android:textColor="@color/slate_800"
         android:textSize="@dimen/fs_3xl"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="VisualLintSystemNav,VisualLintBounds"/>
+        tools:ignore="VisualLintSystemNav,VisualLintBounds" />
 
     <TextView
         android:id="@+id/tvHistoryItemDate"
@@ -43,6 +43,7 @@
         android:backgroundTint="@color/transparent"
         android:contentDescription="@string/delete_weight_recording"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvHistoryItemWeight"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/delete_icon"
