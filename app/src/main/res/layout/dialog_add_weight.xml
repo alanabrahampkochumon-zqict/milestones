@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvAddWeightTitle">
 
         <EditText
-            android:id="@+id/etGoalsAddWeight"
+            android:id="@+id/etAddWeightDialogAddWeight"
             android:layout_width="0dp"
             android:layout_height="@dimen/min_interactive_size"
             android:layout_marginEnd="@dimen/space_xs"
@@ -49,9 +49,9 @@
             android:text="@string/kg"
             android:textColor="@color/slate_900"
             android:textSize="@dimen/fs_xl"
-            app:layout_constraintBottom_toBottomOf="@id/etGoalsAddWeight"
+            app:layout_constraintBottom_toBottomOf="@id/etAddWeightDialogAddWeight"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/etGoalsAddWeight" />
+            app:layout_constraintTop_toTopOf="@id/etAddWeightDialogAddWeight" />
 
         <TextView
             android:id="@+id/tvAddWeightDialogWeightError"
@@ -65,7 +65,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etGoalsAddWeight" />
+            app:layout_constraintTop_toBottomOf="@id/etAddWeightDialogAddWeight" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout

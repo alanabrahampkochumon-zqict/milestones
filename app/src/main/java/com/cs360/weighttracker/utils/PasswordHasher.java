@@ -25,6 +25,7 @@ public class PasswordHasher {
                 hashString.append(hex);
             }
         } catch (NoSuchAlgorithmException e) {
+            // Log not used here to keep the module structurally independent of android
             System.err.println("Invalid algorithm selected for hashing.");
         }
 

@@ -50,7 +50,6 @@ public class HomeActivity extends AppCompatActivity {
 
     LinearLayout noWeightsLayout;
 
-    // TODO: Add empty screen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

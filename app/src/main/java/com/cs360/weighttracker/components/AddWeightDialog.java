@@ -45,7 +45,7 @@ public class AddWeightDialog extends DialogFragment {
     }
 
     private void setupUI(View view) {
-        weightEditText = view.findViewById(R.id.etGoalsAddWeight);
+        weightEditText = view.findViewById(R.id.etAddWeightDialogAddWeight);
         cancelButton = view.findViewById(R.id.btnAddWeightDialogCancel);
         logWeightButton = view.findViewById(R.id.btnAddWeightDialogLog);
         weightErrorTextView = view.findViewById(R.id.tvAddWeightDialogWeightError);
