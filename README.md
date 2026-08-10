@@ -59,7 +59,7 @@ screens:
 * **Empty States**: Instead of staring at a blank screen upon first login, the Home screen provides
   an engaging empty state layout encouraging the user to log their first weight.
 
-These designs were successful because they were driven by a user persona—ensuring the application
+These designs were successful because they were driven by a user persona, ensuring the application
 remains an encouraging tool rather than a tedious ledger.
 
 ### Coding Approach and Strategies
@@ -67,7 +67,7 @@ remains an encouraging tool rather than a tedious ledger.
 The development process followed a UI-first approach, moving sequentially from visual layouts to
 data models, and finally to the controller layers. To ensure modularity, I utilized the Repository
 pattern to create a unified interface for data access (SQLite database and SharedPreferences),
-keeping the Activity classes lightweight. I applied a vertical slice strategy—building and
+keeping the Activity classes lightweight. I applied a vertical slice strategy, building and
 perfecting one feature end-to-end before moving to the next. This acted as a strict guardrail
 against scope creep.
 
@@ -76,32 +76,6 @@ transition this logic to modern toolkits like Kotlin, Jetpack Compose, and Room.
 Flows and Coroutines would significantly reduce boilerplate click-listener code, handle asynchronous
 database queries seamlessly off the main thread, and decouple the UI even further.
 
-### Testing
+# How to run
 
-While I heavily favor Test-Driven Development (TDD) for ensuring robust logic, strict time
-constraints for this project required a pivot to comprehensive manual testing. I tested the
-application across various device sizes, orientations (Portrait/Landscape), and API levels. This
-multi-device testing was crucial; it revealed a compatibility bug where the modern SmsManager
-implementation failed on Android 7 (API 24), which I subsequently patched with a version-check
-fallback. This process reinforced that testing is a mandatory phase of the SDLC to ensure true
-cross-platform reliability, regardless of the tools used.
-
-### Innovation and Overcoming Challenges
-
-A significant challenge arose with the Home screen layout. Standard vertical scrolling became
-cumbersome when balancing a progress dashboard and a long list of historical data. To innovate, I
-developed a dedicated landscape layout (layout-land) that splits the screen perfectly using layout
-weights. This provides a premium, tablet-like experience where the tracking actions sit on the left,
-and the efficient RecyclerView handles history scrolling on the right. Additionally, implementing
-the at-a-glance progress bar—though not strictly required by the baseline rubric—was a UX innovation
-necessary to overcome a confusing, data-heavy tracking experience.
-
-### Skill Demonstration
-
-I was particularly successful in demonstrating my knowledge of application architecture and layer
-separation. Drawing on structural patterns I learned while completing my Meta Android Developer
-certification, I successfully implemented a decoupled Repository pattern in a legacy Java/XML
-environment. By isolating the SQLite database queries, abstracting input validation into dedicated
-utility classes, and using DialogFragment for modular interactions, I ensured the codebase adheres
-strictly to the Single Responsibility Principle while maintaining a polished, professional user
-experience.
+# Course Q&A
