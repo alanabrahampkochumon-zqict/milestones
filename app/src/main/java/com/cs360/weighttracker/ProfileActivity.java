@@ -210,9 +210,7 @@ public class ProfileActivity extends AppCompatActivity {
         // Check if user has a phone number
         // if they don't have, request for a phone number
         if (currentUser.getPhoneNumber().isEmpty()) {
-            if (showAddPhoneDialog()) { // Show the dialog and if the user adds a phone then toggle the setting
-                toggleSMSSetting(true);
-            }
+            showAddPhoneDialog(); // Show the dialog
         } else {// If we have permission and user has phone number, turn it on!
             toggleSMSSetting(true);
         }
@@ -244,10 +242,8 @@ public class ProfileActivity extends AppCompatActivity {
      * Shows a phone number add/update dialog.
      * Due to the coupled nature of the dialog, this layout is kept as a standalone function
      * rather than refactoring out.
-     *
-     * @return A boolean indicating whether the phone number was updated!
      */
-    private boolean showAddPhoneDialog() {
+    private void showAddPhoneDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_phone_number, null);
         EditText phoneNumberEditText = dialogView.findViewById(R.id.etAddPhoneNumberDialogNumber);
         TextView phoneNumberErrorTextView = dialogView.findViewById(R.id.tvAddPhoneNumberDialogNumberError);
@@ -274,6 +270,7 @@ public class ProfileActivity extends AppCompatActivity {
                         if (repository.setPhoneNumber(phoneNumber)) {
                             // Update the current user's phone number
                             currentUser = repository.getCurrentUser();
+                            toggleSMSSetting(true);
                             // Update the UI manually since our state is not reactive
                             prefillUI();
                             Toast.makeText(this, R.string.phone_number_added_successfully, Toast.LENGTH_LONG).show();
@@ -306,9 +303,6 @@ public class ProfileActivity extends AppCompatActivity {
                 phoneNumberErrorTextView.setVisibility(View.GONE);
             }
         });
-
-        // Returns success by the status if the current user's phone number is not empty
-        return !currentUser.getPhoneNumber().isEmpty();
     }
 
 
