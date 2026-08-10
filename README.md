@@ -76,6 +76,6 @@ transition this logic to modern toolkits like Kotlin, Jetpack Compose, and Room.
 Flows and Coroutines would significantly reduce boilerplate click-listener code, handle asynchronous
 database queries seamlessly off the main thread, and decouple the UI even further.
 
-# How to run
 
-# Course Q&A
+### Credits
+Illustrations by undraw: https://undraw.co/illustrations
