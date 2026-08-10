@@ -270,7 +270,7 @@ public class ProfileActivity extends AppCompatActivity {
                 .setPositiveButton(positiveActionTextRes, (dialog, which) -> {
                     String phoneNumber = phoneNumberEditText.getText().toString();
                     // Inline phone validation
-                    if (PhoneNumberValidator.validate(phoneNumber)) {
+                    if (!PhoneNumberValidator.validate(phoneNumber)) {
                         phoneNumberErrorTextView.setVisibility(View.VISIBLE);
                         phoneNumberErrorTextView.setText(R.string.phone_number_error);
                         // We must toggle the notification switch to off.

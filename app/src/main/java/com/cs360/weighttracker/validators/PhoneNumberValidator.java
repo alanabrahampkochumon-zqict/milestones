@@ -9,6 +9,6 @@ public final class PhoneNumberValidator {
      * @return A boolean indicating whether the phone number is valid.
      */
     public static boolean validate(String phoneNumber) {
-        return phoneNumber.trim().isEmpty() || phoneNumber.length() > 20;
+        return !phoneNumber.trim().isEmpty() && phoneNumber.length() <= 20;
     }
 }

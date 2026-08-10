@@ -170,7 +170,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="140dp"
+                    android:layout_height="@dimen/illustration_no_weights_height"
                     android:contentDescription="@string/no_history"
                     android:src="@drawable/illustration_empty" />
 

@@ -27,6 +27,7 @@
     <dimen name="max_btn_width">320dp</dimen>
     <dimen name="max_layout_width">480dp</dimen>
     <dimen name="illustration_height">280dp</dimen>
+    <dimen name="illustration_no_weights_height">280dp</dimen>
 
     <!--  COMPONENT  -->
     <dimen name="profile_icon_size">96dp</dimen>
